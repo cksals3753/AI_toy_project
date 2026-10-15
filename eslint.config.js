@@ -7,6 +7,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
   globalIgnores(['dist', 'public/mockServiceWorker.js']),
+  { files: ['server/**/*.ts'], languageOptions: { globals: globals.node } },
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

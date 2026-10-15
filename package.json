@@ -5,11 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && tsc -p tsconfig.server.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:browser": "node scripts/verify-browser.mjs"
+    "test:browser": "node scripts/verify-browser.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "dev:server": "node --env-file-if-exists=.env.server --experimental-strip-types --watch server/index.ts",
+    "start": "node --env-file-if-exists=.env.server --experimental-strip-types server/index.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.104.2",
@@ -27,6 +31,7 @@
     "eslint-plugin-react-refresh": "^0.5.6",
     "globals": "^17.12.0",
     "msw": "^3.0.3",
+    "prettier": "^3.9.10",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.69.0",
     "vite": "^8.3.0",

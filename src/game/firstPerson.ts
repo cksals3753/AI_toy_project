@@ -6,7 +6,12 @@ export const firstRoomAssets = {
   cabinet: '/art/kenney-furniture/bookcaseClosedDoors.glb',
   door: '/art/kenney-furniture/doorwayFront.glb',
   characters: {
-    oh: { sprite: '/art/survivors.svg', row: 1, portrait: '' },
+    oh: {
+      model: '/art/kenney-characters/characterMedium.fbx',
+      idle: '/art/kenney-characters/idle.fbx',
+      skin: '/art/kenney-characters/oh-skin.svg',
+      portrait: '',
+    },
   },
 }
 

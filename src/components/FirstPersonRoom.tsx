@@ -59,7 +59,12 @@ export function FirstPersonRoom(props: ExplorationProps) {
         cancelled = true
       }
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
+    renderer.setPixelRatio(
+      Math.min(
+        window.devicePixelRatio || 1,
+        window.matchMedia('(pointer: coarse)').matches ? 1 : 1.5,
+      ),
+    )
     renderer.outputColorSpace = T.SRGBColorSpace
     renderer.toneMapping = T.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.35
@@ -240,6 +245,13 @@ export function FirstPersonRoom(props: ExplorationProps) {
         reducedMotion,
       )
       if (document.visibilityState !== 'hidden') renderer.render(world.scene, camera)
+      if (import.meta.env.DEV) {
+        element!.dataset.drawCalls = String(renderer.info.render.calls)
+        element!.dataset.triangles = String(renderer.info.render.triangles)
+        element!.dataset.shadows = String(renderer.shadowMap.enabled)
+        element!.dataset.npcModel = String(world.scene.userData.ohModel === true)
+        element!.dataset.npcIdle = String(world.scene.userData.ohIdle === true)
+      }
       frame = requestAnimationFrame(tick)
     }
     const visibility = () => {
@@ -356,15 +368,7 @@ export function FirstPersonRoom(props: ExplorationProps) {
       </div>
       {!props.paused && !active && (
         <div className="exploration-resume" role="status">
-          <strong>화면을 클릭하면 탐색을 계속합니다</strong>
-          <span className="pc-input-help">
-            PC · WASD 이동 / 마우스 시점 / E 조사
-            <br />
-            Tab 휴대폰 / I 소지품·단서 / Esc 닫기·해제
-          </span>
-          <span className="touch-input-help">
-            모바일 · 왼쪽 이동 / 오른쪽 드래그 시점 / 휴대폰·소지품 버튼
-          </span>
+          <span>클릭하여 탐색 계속</span>
         </div>
       )}
       {!props.paused && active && (

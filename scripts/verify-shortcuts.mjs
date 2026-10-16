@@ -93,12 +93,16 @@ export async function verifyShortcuts({
   await wait(150)
   assert.deepEqual((await state()).position, p)
   // Page chrome focus must not be treated as game focus, including when lock is still held.
-  await evaluate("document.querySelector('.header .icon-button').focus()")
+  await evaluate(
+    "(()=>{const b=document.createElement('button');b.id='outside-game';b.textContent='페이지 외부';Object.assign(b.style,{position:'fixed',left:'0',top:'0',zIndex:1000});document.body.append(b);b.focus()})()",
+  )
   await key('KeyI', 'ㅑ')
   assert.equal(await panel(), null)
   await key('Tab')
   assert.equal(await panel(), null)
-  await evaluate("document.querySelector('canvas').focus()")
+  await evaluate(
+    "document.querySelector('#outside-game')?.remove();document.querySelector('canvas').focus()",
+  )
   await key('Tab')
   assert.equal(await panel(), 'phone')
   // A denied close request must keep the existing click-to-resume fallback, with no retry loop.
@@ -112,6 +116,14 @@ export async function verifyShortcuts({
   assert.equal(await locked(), false)
   assert.ok(await evaluate("!!document.querySelector('.exploration-resume')"))
   await evaluate('HTMLCanvasElement.prototype.requestPointerLock=window.nativeLock')
+  await send('Page.bringToFront')
+  assert.equal(
+    await evaluate(
+      "(()=>{const c=document.querySelector('canvas'),r=c.getBoundingClientRect();return document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)===c})()",
+    ),
+    true,
+    'resume point must hit canvas',
+  )
   await trustedClick('canvas')
   assert.equal(await locked(), true)
   assert.equal((await state()).clues.includes('map'), false, 'resume click must not investigate')

@@ -18,7 +18,7 @@ const artifacts = await mkdtemp(join(tmpdir(), 'last-transfer-ch5-'))
 const backendJar = 'backend/target/last-transfer-api-0.0.1-SNAPSHOT.jar'
 const chatServer = spawn(
   process.env.JAVA_HOME ? join(process.env.JAVA_HOME, 'bin', 'java') : 'java',
-  process.env.KEYLESS_CHAT_CHECK
+  process.env.KEYLESS_CHAT_CHECK || (process.env.FIRST_PERSON_CHECK && !process.env.MOCK_CHAT_CHECK)
     ? ['-jar', backendJar]
     : [
         '-Dloader.main=com.lasttransfer.fixture.BrowserFixtureApplication',

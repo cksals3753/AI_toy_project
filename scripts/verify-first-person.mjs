@@ -1,3 +1,4 @@
+import { verifyVisual } from './verify-visual.mjs'
 import { verifyShortcuts } from './verify-shortcuts.mjs'
 import { verifyResume } from './verify-resume.mjs'
 import assert from 'node:assert/strict'
@@ -135,6 +136,10 @@ export async function verifyFirstPerson({
   assert.equal(await evaluate("!!document.querySelector('.first-person canvas')"), true)
   await screenshot('3d-01-room-desktop.png')
   await resume3d()
+  if (process.env.FIRST_PERSON_CHECK === 'visual') {
+    await verifyVisual({ send, evaluate, state, wait, trustedClick, look })
+    return
+  }
   if (process.env.FIRST_PERSON_CHECK === 'shortcuts') {
     await verifyShortcuts({
       send,
@@ -303,7 +308,7 @@ export async function verifyFirstPerson({
     'right drag rotates',
   )
   const yaw1 = await evaluate("+document.querySelector('canvas').dataset.yaw")
-  await trustedClick('.world-toolbar button')
+  await trustedClick('.world-toolbar:not(.hud-utilities) button')
   assert.equal(
     await evaluate("+document.querySelector('canvas').dataset.yaw"),
     yaw1,

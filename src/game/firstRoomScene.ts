@@ -1,4 +1,7 @@
 import * as T from 'three'
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
+import { addMaintenanceDetails } from './firstRoomDetails'
+import { loadOhModel } from './ohModel'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { firstRoomAssets, FIRST_PERSON_SCALE as SCALE } from './firstPerson'
 import { room } from './world'
@@ -10,6 +13,8 @@ export function createFirstRoomScene(onAssetError: () => void) {
   scene.fog = new T.FogExp2('#0b1419', 0.035)
   const resources: T.Texture[] = []
   let disposed = false
+  let oh: ReturnType<typeof loadOhModel> | null = null
+  const retiredGeometry: T.BufferGeometry[] = []
   const interactables: T.Object3D[] = []
   const blockers: T.Object3D[] = []
   const highlights = new Map<string, T.Mesh>()
@@ -26,6 +31,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
   function box(rect: Rect, height: number, material: T.Material, bottom = 0) {
     const mesh = new T.Mesh(new T.BoxGeometry(rect.w / SCALE, height, rect.h / SCALE), material)
     mesh.position.set(x(rect.x + rect.w / 2), height / 2 + bottom, z(rect.y + rect.h / 2))
+    mesh.userData.staticBox = material.visible
     scene.add(mesh)
     return mesh
   }
@@ -33,11 +39,11 @@ export function createFirstRoomScene(onAssetError: () => void) {
   const tileCanvas = document.createElement('canvas')
   tileCanvas.width = tileCanvas.height = 128
   const ctx = tileCanvas.getContext('2d')!
-  ctx.fillStyle = '#2b363b'
+  ctx.fillStyle = '#384248'
   ctx.fillRect(0, 0, 128, 128)
   ctx.fillStyle = '#596266'
-  ctx.fillRect(3, 3, 122, 122)
-  ctx.strokeStyle = '#667073'
+  ctx.fillRect(1, 1, 126, 126)
+  ctx.strokeStyle = '#5e696d'
   ctx.strokeRect(5, 5, 118, 118)
   for (let i = 0; i < 50; i++) {
     ctx.fillStyle = i % 2 ? '#525b5f' : '#62696b'
@@ -70,16 +76,20 @@ export function createFirstRoomScene(onAssetError: () => void) {
     box({ x: n, y: 549, w: 2, h: 2 }, 3.4, dark)
   }
   box({ x: 44, y: 60, w: 872, h: 500 }, 0.12, dark, 3.4)
-  scene.add(new T.HemisphereLight('#a8c3c7', '#202b2a', 1.2))
-  const light = new T.PointLight('#b8d6cd', 38, 16, 2)
+  scene.add(new T.HemisphereLight('#a8c7dd', '#252c30', 1.15))
+  const light = new T.PointLight('#accde7', 42, 17, 2)
   light.position.set(0, 2.8, 1)
   scene.add(light)
-  for (const px of [180, 480, 780]) {
+  for (const px of [180, 780]) {
     box({ x: px - 28, y: 110, w: 56, h: 10 }, 0.05, lamp, 2.95)
-    const emergency = new T.PointLight('#ed754d', 11, 6, 2)
+    const emergency = new T.PointLight('#ed8250', 7, 5, 2)
     emergency.position.set(x(px), 2.6, z(120))
     scene.add(emergency)
   }
+  const cold = new T.PointLight('#8fb9dd', 12, 8, 2)
+  cold.position.set(5, 2.6, -2)
+  scene.add(cold)
+  addMaintenanceDetails(scene, box)
   const loader = new GLTFLoader()
   let westDoor: T.Object3D | null = null
   let westCover: T.Mesh | null = null
@@ -110,8 +120,10 @@ export function createFirstRoomScene(onAssetError: () => void) {
             const materials = Array.isArray(obj.material) ? obj.material : [obj.material]
             materials.forEach((m) => {
               if (m instanceof T.MeshStandardMaterial) {
-                m.color.multiplyScalar(0.7)
-                m.roughness = 0.85
+                if (path === firstRoomAssets.bench) m.color.set('#576f78')
+                else m.color.multiplyScalar(0.72)
+                m.roughness = 0.97
+                m.metalness = path === firstRoomAssets.bench ? 0.08 : 0.2
               }
             })
           }
@@ -129,7 +141,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
   for (const [i, rect] of room.obstacles.entries()) {
     if (i < 2) {
       model(firstRoomAssets.bench, rect, 0.85)
-      blockers.push(box(rect, 0.42, dark))
+      blockers.push(box(rect, 0.42, new T.MeshBasicMaterial({ visible: false })))
     } else blockers.push(box(rect, 3.4, steel))
   }
   function sign(text: string, rect: Rect, height: number, rotation = 0, color = '#b8c9bc') {
@@ -177,6 +189,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
       )
       // Door geometry is backed by a visible solid panel and shares existing closed-door collision.
       const cover = box(rect, height, steel)
+      cover.userData.staticBox = false
       if (entity.id === 'west') westCover = cover
       sign(
         entity.id === 'west' ? '정비 통로\nWEST / 정비문' : '2번 출구\nEAST',
@@ -193,16 +206,11 @@ export function createFirstRoomScene(onAssetError: () => void) {
         1.3,
       )
     } else if (entity.kind === 'npc') {
-      const texture = new T.TextureLoader().load(firstRoomAssets.characters.oh.sprite)
-      texture.colorSpace = T.SRGBColorSpace
-      texture.repeat.set(1 / 16, 1 / 6)
-      texture.offset.set(0, 1 - (firstRoomAssets.characters.oh.row + 1) / 6)
-      texture.magFilter = T.NearestFilter
-      resources.push(texture)
-      const sprite = new T.Sprite(new T.SpriteMaterial({ map: texture, transparent: true }))
-      sprite.position.set(x(entity.x + entity.w / 2), 0.9, z(entity.y + entity.h / 2))
-      sprite.scale.set(1.2, 1.8, 1)
-      scene.add(sprite)
+      oh = loadOhModel(
+        scene,
+        new T.Vector3(x(entity.x + entity.w / 2), 0, z(entity.y + entity.h / 2)),
+        onAssetError,
+      )
     } else {
       box(rect, height, entity.id === 'panel' ? steel : dark)
       sign(
@@ -229,6 +237,27 @@ export function createFirstRoomScene(onAssetError: () => void) {
     ring.visible = false
     highlights.set(entity.id, ring)
     scene.add(ring)
+  }
+  scene.updateMatrixWorld(true)
+  const buckets = new Map<T.Material, T.Mesh[]>()
+  for (const object of [...scene.children]) {
+    if (object instanceof T.Mesh && object.userData.staticBox && !Array.isArray(object.material)) {
+      const bucket = buckets.get(object.material) ?? []
+      bucket.push(object)
+      buckets.set(object.material, bucket)
+    }
+  }
+  for (const [material, meshes] of buckets) {
+    const geometries = meshes.map((mesh) => mesh.geometry.clone().applyMatrix4(mesh.matrixWorld))
+    const merged = mergeGeometries(geometries)
+    if (merged) {
+      scene.add(new T.Mesh(merged, material))
+      meshes.forEach((mesh) => {
+        scene.remove(mesh)
+        retiredGeometry.push(mesh.geometry)
+      })
+    }
+    geometries.forEach((geometry) => geometry.dispose())
   }
   const ray = new T.Raycaster()
   function target(camera: T.Camera): Entity | null {
@@ -266,6 +295,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
   return {
     scene,
     animate(open: boolean, dt: number, reducedMotion: boolean) {
+      oh?.update(dt, reducedMotion)
       const goal = open ? 1 : 0
       doorProgress = reducedMotion ? goal : T.MathUtils.damp(doorProgress, goal, 5, dt)
       if (westDoor) westDoor.rotation.y = -doorProgress * Math.PI * 0.45
@@ -275,7 +305,9 @@ export function createFirstRoomScene(onAssetError: () => void) {
     highlight,
     dispose() {
       disposed = true
+      oh?.dispose()
       disposeObject(scene)
+      retiredGeometry.forEach((geometry) => geometry.dispose())
       resources.forEach((texture) => texture.dispose())
     },
   }

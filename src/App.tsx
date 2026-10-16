@@ -1,3 +1,4 @@
+import { ExplorationHud } from './components/ExplorationHud'
 import { Chapter6Panels } from './components/Chapter6Panels'
 import { finalObjective, finalQuestions, isChapter6Area } from './game/chapter6'
 import { chapterInfo, locationName, clueGroups } from './game/progress'
@@ -28,6 +29,7 @@ import { DodgeGame } from './components/DodgeGame'
 import './App.css'
 
 type Panel =
+  | 'help'
   | 'final-control'
   | 'final-review'
   | 'episode-result'
@@ -99,6 +101,8 @@ function App() {
     (chapter5.started && !chapter5.displayName) ||
     chapter5.exitPrompt
   const paused = blocking || panel !== null
+  const playing = stage !== 'intro' && !welcome
+  const immersive = playing && area === 'first' && import.meta.env.VITE_FIRST_ROOM_3D !== 'false'
   const menuKeys = useRef(new Set<string>())
   function finishUiGesture() {
     if (!paused || area !== 'first') return
@@ -221,7 +225,7 @@ function App() {
       const inMenu = menuOpen && !!target?.closest(`[data-game-menu="${panel}"]`)
       const inWorld =
         !menuOpen &&
-        (!!target?.closest('.world-frame canvas, .world-controls, .world-toolbar') ||
+        (!!target?.closest('.world-frame canvas, .world-controls, .world-toolbar, .compact-hud') ||
           (document.pointerLockElement?.matches('.world-frame canvas') &&
             (target === document.body || target === document.documentElement)))
       if (!inMenu && !inWorld) return
@@ -659,7 +663,11 @@ function App() {
                       : '잠긴 개찰구의 안내문과 전기실을 조사하세요.'
                     : '조명과 개찰구가 켜졌습니다. 오른쪽 개찰구로 이동하세요.'
   return (
-    <div className="app-shell" onClick={finishUiGesture} onSubmit={finishUiGesture}>
+    <div
+      className={`app-shell ${playing ? 'is-playing' : ''} ${immersive ? 'is-immersive' : ''}`}
+      onClick={finishUiGesture}
+      onSubmit={finishUiGesture}
+    >
       <header className="header">
         <div className="brand">
           <span className="brand-mark">↗</span>
@@ -845,6 +853,20 @@ function App() {
         <div
           className={`world-frame area-${area} ${chapter4.started && sceneIndex === 0 && scene[0]?.text.startsWith('“잠깐.') ? 'chapter4-opening' : ''}`}
         >
+          {playing && (
+            <ExplorationHud
+              chapter={`CH ${String(chapter.number).padStart(2, '0')} · ${area === 'first' ? '정비 대기실' : locationName(state)}`}
+              health={state.health}
+              battery={battery}
+              objective={objective}
+              paused={paused}
+              onHelp={() => setPanel('help')}
+              onFullscreen={() => {
+                if (document.fullscreenElement) void document.exitFullscreen()
+                else void document.documentElement.requestFullscreen().catch(() => setPanel('help'))
+              }}
+            />
+          )}
           <ExplorationView
             key={`${worldKey}:${area}:${chapter2.staffEvent}`}
             area={area}
@@ -870,19 +892,43 @@ function App() {
             </aside>
           )}
           <div className="world-toolbar">
-            <button disabled={paused} onClick={() => openPanel('phone')}>
+            <button
+              disabled={paused}
+              onClick={() => openPanel('phone')}
+              aria-label={`휴대폰 단톡방 · 새 메시지 ${unreadMessages}개`}
+              title="휴대폰 [Tab]"
+            >
               ▯{' '}
               <span>
                 휴대폰 <kbd className="pc-key-hint">[Tab]</kbd>
               </span>
-              <small>{unreadMessages ? `✦ 새 메시지 ${unreadMessages}` : '✓ 확인함'}</small>
+              <small>
+                <span className="badge-text">
+                  {unreadMessages ? `✦ 새 메시지 ${unreadMessages}` : '✓ 확인함'}
+                </span>
+                <span className="badge-dot" aria-hidden="true">
+                  {unreadMessages ? `✦ ${unreadMessages}` : '✓'}
+                </span>
+              </small>
             </button>
-            <button disabled={paused} onClick={() => openPanel('bag')}>
+            <button
+              disabled={paused}
+              onClick={() => openPanel('bag')}
+              aria-label={`소지품·단서 · 새 단서 ${unreadClues}개`}
+              title="소지품·단서 [I]"
+            >
               ⊞{' '}
               <span>
                 소지품·단서 <kbd className="pc-key-hint">[I]</kbd>
               </span>
-              <small>{unreadClues ? `✦ 새 단서 ${unreadClues}` : `✓ ${clues.length}개 확인`}</small>
+              <small>
+                <span className="badge-text">
+                  {unreadClues ? `✦ 새 단서 ${unreadClues}` : `✓ ${clues.length}개 확인`}
+                </span>
+                <span className="badge-dot" aria-hidden="true">
+                  {unreadClues ? `✦ ${unreadClues}` : '✓'}
+                </span>
+              </small>
             </button>
           </div>
           {area === 'trainB' && chapter3.ending === 'departing' && sceneIndex >= 1 && (
@@ -984,7 +1030,7 @@ function App() {
         </footer>
       </main>
       {welcome && panel !== 'reset' && (
-        <Overlay title="저장된 여정">
+        <Overlay title="마지막 환승 · 저장된 여정">
           <p className="intro-text">
             챕터 {chapter.number} · {chapter.title}
           </p>
@@ -1140,6 +1186,26 @@ function App() {
                 </button>
               ))}
           </div>
+        </Overlay>
+      )}
+      {panel === 'help' && (
+        <Overlay title="탐색 조작 안내" onClose={closePanel}>
+          <div className="pc-input-help">
+            <p>WASD / 방향키 이동 · 마우스 시점 · E 조사</p>
+            <p>Tab 휴대폰 · I 소지품·단서 · Esc 닫기 / 잠금 해제</p>
+            <p>
+              잠금 복귀가 허용되지 않으면 화면을 한 번 클릭하세요. 복귀 클릭은 조사에 사용되지
+              않습니다.
+            </p>
+          </div>
+          <div className="touch-input-help">
+            <p>왼쪽 조이스틱으로 이동하고 오른쪽 화면을 드래그해 둘러보세요.</p>
+            <p>조사 버튼 · 휴대폰 · 소지품 버튼을 사용하세요.</p>
+          </div>
+          <p>짧은 조사는 탐색을 유지합니다. 대화·퍼즐·메뉴에서는 탐색을 멈춥니다.</p>
+          <button className="text-button" onClick={() => setPanel('reset')}>
+            새 게임 / 저장 초기화 확인
+          </button>
         </Overlay>
       )}
       {panel === 'bag' && (

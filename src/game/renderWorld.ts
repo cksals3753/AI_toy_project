@@ -1,9 +1,10 @@
+import type { Chapter6 } from './chapter6'
 import { isChapter5Area, moonStation } from './chapter5'
 import type { Chapter5 } from './chapter5'
 import { drawMoonEnvironment, drawMoonObject } from './renderChapter5'
 import { isChapter4Area } from './chapter4'
 import type { Chapter4 } from './chapter4'
-import { getWorld } from './world'
+import { getWorld, finalAreaLabels } from './world'
 import type { Area, Point, Rect } from './world'
 import type { Chapter3 } from './chapter3'
 import type { Chapter2 } from './engine'
@@ -13,6 +14,7 @@ export type RenderOptions = {
   chapter3: Chapter3
   chapter4?: Chapter4
   chapter5?: Chapter5
+  chapter6?: Chapter6
   power: Chapter2['power']
   staffEvent: Chapter2['staffEvent']
   facing: Facing
@@ -78,14 +80,15 @@ export function renderWorld(
 ) {
   assets()
   const world = getWorld(options.area, options.chapter3.npc, options.chapter3.npcBoarded),
-    lit = isChapter5Area(options.area)
-      ? true
-      : options.chapter4?.started && isChapter4Area(options.area)
-        ? options.chapter4.links.power
-        : options.power.includes('lights') ||
-          options.area === 'electrical' ||
-          options.area === 'trainA' ||
-          (options.area === 'trainB' && options.chapter3.doorOpen)
+    lit =
+      finalAreaLabels[options.area] || isChapter5Area(options.area)
+        ? true
+        : options.chapter4?.started && isChapter4Area(options.area)
+          ? options.chapter4.links.power
+          : options.power.includes('lights') ||
+            options.area === 'electrical' ||
+            options.area === 'trainA' ||
+            (options.area === 'trainB' && options.chapter3.doorOpen)
   const scale = width < 640 ? 0.85 : Math.min(width / world.width, height / world.height)
   const vw = width / scale,
     vh = height / scale
@@ -118,17 +121,19 @@ export function renderWorld(
   ctx.font = '12px sans-serif'
   ctx.textAlign = 'center'
   ctx.fillText(
-    isChapter5Area(options.area)
-      ? `${moonStation} / 가상 대피 안내`
-      : options.chapter4?.started && isChapter4Area(options.area)
-        ? 'B-04 / 가상 비상 운행 시스템'
-        : options.area === 'hall'
-          ? 'B2   대 합 실   /   CONCOURSE'
-          : options.area === 'electrical'
-            ? '직 원 전 용   /   EMERGENCY POWER'
-            : options.area === 'stairs'
-              ? '2호선 승강장   /   PLATFORM ↓'
-              : '신 도 림   /   S I N D O R I M',
+    finalAreaLabels[options.area]
+      ? finalAreaLabels[options.area]!
+      : isChapter5Area(options.area)
+        ? `${moonStation} / 가상 대피 안내`
+        : options.chapter4?.started && isChapter4Area(options.area)
+          ? 'B-04 / 가상 비상 운행 시스템'
+          : options.area === 'hall'
+            ? 'B2   대 합 실   /   CONCOURSE'
+            : options.area === 'electrical'
+              ? '직 원 전 용   /   EMERGENCY POWER'
+              : options.area === 'stairs'
+                ? '2호선 승강장   /   PLATFORM ↓'
+                : '신 도 림   /   S I N D O R I M',
     480,
     62,
   )
@@ -233,6 +238,13 @@ export function renderWorld(
       187,
     )
   }
+  if (options.area === 'shelter') {
+    ctx.fillStyle = '#afc8b8'
+    ctx.fillRect(100, 76, 700, 30)
+    ctx.fillStyle = '#dce9d7'
+    ctx.font = '14px sans-serif'
+    ctx.fillText('지상 대피소 · 내부 대기 공간', 480, 230)
+  }
   drawMoonEnvironment(ctx, options.area, options.chapter5)
   for (const r of world.obstacles) {
     if (options.area === 'platform' && r.w >= 300) continue
@@ -242,6 +254,7 @@ export function renderWorld(
   }
   for (const e of world.entities.filter((e) => e.kind !== 'npc')) {
     const opened =
+      (e.id === 'recovery-hatch' && options.chapter6?.boltOpen) ||
       (e.id === 'moon-maintenance' && options.chapter5?.routeOpen) ||
       (e.id === 'moon-platform-door' &&
         options.area === 'moonHolding' &&
@@ -307,6 +320,18 @@ export function renderWorld(
       ctx.globalAlpha = 0.65 + Math.sin(options.clock * 3) * 0.2
       ctx.fillRect(e.x + 4, e.y + 4, Math.max(4, e.w - 8), 3)
       ctx.globalAlpha = 1
+    }
+    if (e.id === 'recovery-water' || e.id === 'recovery-valve') {
+      ctx.fillStyle = options.chapter6?.drained ? '#b8d99c' : '#79aabd'
+      ctx.fillRect(e.x + 8, e.y + 8, e.w - 16, 7)
+      ctx.fillStyle = '#e6ead8'
+      ctx.font = '10px sans-serif'
+      ctx.fillText(options.chapter6?.drained ? '배수 완료' : '수위 높음', e.x + e.w / 2, e.y - 9)
+    }
+    if (e.id === 'recovery-bolt') {
+      ctx.fillStyle = '#dbe8bd'
+      ctx.font = '10px sans-serif'
+      ctx.fillText(options.chapter6?.boltOpen ? '빗장 해제' : '빗장 잠김', e.x + e.w / 2, e.y - 9)
     }
     if (near === e.id) {
       ctx.strokeStyle = '#d5e7af'

@@ -1,9 +1,13 @@
+import { firstRoomAssets } from '../game/firstPerson'
 import { survivor } from '../game/chapter3'
 import { characters } from '../game/data'
 export function Portrait({ who }: { who: string }) {
   const c = who === 'survivor' ? survivor : characters.find((character) => character.id === who)
   const color = c?.color ?? '#99af95'
   const old = who === 'oh'
+  const portrait = old ? firstRoomAssets.characters.oh.portrait : ''
+  if (portrait)
+    return <img className="portrait" src={portrait} alt={`${c?.name ?? '생존자'} 초상화`} />
   return (
     <svg
       className="portrait"

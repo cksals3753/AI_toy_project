@@ -5,3 +5,10 @@ coverage/
 package-lock.json
 public/mockServiceWorker.js
 public/art/
+
+backend/.m2/
+backend/target/
+backend/mvnw
+backend/mvnw.cmd
+# IDE-generated modernization plans and JSONL tool transcripts
+**/.github/modernize/

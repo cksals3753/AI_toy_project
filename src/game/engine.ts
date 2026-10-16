@@ -1,3 +1,14 @@
+import {
+  defaultChapter6,
+  finalObjects,
+  finalQuestions,
+  normalizeChapter6,
+  isChapter6Area,
+} from './chapter6'
+import type { Chapter6 } from './chapter6'
+import { reduceChapter6 } from './chapter6Engine'
+import { normalizeReading } from './progress'
+import type { Reading } from './progress'
 import { defaultAiChat } from '../chat/contracts'
 import type { AiChatState, ChatReply, ChatRequest } from '../chat/contracts'
 import { normalizeAiChat } from '../chat/client'
@@ -39,6 +50,9 @@ export type Chapter2 = {
   completed: boolean
 }
 export type State = {
+  chapter6: Chapter6
+  reading: Reading
+  savedAt?: string
   aiChat: AiChatState
   version: 1
   area: Area
@@ -62,6 +76,14 @@ export type State = {
   sceneIndex: number
 }
 export type Action =
+  | { type: 'maintenance-start' }
+  | { type: 'maintenance-configure'; door: string; mode: string; power: boolean }
+  | { type: 'maintenance-commit' }
+  | { type: 'maintenance-drain' }
+  | { type: 'maintenance-bolt' }
+  | { type: 'maintenance-hatch' }
+  | { type: 'maintenance-arrive' }
+  | { type: 'read'; target: 'clues' | 'messages' }
   | { type: 'ai-start'; request: ChatRequest }
   | { type: 'ai-retry' }
   | { type: 'ai-dismiss' }
@@ -119,6 +141,8 @@ export const defaultChapter2: Chapter2 = {
   completed: false,
 }
 export const initialState: State = {
+  chapter6: defaultChapter6,
+  reading: { clues: [], messages: 0 },
   aiChat: defaultAiChat,
   version: 1,
   area: 'first',
@@ -143,6 +167,14 @@ export const initialState: State = {
 }
 const scene = (lines: Message[]) => ({ scene: lines, sceneIndex: 0 })
 export function reducer(state: State, action: Action): State {
+  if (action.type === 'read')
+    return {
+      ...state,
+      reading:
+        action.target === 'clues'
+          ? { ...state.reading, clues: [...state.clues] }
+          : { ...state.reading, messages: state.messages.length },
+    }
   if (action.type === 'reset') return { ...initialState }
   const aiChatResult = reduceAiChat(state, action)
   if (aiChatResult) return aiChatResult
@@ -220,6 +252,8 @@ export function reducer(state: State, action: Action): State {
     return state
   if (state.chapter4.entryPrompt && action.type !== 'train-entry') return state
   if (state.chapter5.exitPrompt && action.type !== 'moon-finish') return state
+  const chapter6Result = reduceChapter6(state, action)
+  if (chapter6Result) return chapter6Result
   const chapter5Result = reduceChapter5(state, action)
   if (chapter5Result) return chapter5Result
   const chapter4Result = reduceChapter4(state, action)
@@ -499,9 +533,14 @@ export function loadGame(): State {
       return { ...initialState }
     if (
       !value.clues.every((id: unknown) =>
-        [...objects, ...hallObjects, ...platformObjects, ...trainObjects, ...moonObjects].some(
-          (o) => o.id === id,
-        ),
+        [
+          ...objects,
+          ...hallObjects,
+          ...platformObjects,
+          ...trainObjects,
+          ...moonObjects,
+          ...finalObjects,
+        ].some((o) => o.id === id),
       ) ||
       !value.asked.every((id: unknown) =>
         [
@@ -510,6 +549,7 @@ export function loadGame(): State {
           ...platformQuestions,
           ...trainQuestions,
           ...moonQuestions,
+          ...finalQuestions,
         ].some((q) => q.id === id),
       ) ||
       !value.inventory.every((item: unknown) => item === '절연 장갑' || item === '전기실 열쇠') ||
@@ -542,7 +582,10 @@ export function loadGame(): State {
     const approved = d.approved === true
     const signal = approved ? (d.signal === 'green' ? 'green' : 'changing') : 'red'
     const doorOpen = approved && signal === 'green' && d.doorOpen === true
-    const boarded = doorOpen && d.boarded === true && (isChapter4Area(area) || isChapter5Area(area))
+    const boarded =
+      doorOpen &&
+      d.boarded === true &&
+      (isChapter4Area(area) || isChapter5Area(area) || isChapter6Area(area))
     const chapter3: Chapter3 = {
       ...defaultChapter3,
       started: d.started === true || isChapter3Area(area),
@@ -560,7 +603,14 @@ export function loadGame(): State {
     if (!chapter3.escaped)
       Object.assign(chapter4, defaultChapter4, { links: { ...defaultChapter4.links } })
     const chapter5 = chapter4.completed ? normalizeChapter5(value.chapter5) : { ...defaultChapter5 }
-    const savedScene = validMessages(value.scene) ? value.scene : []
+    const chapter6 = normalizeChapter6(value.chapter6, chapter5.completed)
+    const restoredArea: Area =
+      isChapter6Area(area) && !chapter6.started
+        ? chapter5.completed
+          ? 'moonPlatform'
+          : 'first'
+        : area
+    const savedScene = restoredArea === area && validMessages(value.scene) ? value.scene : []
     const sceneIndex =
       Number.isInteger(value.sceneIndex) &&
       value.sceneIndex >= 0 &&
@@ -570,12 +620,14 @@ export function loadGame(): State {
     return {
       ...initialState,
       ...value,
-      area,
+      area: restoredArea,
       chapter2,
       chapter3,
       chapter4,
       chapter5,
+      chapter6,
       aiChat: normalizeAiChat(value.aiChat),
+      reading: normalizeReading(value.reading, value.clues, value.messages.length),
       clues: [...new Set<string>(value.clues)],
       asked: [...new Set<string>(value.asked)],
       inventory: [...new Set<string>(value.inventory)],
@@ -585,9 +637,9 @@ export function loadGame(): State {
         value.position &&
         Number.isFinite(value.position.x) &&
         Number.isFinite(value.position.y) &&
-        walkable(value.position, getWorld(area, chapter3.npc, chapter3.npcBoarded))
+        walkable(value.position, getWorld(restoredArea, chapter3.npc, chapter3.npcBoarded))
           ? value.position
-          : worlds[area].spawn,
+          : worlds[restoredArea].spawn,
     }
   } catch {
     return { ...initialState }

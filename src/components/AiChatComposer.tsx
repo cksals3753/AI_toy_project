@@ -14,6 +14,7 @@ export const AiChatComposer = ({ state, dispatch }: Props) => {
   const [text, setText] = useState('')
   const [selected, setSelected] = useState<string[]>([])
   const [status, setStatus] = useState<{ available: boolean; mode: 'openai' | 'mock' } | null>(null)
+  const [blocked, setBlocked] = useState(false)
   const [connectionError, setConnectionError] = useState('')
   const network = useRef<AbortController | null>(null)
   const checking = useRef<AbortController | null>(null)
@@ -28,6 +29,7 @@ export const AiChatComposer = ({ state, dispatch }: Props) => {
     try {
       const next = await fetchChatStatus(controller.signal)
       setStatus(next)
+      setBlocked(!next.available)
       setConnectionError('')
     } catch {
       if (!controller.signal.aborted) {
@@ -47,7 +49,7 @@ export const AiChatComposer = ({ state, dispatch }: Props) => {
     }
   }, [refresh])
   const send = async (request: ChatRequest, retry: boolean) => {
-    if (locked.current) return
+    if (locked.current || blocked || !status?.available) return
     locked.current = true
     const controller = new AbortController()
     network.current = controller
@@ -59,6 +61,8 @@ export const AiChatComposer = ({ state, dispatch }: Props) => {
       setText('')
       setSelected([])
     } catch (error) {
+      setBlocked(true)
+      void refresh()
       dispatch({
         type: 'ai-error',
         requestId: request.requestId,
@@ -91,7 +95,7 @@ export const AiChatComposer = ({ state, dispatch }: Props) => {
           (status
             ? status.available
               ? '현재 위치·최근 단톡방·공유한 단서를 보내며 선택한 한 명이 답합니다.'
-              : 'AI 키 미설정 · 기존 선택형 질문과 탐색은 계속 사용할 수 있어요.'
+              : 'AI 자유 대화 사용 불가 · 선택형 질문과 탐색으로 계속하세요.'
             : '대화 서버 연결 확인 중…')}
       </p>
       <button type="button" className="text-button" onClick={() => void refresh()}>
@@ -110,7 +114,11 @@ export const AiChatComposer = ({ state, dispatch }: Props) => {
           ) : (
             <>
               <p role="alert">{pending.error}</p>
-              <button className="primary" onClick={() => void send(pending.request, true)}>
+              <button
+                className="primary"
+                disabled={blocked || !status?.available}
+                onClick={() => void send(pending.request, true)}
+              >
                 같은 질문 재시도
               </button>
               <button className="text-button" onClick={() => dispatch({ type: 'ai-dismiss' })}>
@@ -164,7 +172,12 @@ export const AiChatComposer = ({ state, dispatch }: Props) => {
             id="ai-question"
             value={text}
             maxLength={chatLimits.input}
-            placeholder="현장에서 확인한 것과 궁금한 점을 물어보세요."
+            disabled={blocked || !status?.available}
+            placeholder={
+              status?.available
+                ? '현장에서 확인한 것과 궁금한 점을 물어보세요.'
+                : '선택형 질문으로 계속 플레이할 수 있어요.'
+            }
             onChange={(e) => setText(e.target.value)}
           />
           <div className="ai-send">

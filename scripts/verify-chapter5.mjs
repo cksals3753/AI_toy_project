@@ -1,3 +1,4 @@
+import { verifyChapter6 } from './verify-chapter6.mjs'
 import assert from 'node:assert/strict'
 
 // Uses the shared CDP harness, real saved chapter-4 checkpoints, and real movement input.
@@ -205,6 +206,19 @@ export const verifyChapter5 = async ({
       console.log(
         `PASS chapter 5 ${choice}: profile validation/resume, physical investigation, explicit warnings, questions, record matching, independent route proof, saved completion, companion=${previous.chapter3.npcBoarded}`,
       )
+      await verifyChapter6({
+        completed,
+        evaluate,
+        state,
+        click,
+        close,
+        walkTo,
+        interact,
+        advanceAll,
+        send,
+        wait,
+        screenshot,
+      })
     }
   } catch (error) {
     await screenshot('chapter5-failure.png')

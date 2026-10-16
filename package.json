@@ -5,26 +5,30 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && tsc -p tsconfig.server.json && vite build",
+    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:browser": "node scripts/verify-browser.mjs",
+    "test:browser": "node scripts/backend.mjs -DskipTests package && node scripts/verify-browser.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "dev:server": "node --env-file-if-exists=.env.server --experimental-strip-types --watch server/index.ts",
-    "start": "node --env-file-if-exists=.env.server --experimental-strip-types server/index.ts"
+    "dev:server": "node scripts/backend.mjs spring-boot:run",
+    "start": "node scripts/backend.mjs spring-boot:run",
+    "backend:test": "node scripts/backend.mjs test",
+    "backend:build": "node scripts/backend.mjs package"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.104.2",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",

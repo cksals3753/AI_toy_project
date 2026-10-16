@@ -19,6 +19,9 @@ export type Area =
   | 'moonPlatform'
   | 'moonBooth'
   | 'moonHolding'
+  | 'maintenance'
+  | 'recovery'
+  | 'shelter'
 export const room = {
   width: 960,
   height: 600,
@@ -450,7 +453,35 @@ export const moonHolding: World = {
     trainEntity('moon-platform-door', '승강장 복귀 차단문', 430, 510, 'door'),
   ],
 }
+const finalRoom = (entities: Entity[]): World => ({
+  ...room,
+  spawn: { x: 450, y: 450 },
+  obstacles: [{ x: 320, y: 270, w: 120, h: 40 }],
+  entities,
+})
+export const maintenance = finalRoom([
+  trainEntity('final-map', '현행 대피도 S-01 / G-01', 180, 100),
+  trainEntity('final-manual', '지역 설비 설명판', 440, 100),
+  trainEntity('final-window', 'G-01 점검창', 700, 100),
+  trainEntity('final-review', '현장 기록 확인대', 150, 320),
+  trainEntity('final-control', '문·승인·전원 제어반', 740, 340),
+])
+export const recovery = finalRoom([
+  trainEntity('recovery-sealed', '내려온 진입 차단문', 430, 510, 'door'),
+  trainEntity('recovery-note', '내부 복구 안내', 180, 100),
+  trainEntity('recovery-water', '배수 상태창', 440, 100),
+  trainEntity('recovery-valve', '배수 밸브', 700, 100),
+  trainEntity('recovery-bolt', '해치 빗장', 740, 340),
+  trainEntity('recovery-hatch', 'S-02 비상 해치', 150, 340, 'door'),
+])
+export const shelter = finalRoom([
+  trainEntity('shelter-sign', '지상 대피소 내부 표식', 180, 100),
+  trainEntity('shelter-arrival', '대피소 내부 도착 확인대', 700, 100),
+])
 export const worlds: Record<Area, World> = {
+  maintenance,
+  recovery,
+  shelter,
   first: room,
   hall,
   electrical,
@@ -475,9 +506,17 @@ export function getWorld(area: Area, npc = 'unseen', npcBoarded = false): World 
       ),
     }
   if (
-    ['trainB', 'trainRear', 'trainFront', 'moonPlatform', 'moonBooth', 'moonHolding'].includes(
-      area,
-    ) &&
+    [
+      'trainB',
+      'trainRear',
+      'trainFront',
+      'moonPlatform',
+      'moonBooth',
+      'moonHolding',
+      'maintenance',
+      'recovery',
+      'shelter',
+    ].includes(area) &&
     npcBoarded
   )
     return {
@@ -560,4 +599,10 @@ export const moonAreaLabels: Partial<Record<Area, string>> = {
   moonPlatform: '문래역 · 대답 없는 승강장',
   moonBooth: '문래역 · 승강장 안내 부스',
   moonHolding: '문래역 · 확인 대기 구역',
+}
+
+export const finalAreaLabels: Partial<Record<Area, string>> = {
+  maintenance: '문래역 · 정비 통로 분기실',
+  recovery: '문래역 · 자동 확인 복구 구역',
+  shelter: '지상 대피소 내부',
 }

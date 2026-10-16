@@ -1,3 +1,6 @@
+import { verifyFirstPerson } from './verify-first-person.mjs'
+import { verifyChapter6 } from './verify-chapter6.mjs'
+import { verifyUx } from './verify-ux.mjs'
 // Real Chromium checks via CDP; no additional npm dependency. Node 22+ required.
 import { spawn } from 'node:child_process'
 import { mkdtemp, writeFile, readFile, access } from 'node:fs/promises'
@@ -12,33 +15,49 @@ const chrome =
   process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 await access(chrome)
 const artifacts = await mkdtemp(join(tmpdir(), 'last-transfer-ch5-'))
+const backendJar = 'backend/target/last-transfer-api-0.0.1-SNAPSHOT.jar'
 const chatServer = spawn(
-  process.execPath,
-  [
-    '--experimental-strip-types',
-    process.env.KEYLESS_CHAT_CHECK ? 'server/index.ts' : 'scripts/mock-chat-server.ts',
-  ],
+  process.env.JAVA_HOME ? join(process.env.JAVA_HOME, 'bin', 'java') : 'java',
+  process.env.KEYLESS_CHAT_CHECK
+    ? ['-jar', backendJar]
+    : [
+        '-Dloader.main=com.lasttransfer.fixture.BrowserFixtureApplication',
+        '-Dloader.path=backend/target/test-classes',
+        '-cp',
+        backendJar,
+        'org.springframework.boot.loader.launch.PropertiesLauncher',
+      ],
   {
     stdio: 'ignore',
     env: {
       ...process.env,
       OPENAI_API_KEY: '',
+      AI_PROVIDER: 'openai',
       API_PORT: '3301',
       API_HOST: '127.0.0.1',
       CHAT_ALLOWED_ORIGINS: 'http://127.0.0.1:5175',
+      CHAT_SECURE_COOKIE: 'false',
     },
   },
 )
 const server = spawn(
   process.execPath,
   ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', '5175', '--strictPort'],
-  { stdio: 'ignore', env: { ...process.env, CHAT_API_TARGET: 'http://127.0.0.1:3301' } },
+  {
+    stdio: 'ignore',
+    env: {
+      ...process.env,
+      CHAT_API_TARGET: 'http://127.0.0.1:3301',
+      VITE_AI_CHAT_ENABLED: process.env.MOCK_CHAT_CHECK ? 'true' : 'false',
+      VITE_FIRST_ROOM_3D: process.env.FIRST_PERSON_CHECK ? 'true' : 'false',
+    },
+  },
 )
 const browser = spawn(
   chrome,
   [
     '--headless',
-    '--disable-gpu',
+    '--enable-unsafe-swiftshader',
     '--no-first-run',
     '--no-default-browser-check',
     '--remote-debugging-port=9223',
@@ -62,10 +81,12 @@ try {
     }
     throw new Error(`Could not start ${url}`)
   }
+  await ready('http://127.0.0.1:3301/api/chat/status')
   await ready(base)
   for (const path of [
-    '/server/characters.ts',
-    '/server/context.ts',
+    '/backend/src/main/resources/private/characters.json',
+    '/backend/.env.example',
+    '/backend/target/classes/private/characters.json',
     '/docs/chapter5-author.md',
     '/.env.example',
   ]) {
@@ -78,8 +99,14 @@ try {
   let id = 0
   const pending = new Map(),
     errors = []
+  let aiRequests = 0
   ws.addEventListener('message', (event) => {
     const message = JSON.parse(event.data)
+    if (
+      message.method === 'Network.requestWillBeSent' &&
+      message.params.request.url.includes('/api/chat')
+    )
+      aiRequests++
     if (message.id) {
       const job = pending.get(message.id)
       pending.delete(message.id)
@@ -104,8 +131,19 @@ try {
     if (r.exceptionDetails) throw new Error(JSON.stringify(r.exceptionDetails))
     return r.result.value
   }
-  const state = () => evaluate("JSON.parse(localStorage.getItem('last-transfer-save-v1'))")
+  const resume = async () => {
+    const resumed = await evaluate(
+      `(()=>{const b=[...document.querySelectorAll('button')].find(b=>b.textContent.includes('이어하기 →')); if(b){b.click();return true}return false})()`,
+    )
+    if (resumed) await wait(100)
+    if (await evaluate("!!document.querySelector('.chapter-transition')")) await wait(1200)
+  }
+  const state = async () => {
+    await resume()
+    return evaluate("JSON.parse(localStorage.getItem('last-transfer-save-v1'))")
+  }
   async function click(text) {
+    await resume()
     await evaluate(
       `(() => { const b=[...document.querySelectorAll('button')].find(b=>b.textContent.includes(${JSON.stringify(text)})&&!b.disabled); if(!b)throw new Error('Button missing: '+${JSON.stringify(text)});b.click() })()`,
     )
@@ -193,6 +231,7 @@ try {
     await wait(80)
     await click('잠금 해제')
   }
+  await send('Network.enable')
   await send('Runtime.enable')
   await send('Page.enable')
   await send('Emulation.setDeviceMetricsOverride', {
@@ -219,17 +258,119 @@ try {
       screenshot,
       hold,
     })
-  if (process.env.KEYLESS_CHAT_CHECK) {
+  if (process.env.FIRST_PERSON_CHECK) {
+    await verifyFirstPerson({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      screenshot,
+      inputCode,
+      walkTo,
+    })
+  } else if (process.env.E_KEY_CHECK) {
+    const seed = await evaluate(
+      `(async()=>{const {initialState:s}=await import('/src/game/engine.ts');return {...s,stage:'explore',position:{x:480,y:150},scene:[],sceneIndex:0}})()`,
+    )
+    await evaluate(
+      `localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(seed))})`,
+    )
+    await send('Page.reload')
+    await wait(700)
+    await state()
+    await evaluate("document.querySelector('.exploration canvas').focus()")
+    await send('Input.dispatchKeyEvent', {
+      type: 'keyDown',
+      key: 'ㄷ',
+      code: 'KeyE',
+      windowsVirtualKeyCode: 69,
+    })
+    await send('Input.dispatchKeyEvent', {
+      type: 'keyUp',
+      key: 'ㄷ',
+      code: 'KeyE',
+      windowsVirtualKeyCode: 69,
+    })
+    await wait(150)
+    const worked = (await state()).clues.includes('map')
+    console.log('Physical KeyE with Korean key ㄷ:', worked ? 'investigated' : 'NO INTERACTION')
+    if (process.env.E_KEY_CHECK === 'before') {
+      assert.equal(worked, false)
+      await click('조사')
+      assert.ok((await state()).clues.includes('map'))
+      console.log('BEFORE: same target works via mouse button, Korean KeyE fails')
+    } else {
+      assert.equal(worked, true)
+      await advanceAll()
+      await evaluate(
+        `(()=>{const box=document.createElement('div');box.contentEditable='true';box.id='input-check';box.innerHTML='<span>대화 입력</span>';document.body.append(box);box.focus()})()`,
+      )
+      await send('Input.dispatchKeyEvent', {
+        type: 'keyDown',
+        key: 'ㄷ',
+        code: 'KeyE',
+        windowsVirtualKeyCode: 69,
+      })
+      await send('Input.dispatchKeyEvent', {
+        type: 'keyUp',
+        key: 'ㄷ',
+        code: 'KeyE',
+        windowsVirtualKeyCode: 69,
+      })
+      await wait(100)
+      assert.equal((await state()).scene.length, 0, 'editable text must not trigger investigation')
+      await evaluate(
+        "document.querySelector('#input-check').remove();document.querySelector('canvas').focus()",
+      )
+      await send('Input.dispatchKeyEvent', {
+        type: 'keyDown',
+        key: 'e',
+        code: 'KeyE',
+        autoRepeat: true,
+      })
+      await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'e', code: 'KeyE' })
+      await wait(100)
+      assert.equal((await state()).scene.length, 0, 'held E must not replay interaction')
+      await click('단서 재확인')
+      assert.ok((await state()).scene.length, 'mouse uses same selected target')
+      console.log('PASS physical E, editable exclusion, repeat suppression, mouse same target')
+    }
+  } else if (process.env.CHAPTER6_ONLY) {
+    const completed = await evaluate(
+      `(async()=>{const {initialState:s}=await import('/src/game/engine.ts');return {...s,stage:'explore',area:'moonPlatform',health:1,battery:0,inventory:[],chapter3:{...s.chapter3,started:true,npc:'invited',approved:true,signal:'green',doorOpen:true,boarded:true,npcBoarded:true,escaped:true,ending:'complete'},chapter4:{...s.chapter4,started:true,sync:'accepted',arrived:true,doorSeen:true,completed:true},chapter5:{...s.chapter5,started:true,displayName:'한결',response:'answered',registration:'cancelled',matched:true,externalPaused:true,routeOpen:true,exitSeen:true,completed:true}}})()`,
+    )
+    await send('Emulation.setTouchEmulationEnabled', { enabled: true })
+    await verifyChapter6({
+      completed,
+      evaluate,
+      state,
+      click,
+      close,
+      walkTo,
+      interact,
+      advanceAll,
+      send,
+      wait,
+      screenshot,
+    })
+  } else if (process.env.KEYLESS_CHAT_CHECK) {
     await evaluate(
       `(async()=>{const {initialState}=await import('/src/game/engine.ts');localStorage.setItem('last-transfer-save-v1',JSON.stringify({...initialState,stage:'explore',area:'hall',scene:[],position:{x:420,y:400}}))})()`,
     )
     await send('Page.reload')
     await wait(600)
+    await evaluate(
+      `(()=>{window.__chatRequests=0;const original=window.fetch;window.fetch=(input,...args)=>{if(String(input).includes('/api/chat')){window.__chatRequests++;throw new Error('AI requests must remain paused')}return original(input,...args)}})()`,
+    )
     await click('휴대폰')
     await wait(500)
     assert.match(
       await evaluate("document.querySelector('.ai-composer').textContent"),
-      /AI 키 미설정/,
+      /AI 자유 대화 사용 불가/,
     )
     assert.equal(
       await evaluate("document.querySelector('.ai-composer button[type=submit]').disabled"),
@@ -244,6 +385,7 @@ try {
     await click('직원 통로 끝에')
     await close()
     assert.ok((await state()).asked.includes('hall-path'))
+    assert.equal(await evaluate('window.__chatRequests'), 0)
     console.log(
       'PASS keyless real server: AI disabled, movement/investigation/scripted questions available',
     )
@@ -279,6 +421,7 @@ try {
     assert.equal((await state()).health, chapter1.health)
     await screenshot('01-hall-desktop.png')
     console.log('PASS first room → chapter 2 with real keyboard navigation')
+    await verifyUx({ evaluate, click, close, wait, state, send, screenshot })
     // Locked electrical room provides hint before the key is collected.
     await walkTo('electrical')
     await interact()
@@ -294,7 +437,8 @@ try {
     for (const label of ['직원 통로 끝에', '파란 불빛은', '개찰구는 예비']) await click(label)
     await close()
     assert.equal((await state()).asked.filter((id) => id.startsWith('hall-')).length, 3)
-    await verifyAiChat({ evaluate, click, close, wait, state, send })
+    if (process.env.MOCK_CHAT_CHECK)
+      await verifyAiChat({ evaluate, click, close, wait, state, send })
     // A failed risk returns to the hall and cannot deduct health twice, including after reload.
     await walkTo('staff')
     await interact()
@@ -464,7 +608,7 @@ try {
     await send('Page.reload')
     await wait(700)
     assert.equal((await state()).chapter3.approved, true)
-    await wait(1000)
+    await wait(1500)
     assert.equal((await state()).chapter3.signal, 'green')
     await walkTo('call-b')
     await interact()
@@ -729,12 +873,19 @@ try {
     )
   }
   assert.deepEqual(errors, [])
+  if (!process.env.MOCK_CHAT_CHECK) assert.equal(aiRequests, 0, 'AI requests must remain disabled')
   console.log(
-    process.env.KEYLESS_CHAT_CHECK
-      ? 'PASS keyless chapter 2, no runtime errors'
-      : process.env.CHAPTER5_CHECKPOINT
-        ? 'PASS chapter 5 checkpoint replay, no runtime errors'
-        : 'PASS chapters 1–5, evidence/questions, one-time events, mobile touch, ending/resume, no runtime errors',
+    process.env.FIRST_PERSON_CHECK
+      ? 'PASS first-person first room (focused browser check)'
+      : process.env.E_KEY_CHECK
+        ? 'PASS focused E-key check only'
+        : process.env.KEYLESS_CHAT_CHECK
+          ? 'PASS keyless chapter 2, no runtime errors'
+          : process.env.CHAPTER6_ONLY
+            ? 'PASS chapter 6 isolated fixture replay, no runtime errors'
+            : process.env.CHAPTER5_CHECKPOINT
+              ? 'PASS chapter 5 checkpoint replay, no runtime errors'
+              : 'PASS chapters 1–6, evidence/questions, one-time events, mobile touch, ending/resume, no runtime errors',
   )
   console.log(`Screenshots: ${artifacts}`)
 } finally {

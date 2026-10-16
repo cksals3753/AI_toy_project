@@ -1,16 +1,14 @@
+import { Chapter6Panels } from './components/Chapter6Panels'
+import { finalObjective, finalQuestions, isChapter6Area } from './game/chapter6'
+import { chapterInfo, locationName, clueGroups } from './game/progress'
 import { AiChatComposer } from './components/AiChatComposer'
 import { isAiChapter2 } from './chat/client'
 import { Chapter5Panels } from './components/Chapter5Panels'
 import type { Chapter5Panel } from './components/Chapter5Panels'
-import { isChapter5Area, moonClueText, moonObjects, moonQuestions } from './game/chapter5'
+import { isChapter5Area, moonQuestions } from './game/chapter5'
 import { Chapter4Panels } from './components/Chapter4Panels'
 import type { Chapter4Panel } from './components/Chapter4Panels'
-import {
-  availableTrainQuestion,
-  isChapter4Area,
-  trainObjects,
-  trainQuestions,
-} from './game/chapter4'
+import { availableTrainQuestion, isChapter4Area, trainQuestions } from './game/chapter4'
 import { Chapter3Panels } from './components/Chapter3Panels'
 import type { Chapter3Panel } from './components/Chapter3Panels'
 import { isChapter3Area, platformObjects, platformQuestions, survivor } from './game/chapter3'
@@ -20,13 +18,19 @@ import { hallObjects, hallQuestions, powerDevices } from './game/chapter2'
 import { loadGame, reducer, SAVE_KEY } from './game/engine'
 import type { Message } from './game/dialogue'
 import type { Entity, Point } from './game/world'
-import { Exploration } from './components/Exploration'
+import { editingText } from './game/explorationInput'
+import { flushSync } from 'react-dom'
+import type { ExplorationControls } from './components/Exploration'
+import { ExplorationView } from './components/ExplorationView'
 import { Portrait } from './components/Portrait'
 import { Overlay } from './components/Overlay'
 import { DodgeGame } from './components/DodgeGame'
 import './App.css'
 
 type Panel =
+  | 'final-control'
+  | 'final-review'
+  | 'episode-result'
   | 'phone'
   | 'bag'
   | 'reset'
@@ -40,7 +44,15 @@ type Panel =
   | null
 function App() {
   const [state, dispatch] = useReducer(reducer, undefined, loadGame)
-  const [panel, setPanel] = useState<Panel>(() => (state.stage === 'lock' ? 'lock' : null))
+  const [welcome, setWelcome] = useState(state.stage !== 'intro')
+  const [transition, setTransition] = useState(false)
+  const chapter = chapterInfo(state)
+  const previousChapter = useRef(chapter.number)
+  const unreadClues = cluesUnread(state)
+  const unreadMessages = Math.max(0, state.messages.length - state.reading.messages)
+  const explorationControls = useRef<ExplorationControls | null>(null)
+  const [fieldNote, setFieldNote] = useState<{ text: string } | null>(null)
+  const [panel, setPanel] = useState<Panel>(null)
   const [door, setDoor] = useState('west')
   const [code, setCode] = useState('')
   const [saveError, setSaveError] = useState(false)
@@ -66,13 +78,15 @@ function App() {
   const showResult = area === 'first' && stage === 'result' && !resultDismissed
   const showCompletion = area === 'stairs' && chapter2.completed && !completionDismissed
   const hazard = chapter2.staffEvent === 'active'
-  const fifthChapter = chapter5.started
+  const sixthChapter = state.chapter6.started
+  const fifthChapter = chapter5.started && !sixthChapter
   const fourthChapter = chapter4.started && isChapter4Area(area)
   const thirdChapter = isChapter3Area(area)
   const showEscape = chapter3.escaped && !escapeDismissed && !chapter4.started
   const npcChoice = area === 'platform' && chapter3.npc === 'found' && !scene.length
-  const paused =
-    panel !== null ||
+  const blocking =
+    welcome ||
+    transition ||
     scene.length > 0 ||
     stage === 'intro' ||
     showResult ||
@@ -84,6 +98,18 @@ function App() {
     chapter4.entryPrompt ||
     (chapter5.started && !chapter5.displayName) ||
     chapter5.exitPrompt
+  const paused = blocking || panel !== null
+  const menuKeys = useRef(new Set<string>())
+  function finishUiGesture() {
+    if (!paused || area !== 'first') return
+    flushSync(() => {})
+    explorationControls.current?.resumeAfterUi()
+  }
+  useEffect(() => {
+    if (!fieldNote) return
+    const timer = window.setTimeout(() => setFieldNote(null), 8500)
+    return () => window.clearTimeout(timer)
+  }, [fieldNote])
   const current = scene[sceneIndex]
   const speaker =
     current?.who === 'broadcast'
@@ -91,15 +117,17 @@ function App() {
       : current?.who === 'survivor'
         ? survivor
         : characters.find((c) => c.id === current?.who)
-  const currentQuestions = fifthChapter
-    ? moonQuestions
-    : fourthChapter
-      ? trainQuestions
-      : area === 'first'
-        ? questions
-        : thirdChapter
-          ? platformQuestions
-          : hallQuestions
+  const currentQuestions = sixthChapter
+    ? finalQuestions
+    : fifthChapter
+      ? moonQuestions
+      : fourthChapter
+        ? trainQuestions
+        : area === 'first'
+          ? questions
+          : thirdChapter
+            ? platformQuestions
+            : hallQuestions
   const route = routes.find((r) => r.id === door)!
   const canRoute = clues.includes(route.requires) && asked.length > 0
   const lights = chapter2.power.includes('lights'),
@@ -110,7 +138,10 @@ function App() {
     Promise.resolve().then(() => {
       if (cancelled) return
       try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify(state))
+        localStorage.setItem(
+          SAVE_KEY,
+          JSON.stringify({ ...state, savedAt: new Date().toISOString() }),
+        )
         setSaveError(false)
       } catch {
         setSaveError(true)
@@ -124,7 +155,7 @@ function App() {
     if (panel === 'phone') end.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }, [state.messages.length, panel])
   useEffect(() => {
-    if (!scene.length) return
+    if (!scene.length || welcome) return
     const previous = document.activeElement as HTMLElement | null
     dialogueButton.current?.focus()
     const trap = (event: KeyboardEvent) => {
@@ -138,14 +169,91 @@ function App() {
       document.removeEventListener('keydown', trap)
       previous?.focus()
     }
-  }, [scene, sceneIndex])
+  }, [scene, sceneIndex, welcome])
   useEffect(() => {
-    if (chapter3.signal !== 'changing' || scene.length) return
+    if (chapter3.signal !== 'changing' || scene.length || welcome) return
     const timer = window.setTimeout(() => dispatch({ type: 'signal-ready' }), 1400)
     return () => window.clearTimeout(timer)
-  }, [chapter3.signal, scene.length])
+  }, [chapter3.signal, scene.length, welcome])
+  useEffect(() => {
+    if (previousChapter.current === chapter.number) return
+    previousChapter.current = chapter.number
+    const enter = window.setTimeout(() => setTransition(true), 0)
+    const leave = window.setTimeout(() => setTransition(false), 1100)
+    return () => {
+      clearTimeout(enter)
+      clearTimeout(leave)
+    }
+  }, [chapter.number])
+  const openPanel = (target: 'phone' | 'bag') => {
+    setPanel(target)
+  }
+  useEffect(() => {
+    if (!state.chapter6.completed || welcome) return
+    const timer = setTimeout(() => setPanel('episode-result'), 0)
+    return () => clearTimeout(timer)
+  }, [state.chapter6.completed, welcome])
   const closeEscape = useCallback(() => setEscapeDismissed(true), [])
-  const closePanel = useCallback(() => setPanel(null), [])
+  const closePanel = useCallback(() => {
+    if (panel === 'phone') dispatch({ type: 'read', target: 'messages' })
+    if (panel === 'bag') dispatch({ type: 'read', target: 'clues' })
+    setPanel(null)
+  }, [panel])
+  useEffect(() => {
+    const held = menuKeys.current
+    function keydown(event: KeyboardEvent) {
+      if (
+        document.visibilityState === 'hidden' ||
+        !document.hasFocus() ||
+        event.defaultPrevented ||
+        event.isComposing ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey ||
+        editingText(event.target)
+      )
+        return
+      const code = event.code
+      if (!['Tab', 'KeyI', 'Escape'].includes(code) || (code === 'Tab' && event.shiftKey)) return
+      const menuOpen = panel === 'phone' || panel === 'bag'
+      if (blocking || (panel !== null && !menuOpen) || (code === 'Escape' && !menuOpen)) return
+      const target = event.target instanceof Element ? event.target : null
+      const inMenu = menuOpen && !!target?.closest(`[data-game-menu="${panel}"]`)
+      const inWorld =
+        !menuOpen &&
+        (!!target?.closest('.world-frame canvas, .world-controls, .world-toolbar') ||
+          (document.pointerLockElement?.matches('.world-frame canvas') &&
+            (target === document.body || target === document.documentElement)))
+      if (!inMenu && !inWorld) return
+      event.preventDefault()
+      event.stopPropagation()
+      if (event.repeat || held.has(code)) return
+      held.add(code)
+      const requested = code === 'Tab' ? 'phone' : code === 'KeyI' ? 'bag' : null
+      const next = code === 'Escape' || requested === panel ? null : requested
+      flushSync(() => {
+        if (panel === 'phone') dispatch({ type: 'read', target: 'messages' })
+        if (panel === 'bag') dispatch({ type: 'read', target: 'clues' })
+        setPanel(next)
+      })
+      // The renderer checks the newly committed aggregate pause state before requesting lock.
+      if (next === null) explorationControls.current?.resumeAfterUi()
+    }
+    const keyup = (event: KeyboardEvent) => {
+      held.delete(event.code)
+    }
+    const clear = () => held.clear()
+    window.addEventListener('keydown', keydown, true)
+    window.addEventListener('keyup', keyup, true)
+    window.addEventListener('blur', clear)
+    document.addEventListener('visibilitychange', clear)
+    return () => {
+      window.removeEventListener('keydown', keydown, true)
+      window.removeEventListener('keyup', keyup, true)
+      window.removeEventListener('blur', clear)
+      document.removeEventListener('visibilitychange', clear)
+    }
+  }, [blocking, panel])
   const closeResult = useCallback(() => setResultDismissed(true), [])
   const closeCompletion = useCallback(() => setCompletionDismissed(true), [])
   const savePosition = useCallback(
@@ -159,6 +267,35 @@ function App() {
   )
   const interact = useCallback(
     (entity: Entity) => {
+      if (sixthChapter && isChapter6Area(area)) {
+        if (entity.id === 'final-control') setPanel('final-control')
+        else if (entity.id === 'final-review') setPanel('final-review')
+        else if (entity.id === 'recovery-sealed')
+          talk([
+            {
+              who: 'player',
+              text: '진입 차단문은 닫혀 있다. 내부 복구 안내와 S-02 해치를 확인하자.',
+            },
+          ])
+        else if (entity.id === 'recovery-valve') dispatch({ type: 'maintenance-drain' })
+        else if (entity.id === 'recovery-bolt') dispatch({ type: 'maintenance-bolt' })
+        else if (entity.id === 'recovery-hatch') dispatch({ type: 'maintenance-hatch' })
+        else if (entity.id === 'shelter-arrival') dispatch({ type: 'maintenance-arrive' })
+        else if (entity.id === 'survivor')
+          talk([
+            {
+              who: 'survivor',
+              text:
+                area === 'recovery'
+                  ? '저는 마른 의자에서 기다릴게요. 해치가 열리면 함께 나가요.'
+                  : area === 'shelter'
+                    ? '함께 지상까지 왔어요. 고마워요.'
+                    : '천천히 따라갈게요. 지금 표식을 같이 확인해요.',
+            },
+          ])
+        else dispatch({ type: 'inspect', id: entity.id })
+        return
+      }
       if (fifthChapter && isChapter5Area(area)) {
         if (entity.id === 'moon-booth-door') dispatch({ type: 'moon-move', area: 'moonBooth' })
         else if (entity.id === 'moon-platform-door')
@@ -175,8 +312,10 @@ function App() {
           setPanel('moon-response')
         } else if (entity.id === 'moon-terminal') setPanel('moon-registration')
         else if (entity.id === 'moon-cancel-device') setPanel('moon-cancel')
-        else if (entity.id === 'moon-maintenance') setPanel('moon-route-controller')
-        else if (entity.id === 'survivor')
+        else if (entity.id === 'moon-maintenance') {
+          if (chapter5.completed) dispatch({ type: 'maintenance-start' })
+          else setPanel('moon-route-controller')
+        } else if (entity.id === 'survivor')
           talk([
             {
               who: 'survivor',
@@ -326,26 +465,20 @@ function App() {
       if (entity.kind === 'object') {
         const object = objects.find((o) => o.id === entity.id)!
         if (stage !== 'explore') {
-          talk([
-            {
-              who: 'player',
-              text: clues.includes(object.id)
-                ? object.clue
-                : '이 구간의 조사는 끝났다. 정비문을 통해 대합실로 이동하자.',
-            },
-          ])
+          const text = clues.includes(object.id)
+            ? object.clue
+            : '이 구간의 조사는 끝났다. 정비문을 통해 대합실로 이동하자.'
+          if (import.meta.env.VITE_FIRST_ROOM_3D !== 'false') setFieldNote({ text })
+          else talk([{ who: 'player', text }])
           return
         }
         dispatch({ type: 'inspect', id: entity.id })
-        talk([
-          {
-            who: 'player',
-            text:
-              battery < object.battery && !clues.includes(object.id)
-                ? '배터리가 부족해 조사할 수 없다.'
-                : object.clue,
-          },
-        ])
+        const text =
+          battery < object.battery && !clues.includes(object.id)
+            ? '배터리가 부족해 조사할 수 없다.'
+            : object.clue
+        if (import.meta.env.VITE_FIRST_ROOM_3D !== 'false') setFieldNote({ text })
+        else talk([{ who: 'player', text }])
       } else if (entity.kind === 'npc') {
         talk(
           clues.includes('cabinet')
@@ -390,6 +523,8 @@ function App() {
     [
       fourthChapter,
       fifthChapter,
+      sixthChapter,
+      chapter5.completed,
       area,
       stage,
       clues,
@@ -403,6 +538,8 @@ function App() {
     ],
   )
   const reset = () => {
+    setFieldNote(null)
+    setWelcome(false)
     dispatch({ type: 'reset' })
     setPanel(null)
     setCode('')
@@ -425,94 +562,104 @@ function App() {
       <h3 className="section-label">
         현장 기록 <span>{clues.length}개</span>
       </h3>
-      {[...objects, ...hallObjects, ...platformObjects, ...trainObjects, ...moonObjects]
-        .filter((o) => clues.includes(o.id))
-        .map((o) => (
-          <article className="clue" key={o.id}>
-            <strong>{o.title}</strong>
-            <p>
-              {moonObjects.some((item) => item.id === o.id) ? moonClueText(o.id, chapter5) : o.clue}
-            </p>
-          </article>
-        ))}
-      {(thirdChapter || fifthChapter || fourthChapter) && (
+      {clueGroups(state).map((group) => (
+        <section key={group.place} className="notebook-place">
+          <h3>
+            {group.place} · {group.items.length}개
+          </h3>
+          {group.items.map((o) => (
+            <article className="clue" key={o.id}>
+              <strong>
+                {o.title}{' '}
+                {!state.reading.clues.includes(o.id) && <span className="new-tag">✦ 새 단서</span>}
+              </strong>
+              <p>{o.text}</p>
+            </article>
+          ))}
+        </section>
+      ))}
+      {(thirdChapter || fifthChapter || fourthChapter) && chapter3.npc !== 'unseen' && (
         <article className="clue">
           <strong>현장 생존자 기록</strong>
           <p>
-            {chapter3.npc === 'unseen'
-              ? '기둥 뒤의 발소리는 아직 확인하지 못했다.'
-              : chapter3.npcBoarded
-                ? '다친 생존자가 B-04에 함께 탑승했다.'
-                : chapter3.npc === 'waiting'
-                  ? '본인의 뜻에 따라 비상 부스 옆 의자에서 구조를 기다린다.'
-                  : ['helped', 'invited'].includes(chapter3.npc)
-                    ? '부스 옆 의자에서 동행을 기다린다.'
-                    : '기둥 뒤에서 만났다. 대피 방향을 알려줄 수 있다.'}
+            {chapter3.npcBoarded
+              ? '다친 생존자가 B-04에 함께 탑승했다.'
+              : chapter3.npc === 'waiting'
+                ? '본인의 뜻에 따라 비상 부스 옆 의자에서 구조를 기다린다.'
+                : ['helped', 'invited'].includes(chapter3.npc)
+                  ? '부스 옆 의자에서 동행을 기다린다.'
+                  : '기둥 뒤에서 만났다. 대피 방향을 알려줄 수 있다.'}
           </p>
         </article>
       )}
       {!clues.length && <p className="muted">사물 가까이 이동한 뒤 조사하세요.</p>}
     </>
   )
-  const objective = fifthChapter
-    ? chapter5.completed
-      ? '챕터 5 완료 · 문래역 정비 통로 이동 승인 저장. 다음 챕터에서 이어집니다.'
-      : !chapter5.displayName
-        ? '휴대폰 프로필에서 이전부터 사용한 표시 이름을 확인하세요.'
-        : area === 'moonHolding' && chapter5.registration === 'active'
-          ? '내부 활성 등록과 해제 안내를 조사하고 취소 장치로 차단문을 해제하세요.'
-          : chapter5.response === 'undecided'
-            ? '전광판·신발·응답 감지기를 조사한 뒤 응답 여부를 선택하세요.'
-            : !chapter5.matched
-              ? '안내 부스에서 방송 재생·외부 수신·수동 첨부 원본을 조사하고 등록 건을 대조하세요.'
-              : !chapter5.externalPaused
-                ? '안내 부스 단말에서 외부 유도를 보류하세요.'
-                : !chapter5.routeOpen
-                  ? '승강장의 M-12 현장 표식을 조사한 뒤 정비 통로의 문 번호와 승인 방식을 대조하세요.'
-                  : '열린 D-02 정비 통로 앞에서 이동을 확인하세요.'
-    : fourthChapter
-      ? chapter4.completed
-        ? `챕터 4 완료 · ${chapter4.destination} 도착. 역 탐색은 챕터 5에서 이어집니다.`
-        : chapter4.arrived
-          ? `${chapter4.destination} — 비상 정차. 중앙 객실의 열린 문으로 이동하세요.`
-          : chapter4.sync === 'accepted'
-            ? '정차 요청 수락 · 감속 중'
-            : '객실 인원을 확인하고 휴대폰·노선 표시기·설명서·장치 식별자를 대조하세요. 후방 장치함에서 연결을 정리한 뒤 선두 패널로 이동하세요.'
-      : thirdChapter
-        ? chapter3.escaped
-          ? '신도림역 탈출 완료 · 다음 역: 미확인'
-          : area === 'trainA'
-            ? '선두 차량의 운행 중지 안내를 확인하고 아래 문으로 돌아가세요.'
-            : area === 'trainB'
-              ? '신도림역 표지판이 창밖으로 멀어진다.'
-              : chapter3.npc === 'unseen'
-                ? '기둥 뒤의 사람과 차량 번호·선로 표식을 확인하세요.'
-                : chapter3.signal === 'green'
-                  ? 'B-04 비상 호출로 문을 열고 선두 차량에서 출발을 확인하세요.'
-                  : '비상 부스 기록과 차량·선로를 대조해 운행 승인을 요청하세요.'
-        : area === 'first'
-          ? state.outcome
-            ? state.outcome === 'failed'
-              ? '탈출 실패 · 이번 회차 종료'
-              : '정비문 개방 · 대합실로 이동하세요.'
-            : clues.length === 0
-              ? '위쪽 벽의 안내도와 감지 패널을 찾아보세요.'
-              : asked.length === 0
-                ? '휴대폰에서 현장 단서와 다른 주장에 대해 질문하세요.'
-                : '문 가까이 다가가 경로를 선택하세요.'
-          : area === 'electrical'
-            ? '위쪽 배전반에서 회로 두 개까지 선택할 수 있습니다.'
-            : area === 'stairs'
-              ? chapter2.completed
-                ? '챕터 2 완료 · 계단에 다가가 챕터 3로 이동하세요.'
-                : '멈춰 서서 발소리에 귀를 기울인다.'
-              : !state.inventory.includes('전기실 열쇠')
-                ? '역 안내도와 점검창을 조사하고 안내 데스크를 찾아보세요.'
-                : !lights || !gateOpen
-                  ? '전기실에서 조명과 개찰구 전원을 연결하세요. 방송 기록도 남길 수 있습니다.'
-                  : '조명과 개찰구가 켜졌습니다. 오른쪽 개찰구로 이동하세요.'
+  const objective = sixthChapter
+    ? finalObjective(state)
+    : fifthChapter
+      ? chapter5.completed
+        ? '챕터 5 완료 · 문래역 정비 통로 이동 승인 저장. 다음 챕터에서 이어집니다.'
+        : !chapter5.displayName
+          ? '휴대폰 프로필에서 이전부터 사용한 표시 이름을 확인하세요.'
+          : area === 'moonHolding' && chapter5.registration === 'active'
+            ? '내부 활성 등록과 해제 안내를 조사하고 취소 장치로 차단문을 해제하세요.'
+            : chapter5.response === 'undecided'
+              ? '전광판·신발·응답 감지기를 조사한 뒤 응답 여부를 선택하세요.'
+              : !chapter5.matched
+                ? '안내 부스에서 방송 재생·외부 수신·수동 첨부 원본을 조사하고 등록 건을 대조하세요.'
+                : !chapter5.externalPaused
+                  ? '안내 부스 단말에서 외부 유도를 보류하세요.'
+                  : !chapter5.routeOpen
+                    ? '승강장의 현장 표식을 조사한 뒤 정비 통로의 문 번호와 승인 방식을 대조하세요.'
+                    : '승인된 정비 통로 앞에서 이동을 확인하세요.'
+      : fourthChapter
+        ? chapter4.completed
+          ? `챕터 4 완료 · ${chapter4.destination} 도착. 역 탐색은 챕터 5에서 이어집니다.`
+          : chapter4.arrived
+            ? `${chapter4.destination} — 비상 정차. 중앙 객실의 열린 문으로 이동하세요.`
+            : chapter4.sync === 'accepted'
+              ? '정차 요청 수락 · 감속 중'
+              : '객실 인원을 확인하고 휴대폰·노선 표시기·설명서·장치 식별자를 대조하세요. 후방 장치함에서 연결을 정리한 뒤 선두 패널로 이동하세요.'
+        : thirdChapter
+          ? chapter3.escaped
+            ? '신도림역 탈출 완료 · 다음 역: 미확인'
+            : area === 'trainA'
+              ? '객실의 선두 안내를 조사하고 아래 문으로 돌아갈 수 있습니다.'
+              : area === 'trainB'
+                ? '신도림역 표지판이 창밖으로 멀어진다.'
+                : chapter3.npc === 'unseen'
+                  ? '뒤따르던 발소리를 확인하고 주변 차량 표식을 조사하세요.'
+                  : chapter3.signal === 'green'
+                    ? '승인된 열차의 비상 호출로 문을 열고 출발을 확인하세요.'
+                    : '차량 표식과 비상 부스 기록을 조사해 대조하세요.'
+          : area === 'first'
+            ? state.outcome
+              ? state.outcome === 'failed'
+                ? '탈출 실패 · 이번 회차 종료'
+                : '정비문 개방 · 대합실로 이동하세요.'
+              : stage === 'lock'
+                ? '선택한 문의 잠금장치를 현장 단서와 대조하세요.'
+                : clues.length === 0
+                  ? '위쪽 벽의 안내도와 감지 패널을 찾아보세요.'
+                  : asked.length === 0
+                    ? '휴대폰에서 현장 단서와 다른 주장에 대해 질문하세요.'
+                    : '문 가까이 다가가 경로를 선택하세요.'
+            : area === 'electrical'
+              ? '위쪽 배전반에서 회로 두 개까지 선택할 수 있습니다.'
+              : area === 'stairs'
+                ? chapter2.completed
+                  ? '챕터 2 완료 · 계단에 다가가 챕터 3로 이동하세요.'
+                  : '멈춰 서서 발소리에 귀를 기울인다.'
+                : !state.inventory.includes('전기실 열쇠')
+                  ? '역 안내도와 점검창을 조사하고 안내 데스크를 찾아보세요.'
+                  : !lights || !gateOpen
+                    ? clues.includes('hall-gate-note')
+                      ? '개방 안내문과 전기실 회로를 대조하세요. 수집한 기록은 소지품에서 확인합니다.'
+                      : '잠긴 개찰구의 안내문과 전기실을 조사하세요.'
+                    : '조명과 개찰구가 켜졌습니다. 오른쪽 개찰구로 이동하세요.'
   return (
-    <div className="app-shell">
+    <div className="app-shell" onClick={finishUiGesture} onSubmit={finishUiGesture}>
       <header className="header">
         <div className="brand">
           <span className="brand-mark">↗</span>
@@ -530,30 +677,52 @@ function App() {
         </div>
       </header>
       <main>
+        {sixthChapter && (
+          <div className="power-status">
+            <span>
+              {state.chapter3.npcBoarded
+                ? '생존자 동행 · 두 경로 모두 함께 이동'
+                : '단독 이동 · 생존자는 신도림역에서 마지막 확인'}
+            </span>
+            <span>
+              {state.chapter6.drained ? '배수 완료' : '지역 설비 전원 유지'}
+              {state.chapter6.boltOpen ? ' · 빗장 해제' : ''}
+            </span>
+          </div>
+        )}
+        {state.chapter6.completed && (
+          <button className="primary full" onClick={() => setPanel('episode-result')}>
+            에피소드 1 완료 · 저장된 결과 보기
+          </button>
+        )}
         <div className="episode-bar">
           <div>
             <span className="chapter">
               CHAPTER{' '}
-              {area === 'first'
-                ? '01'
-                : fifthChapter
-                  ? '05'
-                  : fourthChapter
-                    ? '04'
-                    : thirdChapter
-                      ? '03'
-                      : '02'}
+              {sixthChapter
+                ? '06'
+                : area === 'first'
+                  ? '01'
+                  : fifthChapter
+                    ? '05'
+                    : fourthChapter
+                      ? '04'
+                      : thirdChapter
+                        ? '03'
+                        : '02'}
             </span>
             <h1>
-              {fifthChapter
-                ? '대답 없는 승강장'
-                : area === 'first'
-                  ? episode.title
-                  : fourthChapter
-                    ? '정차하지 않는 열차'
-                    : thirdChapter
-                      ? '누군가 있는 승강장'
-                      : '불 꺼진 대합실'}
+              {sixthChapter
+                ? '정비 통로'
+                : fifthChapter
+                  ? '대답 없는 승강장'
+                  : area === 'first'
+                    ? episode.title
+                    : fourthChapter
+                      ? '정차하지 않는 열차'
+                      : thirdChapter
+                        ? '누군가 있는 승강장'
+                        : '불 꺼진 대합실'}
             </h1>
           </div>
           <div className="resources">
@@ -567,19 +736,25 @@ function App() {
             </span>
           </div>
         </div>
+        <div className="objective-card" role="status">
+          <strong>⌖ 다음 목표</strong>
+          <p>{objective}</p>
+        </div>
         <div className="workspace-heading">
           <span className="overline">EXPLORE · OBSERVE · SURVIVE</span>
           <span>
-            {fifthChapter
-              ? '문래역 · 게임용 가상 공간'
-              : area === 'electrical'
-                ? '직원 전용 전기실'
-                : area === 'stairs'
-                  ? '승강장 계단 앞'
-                  : '신도림역을 모티브로 한 가상 공간'}
+            {sixthChapter
+              ? '문래역 정비 구역 · 게임용 가상 공간'
+              : fifthChapter
+                ? '문래역 · 게임용 가상 공간'
+                : area === 'electrical'
+                  ? '직원 전용 전기실'
+                  : area === 'stairs'
+                    ? '승강장 계단 앞'
+                    : '신도림역을 모티브로 한 가상 공간'}
           </span>
         </div>
-        {area !== 'first' && !thirdChapter && !fourthChapter && !fifthChapter && (
+        {area !== 'first' && !sixthChapter && !thirdChapter && !fourthChapter && !fifthChapter && (
           <div className="power-status" aria-label="예비 전원 상태">
             {powerDevices.map((d) => (
               <span key={d.id} className={chapter2.power.includes(d.id) ? 'on' : ''}>
@@ -592,7 +767,11 @@ function App() {
         )}
         {thirdChapter && !fourthChapter && !fifthChapter && (
           <div className="power-status train-status">
-            <span>B-04 / ◇-2</span>
+            <span>
+              {clues.includes('train-b') || clues.includes('platform-record')
+                ? 'B-04 / ◇-2'
+                : '차량 표식 미확인'}
+            </span>
             <span className={chapter3.signal === 'green' ? 'on' : ''}>
               <i />
               {chapter3.signal === 'green'
@@ -618,7 +797,7 @@ function App() {
             <span>{chapter4.arrived ? `${chapter4.destination} — 비상 정차` : '터널 운행 중'}</span>
           </div>
         )}
-        {chapter4.completed && !fifthChapter && (
+        {chapter4.completed && !fifthChapter && !sixthChapter && (
           <div className="chapter4-complete" role="status">
             CHAPTER 04 CLEAR · {chapter4.destination} 도착 저장 완료.
             <button
@@ -651,15 +830,22 @@ function App() {
             </span>
           </div>
         )}
-        {chapter5.completed && (
+        {chapter5.completed && !sixthChapter && (
           <div className="chapter4-complete" role="status">
-            CHAPTER 05 CLEAR · 문래역 정비 통로 이동 승인 저장 완료. 다음 챕터에서 이어집니다.
+            CHAPTER 05 CLEAR · 정비 통로 이동 승인 저장 완료.
+            <button
+              className="primary full"
+              disabled={paused}
+              onClick={() => dispatch({ type: 'maintenance-start' })}
+            >
+              챕터 6 · 정비 통로 진입 →
+            </button>
           </div>
         )}
         <div
           className={`world-frame area-${area} ${chapter4.started && sceneIndex === 0 && scene[0]?.text.startsWith('“잠깐.') ? 'chapter4-opening' : ''}`}
         >
-          <Exploration
+          <ExplorationView
             key={`${worldKey}:${area}:${chapter2.staffEvent}`}
             area={area}
             power={chapter2.power}
@@ -667,21 +853,36 @@ function App() {
             chapter3={chapter3}
             chapter4={chapter4}
             chapter5={chapter5}
+            chapter6={state.chapter6}
             initialPosition={state.position}
             paused={paused}
             clues={clues}
             outcome={state.outcome}
+            controlsRef={explorationControls}
             onInteract={interact}
             onPosition={savePosition}
           />
+          {area === 'first' && fieldNote && !paused && (
+            <aside className="field-note" role="status" aria-live="polite">
+              <strong>⌕ 현장 기록 · 탐색 유지</strong>
+              <p>{fieldNote.text}</p>
+              <small>획득한 단서는 소지품에서 다시 확인할 수 있습니다.</small>
+            </aside>
+          )}
           <div className="world-toolbar">
-            <button disabled={paused} onClick={() => setPanel('phone')}>
-              ▯ <span>휴대폰</span>
-              <small>{state.messages.length}</small>
+            <button disabled={paused} onClick={() => openPanel('phone')}>
+              ▯{' '}
+              <span>
+                휴대폰 <kbd className="pc-key-hint">[Tab]</kbd>
+              </span>
+              <small>{unreadMessages ? `✦ 새 메시지 ${unreadMessages}` : '✓ 확인함'}</small>
             </button>
-            <button disabled={paused} onClick={() => setPanel('bag')}>
-              ⊞ <span>소지품·단서</span>
-              <small>{clues.length}</small>
+            <button disabled={paused} onClick={() => openPanel('bag')}>
+              ⊞{' '}
+              <span>
+                소지품·단서 <kbd className="pc-key-hint">[I]</kbd>
+              </span>
+              <small>{unreadClues ? `✦ 새 단서 ${unreadClues}` : `✓ ${clues.length}개 확인`}</small>
             </button>
           </div>
           {area === 'trainB' && chapter3.ending === 'departing' && sceneIndex >= 1 && (
@@ -689,7 +890,7 @@ function App() {
               <span>신도림 SINDORIM →</span>
             </div>
           )}
-          {current && (
+          {current && !welcome && (
             <div className="vn-layer">
               {area === 'stairs' && chapter2.ending === 'echo' && sceneIndex === 1 && (
                 <div className="footstep-echo" key="echo" aria-label="멈춘 뒤 한 번 더 들린 발소리">
@@ -739,10 +940,13 @@ function App() {
         <div className="below-map">
           <div>
             <span className="status-light" />
-            <p>{objective}</p>
+            <p>
+              미확인 기록 · 단서 {unreadClues}개 · 메시지 {unreadMessages}개
+            </p>
           </div>
           <span className="keyboard-help">
-            <kbd>WASD</kbd> / <kbd>↑↓←→</kbd> 이동 · <kbd>E</kbd> 상호작용
+            <kbd>WASD</kbd> / <kbd>↑↓←→</kbd> 이동 · <kbd>E</kbd> 상호작용 · <kbd>Tab</kbd> 휴대폰 ·{' '}
+            <kbd>I</kbd> 소지품·단서
           </span>
         </div>
         <footer>
@@ -768,15 +972,51 @@ function App() {
               </button>
             )}
             <span>
-              {chapter4.arrived
-                ? `${chapter4.destination} · 비상 정차`
-                : chapter3.escaped
-                  ? '다음 역: 미확인'
-                  : '신도림역 · B2'}
+              {sixthChapter
+                ? locationName(state)
+                : chapter4.arrived
+                  ? `${chapter4.destination} · 비상 정차`
+                  : chapter3.escaped
+                    ? '다음 역: 미확인'
+                    : '신도림역 · B2'}
             </span>
           </div>
         </footer>
       </main>
+      {welcome && panel !== 'reset' && (
+        <Overlay title="저장된 여정">
+          <p className="intro-text">
+            챕터 {chapter.number} · {chapter.title}
+          </p>
+          <p>
+            {locationName(state)} · 체력 {state.health} · 단서 {clues.length}개
+          </p>
+          <p className="muted">
+            {state.savedAt && Number.isFinite(Date.parse(state.savedAt))
+              ? `저장: ${new Date(state.savedAt).toLocaleString('ko-KR')}`
+              : '이 기기에 저장된 진행이 있습니다.'}
+          </p>
+          <p>{objective}</p>
+          <button
+            className="primary full"
+            onClick={() => {
+              setWelcome(false)
+              if (stage === 'lock') setPanel('lock')
+            }}
+          >
+            이어하기 →
+          </button>
+          <button className="text-button" onClick={() => setPanel('reset')}>
+            새 게임
+          </button>
+        </Overlay>
+      )}
+      {transition && (
+        <div className="chapter-transition" role="status">
+          <span>CHAPTER {chapter.number}</span>
+          <h2>{chapter.title}</h2>
+        </div>
+      )}
       {stage === 'intro' && (
         <Overlay title="차가운 바닥에서 눈을 떴다.">
           <p className="intro-text">{episode.intro}</p>
@@ -785,17 +1025,27 @@ function App() {
               <b>01</b> 직접 걸으며 사물과 인물을 찾으세요.
             </p>
             <p>
-              <b>02</b> 가까이에서 E 또는 조사 버튼을 누르세요.
+              <b>02</b>{' '}
+              <span className="pc-input-help">
+                가까이에서 E로 조사하세요. Tab: 휴대폰 · I: 소지품·단서
+              </span>
+              <span className="touch-input-help">가까이에서 조사 버튼을 누르세요.</span>
             </p>
             <p>
               <b>03</b> 휴대폰 단톡방에서 주장과 단서를 비교하세요.
             </p>
           </div>
           <p className="muted">
-            PC: WASD / 방향키 · 모바일: 가상 조이스틱
+            <span className="pc-input-help">
+              PC: WASD / 방향키 · Tab 휴대폰 · I 소지품·단서 · Esc 닫기
+            </span>
+            <span className="touch-input-help">
+              모바일: 왼쪽 조이스틱 · 오른쪽 드래그 시점 · 휴대폰·소지품 버튼
+            </span>
             <br />
             대화·휴대폰·메뉴가 열리면 탐색이 멈춥니다.
           </p>
+          <p className="muted">저장된 진행 없음 · 외부 AI 없이 플레이 가능</p>
           <button
             className="primary full"
             onClick={() => {
@@ -813,7 +1063,7 @@ function App() {
         </Overlay>
       )}
       {panel === 'phone' && (
-        <Overlay title="신도림 생존자 · 5명" onClose={closePanel} wide>
+        <Overlay title="신도림 생존자 · 5명" onClose={closePanel} wide shortcutMenu="phone">
           <div className="members">
             {characters.map((c) => (
               <span key={c.id}>
@@ -840,6 +1090,7 @@ function App() {
                       <small>{message.time ?? c?.role ?? '생존자'}</small>
                     </strong>
                     <p>{message.text}</p>
+                    {i >= state.reading.messages && <small className="new-tag">✦ 새 메시지</small>}
                     {message.kind && (
                       <small className="ai-message-kind">
                         {message.kind === 'ai-answer'
@@ -866,9 +1117,10 @@ function App() {
                 <button
                   key={q.id}
                   disabled={
+                    state.chapter6.completed ||
                     stage !== 'explore' ||
                     area === 'stairs' ||
-                    (!fifthChapter && !fourthChapter && chapter3.boarded) ||
+                    (!sixthChapter && !fifthChapter && !fourthChapter && chapter3.boarded) ||
                     (fourthChapter
                       ? !availableTrainQuestion(q.id, clues, chapter4)
                       : !clues.includes(q.requires)) ||
@@ -891,7 +1143,7 @@ function App() {
         </Overlay>
       )}
       {panel === 'bag' && (
-        <Overlay title="소지품과 현장 기록" onClose={closePanel}>
+        <Overlay title="소지품과 현장 기록" onClose={closePanel} shortcutMenu="bag">
           <div className="inventory">
             <span>▯ 휴대폰 · {battery}%</span>
             {state.inventory.map((item) => (
@@ -970,7 +1222,7 @@ function App() {
           </details>
         </Overlay>
       )}
-      {showResult && panel !== 'reset' && (
+      {!welcome && showResult && panel !== 'reset' && (
         <Overlay
           title={state.outcome === 'failed' ? '마지막 신호가 끊겼다.' : '정비문이 열렸다.'}
           onClose={closeResult}
@@ -1012,7 +1264,7 @@ function App() {
           </button>
         </Overlay>
       )}
-      {hazard && <DodgeGame onFinish={finishDodge} />}
+      {hazard && !welcome && <DodgeGame onFinish={finishDodge} />}
       {panel === 'power' && (
         <Overlay title="예비 전원 · 회로 분배" onClose={closePanel}>
           <div className="power-capacity">
@@ -1057,7 +1309,7 @@ function App() {
           </button>
         </Overlay>
       )}
-      {showCompletion && panel !== 'reset' && (
+      {showCompletion && !welcome && panel !== 'reset' && (
         <Overlay title="챕터 2 · 불 꺼진 대합실 완료" onClose={closeCompletion}>
           <span className="overline">CHAPTER 02 CLEAR · SAVED</span>
           <p className="intro-text">
@@ -1089,28 +1341,43 @@ function App() {
           </button>
         </Overlay>
       )}
-      <Chapter5Panels
-        state={state}
-        panel={panel}
-        onClose={closePanel}
-        dispatch={dispatch}
-        notebook={notebook}
-      />
-      <Chapter4Panels
-        state={state}
-        panel={panel}
-        onClose={closePanel}
-        dispatch={dispatch}
-        notebook={notebook}
-      />
-      <Chapter3Panels
-        state={state}
-        panel={panel}
-        onClose={closePanel}
-        dispatch={dispatch}
-        notebook={notebook}
-      />
-      {showEscape && panel !== 'reset' && (
+      {!welcome && (
+        <Chapter6Panels
+          state={state}
+          panel={panel}
+          onClose={closePanel}
+          dispatch={dispatch}
+          notebook={notebook}
+        />
+      )}
+      {!welcome && (
+        <Chapter5Panels
+          state={state}
+          panel={panel}
+          onClose={closePanel}
+          dispatch={dispatch}
+          notebook={notebook}
+        />
+      )}
+      {!welcome && (
+        <Chapter4Panels
+          state={state}
+          panel={panel}
+          onClose={closePanel}
+          dispatch={dispatch}
+          notebook={notebook}
+        />
+      )}
+      {!welcome && (
+        <Chapter3Panels
+          state={state}
+          panel={panel}
+          onClose={closePanel}
+          dispatch={dispatch}
+          notebook={notebook}
+        />
+      )}
+      {showEscape && !welcome && panel !== 'reset' && (
         <Overlay title="신도림역 탈출 완료" onClose={closeEscape}>
           <span className="overline">CHAPTER 03 CLEAR · NEXT STATION UNKNOWN</span>
           <p className="intro-text">
@@ -1155,5 +1422,8 @@ function App() {
       )}
     </div>
   )
+}
+function cluesUnread(state: import('./game/engine').State) {
+  return state.clues.filter((id) => !state.reading.clues.includes(id)).length
 }
 export default App

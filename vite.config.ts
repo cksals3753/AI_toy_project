@@ -14,6 +14,7 @@ export default defineConfig({
         '.yarnrc.yml',
         '**/.git/**',
         '**/server/**',
+        '**/backend/**',
         '**/docs/**',
       ],
     },

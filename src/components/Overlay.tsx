@@ -1,3 +1,4 @@
+import { editingText } from '../game/explorationInput'
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
 export function Overlay({
@@ -5,11 +6,13 @@ export function Overlay({
   children,
   onClose,
   wide = false,
+  shortcutMenu,
 }: {
   title: string
   children: ReactNode
   onClose?: () => void
   wide?: boolean
+  shortcutMenu?: 'phone' | 'bag'
 }) {
   const container = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -23,7 +26,7 @@ export function Overlay({
       )
     ;(controls()[0] ?? element).focus()
     const key = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && onClose) {
+      if (event.code === 'Escape' && onClose && !editingText(event.target)) {
         event.preventDefault()
         event.stopPropagation()
         onClose()
@@ -54,6 +57,7 @@ export function Overlay({
     <div className="overlay-backdrop">
       <div
         className={`overlay-panel ${wide ? 'wide' : ''}`}
+        data-game-menu={shortcutMenu}
         role="dialog"
         aria-modal="true"
         aria-label={title}

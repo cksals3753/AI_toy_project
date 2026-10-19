@@ -1,0 +1,82 @@
+{
+  "roundTrips": [
+    {
+      "area": "electrical",
+      "position": {
+        "x": 480,
+        "y": 478
+      },
+      "view3d": {
+        "version": 1,
+        "area": "electrical",
+        "position": {
+          "x": 0,
+          "z": 3.36
+        },
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "area": "hall",
+      "position": {
+        "x": 215,
+        "y": 478
+      },
+      "view3d": {
+        "version": 1,
+        "area": "hall",
+        "position": {
+          "x": -6.625,
+          "z": 4.2
+        },
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "area": "electrical",
+      "position": {
+        "x": 480,
+        "y": 478
+      },
+      "view3d": {
+        "version": 1,
+        "area": "electrical",
+        "position": {
+          "x": 0,
+          "z": 3.36
+        },
+        "yaw": 0,
+        "pitch": 0
+      }
+    },
+    {
+      "area": "hall",
+      "position": {
+        "x": 215,
+        "y": 478
+      },
+      "view3d": {
+        "version": 1,
+        "area": "hall",
+        "position": {
+          "x": -6.625,
+          "z": 4.2
+        },
+        "yaw": 0,
+        "pitch": 0
+      }
+    }
+  ],
+  "saveRestored": true,
+  "phoneAim": {
+    "yaw": 0.2185,
+    "pitch": -0.835,
+    "original": 0.4325
+  },
+  "unassistedCenterMisses": true,
+  "assistedE": true,
+  "mouseClick": true,
+  "mobileButton": true
+}

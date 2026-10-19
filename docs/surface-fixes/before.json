@@ -1,0 +1,277 @@
+{
+  "label": "before",
+  "views": [
+    {
+      "name": "train-a-near",
+      "position": {
+        "x": 350,
+        "y": 210
+      },
+      "yaw": 0,
+      "pitch": 0,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.07500000000000001",
+        "pitch": "0",
+        "drawCalls": "21",
+        "triangles": "1824",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "platform",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "red",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "train-a-far",
+      "position": {
+        "x": 350,
+        "y": 420
+      },
+      "yaw": 0,
+      "pitch": 0,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.07500000000000001",
+        "pitch": "0",
+        "drawCalls": "38",
+        "triangles": "2018",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "platform",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "red",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "train-a-angle",
+      "position": {
+        "x": 450,
+        "y": 210
+      },
+      "yaw": 0.9,
+      "pitch": 0,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.9750000000000004",
+        "pitch": "0",
+        "drawCalls": "32",
+        "triangles": "1946",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "platform",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "red",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "train-b-angle",
+      "position": {
+        "x": 760,
+        "y": 430
+      },
+      "yaw": 3.141592653589793,
+      "pitch": 0,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "3.2159073464102073",
+        "pitch": "0",
+        "drawCalls": "24",
+        "triangles": "1870",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "platform",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "red",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-platform-north",
+      "position": {
+        "x": 215,
+        "y": 270
+      },
+      "yaw": 3.141592653589793,
+      "pitch": -0.22,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "3.2159073464102073",
+        "pitch": "-0.22",
+        "drawCalls": "22",
+        "triangles": "1836",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "platform",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "red",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-platform-south",
+      "position": {
+        "x": 215,
+        "y": 440
+      },
+      "yaw": 0,
+      "pitch": -0.22,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.07500000000000001",
+        "pitch": "-0.22",
+        "drawCalls": "44",
+        "triangles": "2080",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "platform",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "red",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-seated-north",
+      "position": {
+        "x": 615,
+        "y": 260
+      },
+      "yaw": 3.141592653589793,
+      "pitch": -0.35,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "3.2159073464102073",
+        "pitch": "-0.35",
+        "drawCalls": "30",
+        "triangles": "1912",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "trainB",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "1",
+        "travel": "24.995999999999842",
+        "trainStatus": "외부 명령 우선 / 수동 요청 대기",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-seated-south",
+      "position": {
+        "x": 615,
+        "y": 435
+      },
+      "yaw": 0,
+      "pitch": -0.35,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.07500000000000001",
+        "pitch": "-0.35",
+        "drawCalls": "34",
+        "triangles": "1970",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "trainB",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "1",
+        "travel": "89.49899999999985",
+        "trainStatus": "외부 명령 우선 / 수동 요청 대기",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-seated-west",
+      "position": {
+        "x": 535,
+        "y": 345
+      },
+      "yaw": -1.5707963267948966,
+      "pitch": -0.35,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "-1.4957963267948968",
+        "pitch": "-0.35",
+        "drawCalls": "27",
+        "triangles": "1896",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "trainB",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "1",
+        "travel": "89.99699999999984",
+        "trainStatus": "외부 명령 우선 / 수동 요청 대기",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-seated-east",
+      "position": {
+        "x": 700,
+        "y": 345
+      },
+      "yaw": 1.5707963267948966,
+      "pitch": -0.35,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "1.6457963267948963",
+        "pitch": "-0.35",
+        "drawCalls": "48",
+        "triangles": "2108",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "trainB",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "1",
+        "travel": "89.99399999999983",
+        "trainStatus": "외부 명령 우선 / 수동 요청 대기",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    }
+  ],
+  "npcReentry": true,
+  "npcResume": true
+}

@@ -1,3 +1,13 @@
+import { verifyFirstRoomAudio } from './verify-first-room-audio.mjs'
+import { verifySurfaceVisual } from './verify-surface-visual.mjs'
+import { verifyAimEntry } from './verify-aim-entry.mjs'
+import { verifyEpisodeControls } from './verify-episode-controls.mjs'
+import { verifyEpisodeThree } from './verify-episode-3d.mjs'
+import { verifyChapter6Three } from './verify-chapter6-3d.mjs'
+import { verifyChapter5Three } from './verify-chapter5-3d.mjs'
+import { verifyChapter4Three } from './verify-chapter4-3d.mjs'
+import { verifyChapter3Three } from './verify-chapter3-3d.mjs'
+import { verifyChapter2Three, verifyChapter2Visual } from './verify-chapter2-3d.mjs'
 import { verifyVisual } from './verify-visual.mjs'
 import { verifyShortcuts } from './verify-shortcuts.mjs'
 import { verifyResume } from './verify-resume.mjs'
@@ -42,6 +52,12 @@ export async function verifyFirstPerson({
     await wait(300)
   }
   async function resume3d() {
+    for (
+      let i = 0;
+      i < 60 && (await evaluate("!!document.querySelector('[data-scene-loading]')"));
+      i++
+    )
+      await wait(100)
     if (await evaluate("!!document.querySelector('.exploration-resume')"))
       await trustedClick('.exploration-resume')
     assert.equal(
@@ -93,11 +109,13 @@ export async function verifyFirstPerson({
   async function seed(position) {
     const saved = await state()
     saved.position = position
-    await evaluate(
-      `localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(saved))})`,
-    )
+    saved.view3d = null
+    const fixtureScript = await send('Page.addScriptToEvaluateOnNewDocument', {
+      source: `localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(saved))})`,
+    })
     await send('Page.reload')
     await wait(900)
+    await send('Page.removeScriptToEvaluateOnNewDocument', { identifier: fixtureScript.identifier })
     await state()
     await wait(150)
     await resume3d()
@@ -108,9 +126,18 @@ export async function verifyFirstPerson({
     await walkTo(id)
     const p = (await state()).position
     const entity = await evaluate(
-      `(async()=>{const {room}=await import('/src/game/world.ts');return room.entities.find(e=>e.id===${JSON.stringify(id)})})()`,
+      `(async()=>{const {getWorld}=await import('/src/game/world.ts');const s=JSON.parse(localStorage.getItem('last-transfer-save-v1'));return getWorld(s.area,s.chapter3.npc,s.chapter3.npcBoarded,s.chapter2.power,s.chapter3.doorOpen,s.chapter4,s.chapter5,s.chapter6).entities.find(e=>e.id===${JSON.stringify(id)})})()`,
     )
-    await look(Math.atan2(p.x - entity.x - entity.w / 2, p.y - entity.y - entity.h / 2))
+    const tx = entity.id === 'train-phone' ? entity.x + 26.5 : entity.x + entity.w / 2
+    const ty = entity.id === 'train-phone' ? entity.y + 17 : entity.y + entity.h / 2
+    await look(
+      Math.atan2(p.x - tx, p.y - ty),
+      ['train-phone', 'moon-shoes'].includes(entity.id)
+        ? -Math.atan2(entity.id === 'train-phone' ? 1.3 : 1.15, Math.hypot(p.x - tx, p.y - ty) / 50)
+        : entity.id === 'hall-desk'
+          ? -0.6
+          : 0,
+    )
     await wait(80)
   }
   async function pressE(korean = false, repeat = false) {
@@ -136,6 +163,166 @@ export async function verifyFirstPerson({
   assert.equal(await evaluate("!!document.querySelector('.first-person canvas')"), true)
   await screenshot('3d-01-room-desktop.png')
   await resume3d()
+  if (process.env.FIRST_PERSON_CHECK === 'audio') {
+    await verifyFirstRoomAudio({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      hold,
+      wait,
+      resume3d,
+      trustedClick,
+      approach,
+      pressE,
+      advanceAll,
+      inputCode,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'surface-visual') {
+    await verifySurfaceVisual({
+      send,
+      evaluate,
+      state,
+      wait,
+      resume3d,
+      look,
+      hold,
+      approach,
+      pressE,
+      advanceAll,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'aim-entry') {
+    await verifyAimEntry({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      wait,
+      approach,
+      pressE,
+      resume3d,
+      look,
+      trustedClick,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'episode-controls') {
+    await verifyEpisodeControls({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      approach,
+      pressE,
+      resume3d,
+      trustedClick,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'episode') {
+    await verifyEpisodeThree({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      approach,
+      pressE,
+      resume3d,
+      inputCode,
+      trustedClick,
+      look,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK?.startsWith('chapter6')) {
+    await verifyChapter6Three({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      approach,
+      pressE,
+      resume3d,
+      trustedClick,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK?.startsWith('chapter5')) {
+    await verifyChapter5Three({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      approach,
+      pressE,
+      resume3d,
+      trustedClick,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK?.startsWith('chapter4')) {
+    await verifyChapter4Three({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      look,
+      approach,
+      pressE,
+      trustedClick,
+      resume3d,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'chapter3') {
+    await verifyChapter3Three({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      look,
+      approach,
+      pressE,
+      trustedClick,
+      resume3d,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'chapter2-visual') {
+    await verifyChapter2Visual({ send, evaluate, state, wait, trustedClick, pressE })
+    return
+  }
   if (process.env.FIRST_PERSON_CHECK === 'visual') {
     await verifyVisual({ send, evaluate, state, wait, trustedClick, look })
     return
@@ -254,7 +441,26 @@ export async function verifyFirstPerson({
   await click('대합실로 이동')
   await advanceAll()
   assert.equal((await state()).area, 'hall')
-  assert.equal(await evaluate("!!document.querySelector('.first-person')"), false)
+  assert.equal(await evaluate("!!document.querySelector('.first-person')"), true)
+  if (process.env.FIRST_PERSON_CHECK === 'chapter2') {
+    await verifyChapter2Three({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      look,
+      approach,
+      pressE,
+      trustedClick,
+      resume3d,
+      unlock,
+    })
+    return
+  }
   // Return to a real saved first-room state; no added gameplay/debug state.
   const saved = await state()
   const initial = await evaluate(

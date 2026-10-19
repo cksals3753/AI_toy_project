@@ -135,6 +135,7 @@ export async function verifyShortcuts({
   s.stage = 'lock'
   s.route = 'west'
   s.position = { x: 95, y: 265 }
+  s.view3d = null
   await evaluate(
     `localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(s))});location.reload()`,
   )
@@ -152,6 +153,7 @@ export async function verifyShortcuts({
   hallSave.area = 'hall'
   hallSave.stage = 'explore'
   hallSave.position = { x: 480, y: 150 }
+  hallSave.view3d = { version: 1, area: 'hall', position: { x: 0, z: -4 }, yaw: 0, pitch: 0 }
   hallSave.scene = []
   hallSave.outcome = null
   await evaluate(
@@ -166,6 +168,7 @@ export async function verifyShortcuts({
   assert.equal(await panel(), 'phone')
   await key('Escape')
   assert.equal(await panel(), null)
+  await resume3d()
   await pressE(true)
   assert.ok((await state()).clues.includes('hall-map'))
   const dialogue = (await state()).scene.length

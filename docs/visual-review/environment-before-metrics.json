@@ -1,0 +1,60 @@
+{
+  "label": "environment-before",
+  "environment": "Chrome headless / SwiftShader, DPR 1; development build. RAF is presentation timing, not GPU frame time.",
+  "views": [
+    {
+      "name": "desktop",
+      "frames": 240,
+      "meanMs": 16.66625,
+      "p95Ms": 16.800000000000182,
+      "drawCalls": 23,
+      "triangles": 3644,
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 800
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "position": {
+        "x": 480,
+        "y": 460
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    {
+      "name": "mobile",
+      "frames": 240,
+      "meanMs": 16.665833333333335,
+      "p95Ms": 16.700000000000728,
+      "drawCalls": 14,
+      "triangles": 3340,
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": {
+        "x": 480,
+        "y": 460
+      },
+      "yaw": 0,
+      "pitch": 0
+    }
+  ]
+}

@@ -79,7 +79,16 @@ export function renderWorld(
   options: RenderOptions,
 ) {
   assets()
-  const world = getWorld(options.area, options.chapter3.npc, options.chapter3.npcBoarded),
+  const world = getWorld(
+      options.area,
+      options.chapter3.npc,
+      options.chapter3.npcBoarded,
+      options.power,
+      options.chapter3.doorOpen,
+      options.chapter4,
+      options.chapter5,
+      options.chapter6,
+    ),
     lit =
       finalAreaLabels[options.area] || isChapter5Area(options.area)
         ? true

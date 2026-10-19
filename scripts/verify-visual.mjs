@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 const directory = 'docs/visual-review'
 export async function verifyVisual({ send, evaluate, state, wait, trustedClick, look }) {
   const label = process.env.VISUAL_LABEL ?? 'after'
+  const checkLayout = label === 'after' || label === 'environment-after'
   await mkdir(directory, { recursive: true })
   const results = {
     label,
@@ -20,7 +21,7 @@ export async function verifyVisual({ send, evaluate, state, wait, trustedClick, 
     const sample = await evaluate(
       `new Promise(resolve=>{const frames=[];let previous=0;const start=performance.now();function frame(t){if(previous)frames.push(t-previous);previous=t;if(t-start<4000)requestAnimationFrame(frame);else{const sorted=[...frames].sort((a,b)=>a-b),c=document.querySelector('canvas'),r=c.getBoundingClientRect();resolve({frames:frames.length,meanMs:frames.reduce((a,b)=>a+b,0)/frames.length,p95Ms:sorted[Math.floor(sorted.length*.95)],drawCalls:+c.dataset.drawCalls,triangles:+c.dataset.triangles,shadows:c.dataset.shadows,npcModel:c.dataset.npcModel,npcIdle:c.dataset.npcIdle,canvas:{x:r.x,y:r.y,width:r.width,height:r.height},viewport:{width:innerWidth,height:innerHeight},position:JSON.parse(localStorage.getItem('last-transfer-save-v1')).position,yaw:+c.dataset.yaw,pitch:+c.dataset.pitch})}}requestAnimationFrame(frame)})`,
     )
-    if (label === 'after') {
+    if (checkLayout) {
       assert.equal(await evaluate("document.querySelector('canvas').dataset.npcModel"), 'true')
       assert.equal(await evaluate("document.querySelector('canvas').dataset.npcIdle"), 'true')
       assert.equal(
@@ -52,7 +53,7 @@ export async function verifyVisual({ send, evaluate, state, wait, trustedClick, 
   })
   await wait(500)
   await measure('desktop')
-  if (label === 'after') {
+  if (checkLayout) {
     await evaluate('document.exitPointerLock()')
     await wait(100)
     await shot('resume')
@@ -77,8 +78,34 @@ export async function verifyVisual({ send, evaluate, state, wait, trustedClick, 
       await trustedClick('canvas')
     await wait(150)
   }
+  if (label === 'environment-after') {
+    for (const [id, x, name] of [
+      ['map', 482, '찢어진 안내도'],
+      ['panel', 775, '침수 감지 패널'],
+      ['cabinet', 185, '비상 물품함'],
+    ]) {
+      const fixture = { ...original, view3d: null, position: { x, y: 170 } }
+      await evaluate(
+        `localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(fixture))});location.reload()`,
+      )
+      await wait(1100)
+      await state()
+      await wait(200)
+      if (await evaluate("!!document.querySelector('.exploration-resume')"))
+        await trustedClick('.exploration-resume')
+      await look(0, -0.18)
+      await wait(150)
+      assert.match(
+        await evaluate("document.querySelector('.interaction button').textContent"),
+        new RegExp(name),
+      )
+      assert.equal(await evaluate("document.querySelector('.interaction button').disabled"), false)
+      assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'))
+      await shot(`facility-${id}`)
+    }
+  }
   // Same NPC position and camera orientation before/after; gameplay data is untouched.
-  const npc = { ...original, position: { x: 220, y: 420 } }
+  const npc = { ...original, view3d: null, position: { x: 220, y: 420 } }
   await evaluate(
     `localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(npc))});location.reload()`,
   )
@@ -105,7 +132,7 @@ export async function verifyVisual({ send, evaluate, state, wait, trustedClick, 
   if (await evaluate("!!document.querySelector('.exploration-resume')"))
     await trustedClick('.exploration-resume')
   await measure('mobile')
-  if (label === 'after') {
+  if (checkLayout) {
     for (const size of [
       [844, 390],
       [360, 640],
@@ -134,64 +161,7 @@ export async function verifyVisual({ send, evaluate, state, wait, trustedClick, 
       await shot(`layout-${size.join('x')}`)
     }
   }
-  if (label === 'after') {
-    await send('Emulation.setDeviceMetricsOverride', {
-      width: 1280,
-      height: 800,
-      deviceScaleFactor: 1,
-      mobile: false,
-    })
-    await send('Emulation.setTouchEmulationEnabled', { enabled: false })
-    for (const area of ['hall', 'platform', 'trainB', 'moonPlatform', 'maintenance']) {
-      const fixture = {
-        ...original,
-        area,
-        stage: 'explore',
-        scene: [],
-        position: { x: 480, y: 460 },
-        chapter3: {
-          ...original.chapter3,
-          started: true,
-          approved: true,
-          signal: 'green',
-          doorOpen: true,
-          boarded: area !== 'hall' && area !== 'platform',
-          escaped: area !== 'hall' && area !== 'platform',
-          ending: 'complete',
-        },
-        chapter4: {
-          ...original.chapter4,
-          started: ['trainB', 'moonPlatform', 'maintenance'].includes(area),
-          sync: 'accepted',
-          arrived: area !== 'trainB',
-          doorSeen: true,
-          completed: area === 'moonPlatform' || area === 'maintenance',
-        },
-        chapter5: {
-          ...original.chapter5,
-          started: area === 'moonPlatform' || area === 'maintenance',
-          displayName: '기록자',
-          response: 'answered',
-          registration: 'cancelled',
-          matched: true,
-          externalPaused: true,
-          routeOpen: true,
-          exitSeen: true,
-          completed: area === 'maintenance',
-        },
-        chapter6: { ...original.chapter6, started: area === 'maintenance' },
-      }
-      await evaluate(
-        `localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(fixture))});location.reload()`,
-      )
-      await wait(650)
-      assert.equal((await state()).area, area)
-      await wait(120)
-      assert.equal(await evaluate("!!document.querySelector('.first-person')"), false)
-      assert.equal(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'), true)
-      await shot(`2d-${area}`)
-    }
-  }
+  // All six areas now use 3D; historical 2D comparison captures remain in docs.
   await writeFile(`${directory}/${label}-metrics.json`, JSON.stringify(results, null, 2) + '\n')
   console.log('PASS visual capture', label, JSON.stringify(results.views))
 }

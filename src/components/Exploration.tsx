@@ -1,3 +1,5 @@
+import { firstRoomAudio } from '../audio/firstRoomAudio'
+import type { View3d } from '../game/firstPerson'
 import { gameKey, editingText } from '../game/explorationInput'
 import type { Chapter6 } from '../game/chapter6'
 import type { Chapter5 } from '../game/chapter5'
@@ -20,6 +22,9 @@ import { renderWorld } from '../game/renderWorld'
 
 export type ExplorationControls = { resumeAfterUi: () => void }
 export type ExplorationProps = {
+  view3d?: View3d | null
+  onView3d?: (view: View3d) => void
+
   controlsRef?: RefObject<ExplorationControls | null>
   area: Area
   chapter3: Chapter3
@@ -62,7 +67,16 @@ export function Exploration({
     if (paused) onPosition(position.current)
   }, [paused, onPosition])
   useEffect(() => {
-    const world = getWorld(area, chapter3.npc, chapter3.npcBoarded)
+    const world = getWorld(
+      area,
+      chapter3.npc,
+      chapter3.npcBoarded,
+      power,
+      chapter3.doorOpen,
+      chapter4,
+      chapter5,
+      chapter6,
+    )
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const element = canvas.current!
     const ctx = element.getContext('2d')!
@@ -133,7 +147,12 @@ export function Exploration({
             Number(keys.has('w') || keys.has('arrowup')),
         }
         const previous = position.current
+        const beforeStep = position.current
         position.current = movePlayer(position.current, direction, dt, world)
+        if (area === 'first')
+          firstRoomAudio.travel(
+            Math.hypot(position.current.x - beforeStep.x, position.current.y - beforeStep.y),
+          )
         animation.current.moving =
           Math.hypot(position.current.x - previous.x, position.current.y - previous.y) > 0.05
         if (direction.x || direction.y)

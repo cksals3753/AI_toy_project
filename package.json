@@ -15,7 +15,8 @@
     "dev:server": "node scripts/backend.mjs spring-boot:run",
     "start": "node scripts/backend.mjs spring-boot:run",
     "backend:test": "node scripts/backend.mjs test",
-    "backend:build": "node scripts/backend.mjs package"
+    "backend:build": "node scripts/backend.mjs package",
+    "test:browser:first": "node scripts/verify-first-room.mjs"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.104.2",

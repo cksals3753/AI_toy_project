@@ -1,0 +1,234 @@
+[
+  {
+    "name": "RightFootCtrl",
+    "y": -0.31101846094345503
+  },
+  {
+    "name": "RightKneeCtrl",
+    "y": -0.039851444796579316
+  },
+  {
+    "name": "RightKneeCtrl_end",
+    "y": 0.11582129218567705
+  },
+  {
+    "name": "RightFootRollCtrl",
+    "y": -0.3110184371507705
+  },
+  {
+    "name": "RightFootRollCtrl_end",
+    "y": -0.3110184803009925
+  },
+  {
+    "name": "RightHeelRoll",
+    "y": -0.3941670553691808
+  },
+  {
+    "name": "RightToeRoll",
+    "y": -0.39423596239039094
+  },
+  {
+    "name": "RightFootIK",
+    "y": -0.31101870487376926
+  },
+  {
+    "name": "RightFootIK_end",
+    "y": -0.3942360049656651
+  },
+  {
+    "name": "HipsCtrl",
+    "y": 0.2846069522949259
+  },
+  {
+    "name": "Hips",
+    "y": 0.1358044805862101
+  },
+  {
+    "name": "LeftUpLeg",
+    "y": 0.16278404438831814
+  },
+  {
+    "name": "LeftLeg",
+    "y": 0.1493841293006999
+  },
+  {
+    "name": "LeftFoot",
+    "y": 0.4234455977289422
+  },
+  {
+    "name": "LeftToes",
+    "y": 0.4403494039700717
+  },
+  {
+    "name": "LeftToes_end",
+    "y": 0.3955746680254015
+  },
+  {
+    "name": "RightUpLeg",
+    "y": 0.1627840471466707
+  },
+  {
+    "name": "RightLeg",
+    "y": 0.144874374380863
+  },
+  {
+    "name": "RightFoot",
+    "y": 0.4260478335577972
+  },
+  {
+    "name": "RightToes",
+    "y": 0.4459350768235326
+  },
+  {
+    "name": "RightToes_end",
+    "y": 0.40188007865158465
+  },
+  {
+    "name": "Spine",
+    "y": 0.2843777007439821
+  },
+  {
+    "name": "Chest",
+    "y": 0.41677611389513314
+  },
+  {
+    "name": "UpperChest",
+    "y": 0.5576111693056371
+  },
+  {
+    "name": "Neck",
+    "y": 0.6789387464898935
+  },
+  {
+    "name": "Head",
+    "y": 0.7971590060703219
+  },
+  {
+    "name": "Head_end",
+    "y": 1.2535606042343646
+  },
+  {
+    "name": "LeftShoulder",
+    "y": 0.6758937560055556
+  },
+  {
+    "name": "LeftArm",
+    "y": 0.635397069429643
+  },
+  {
+    "name": "LeftForeArm",
+    "y": 0.44964310181902356
+  },
+  {
+    "name": "LeftHand",
+    "y": 0.22139895025810083
+  },
+  {
+    "name": "LeftHandThumb1",
+    "y": 0.19988371900667778
+  },
+  {
+    "name": "LeftHandThumb2",
+    "y": 0.17504031032791065
+  },
+  {
+    "name": "LeftHandThumb2_end",
+    "y": 0.1202399779641513
+  },
+  {
+    "name": "LeftHandIndex1",
+    "y": 0.17908860941951021
+  },
+  {
+    "name": "LeftHandIndex2",
+    "y": 0.10988812775680477
+  },
+  {
+    "name": "LeftHandIndex3",
+    "y": 0.11277815271847197
+  },
+  {
+    "name": "LeftHandIndex3_end",
+    "y": 0.15885908461005704
+  },
+  {
+    "name": "RightShoulder",
+    "y": 0.6763388055044592
+  },
+  {
+    "name": "RightArm",
+    "y": 0.6377490396101236
+  },
+  {
+    "name": "RightForeArm",
+    "y": 0.45200209875967423
+  },
+  {
+    "name": "RightHand",
+    "y": 0.2237469079005967
+  },
+  {
+    "name": "RightHandIndex1",
+    "y": 0.181435759164607
+  },
+  {
+    "name": "RightHandIndex2",
+    "y": 0.11223403138684077
+  },
+  {
+    "name": "RightHandIndex3",
+    "y": 0.11164886906198183
+  },
+  {
+    "name": "RightHandIndex3_end",
+    "y": 0.15496598903402456
+  },
+  {
+    "name": "RightHandThumb1",
+    "y": 0.2022273307833552
+  },
+  {
+    "name": "RightHandThumb2",
+    "y": 0.17738013648388906
+  },
+  {
+    "name": "RightHandThumb2_end",
+    "y": 0.12258202418675118
+  },
+  {
+    "name": "LeftFootCtrl",
+    "y": -0.3110184720760354
+  },
+  {
+    "name": "LeftHeelRoll",
+    "y": -0.3941670681552856
+  },
+  {
+    "name": "LeftToeRoll",
+    "y": -0.3942360171739798
+  },
+  {
+    "name": "LeftFootIK",
+    "y": -0.3110184831230967
+  },
+  {
+    "name": "LeftFootIK_end",
+    "y": -0.39423603427866205
+  },
+  {
+    "name": "LeftFootRollCtrl",
+    "y": -0.3110184605960005
+  },
+  {
+    "name": "LeftFootRollCtrl_end",
+    "y": -0.3110185045449297
+  },
+  {
+    "name": "LeftKneeCtrl",
+    "y": -0.039851511267534556
+  },
+  {
+    "name": "LeftKneeCtrl_end",
+    "y": 0.11582121302773699
+  }
+]

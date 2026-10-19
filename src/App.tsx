@@ -1,3 +1,7 @@
+import { useFirstRoomAudio } from './audio/useFirstRoomAudio'
+import { SoundSettings } from './components/SoundSettings'
+import { isImmersiveArea, usesFirstPerson } from './game/firstPerson'
+import type { View3d } from './game/firstPerson'
 import { ExplorationHud } from './components/ExplorationHud'
 import { Chapter6Panels } from './components/Chapter6Panels'
 import { finalObjective, finalQuestions, isChapter6Area } from './game/chapter6'
@@ -101,11 +105,13 @@ function App() {
     (chapter5.started && !chapter5.displayName) ||
     chapter5.exitPrompt
   const paused = blocking || panel !== null
+  const sound = useFirstRoomAudio(state, welcome, paused)
   const playing = stage !== 'intro' && !welcome
-  const immersive = playing && area === 'first' && import.meta.env.VITE_FIRST_ROOM_3D !== 'false'
+  const immersive =
+    playing && usesFirstPerson(area) && import.meta.env.VITE_FIRST_ROOM_3D !== 'false'
   const menuKeys = useRef(new Set<string>())
   function finishUiGesture() {
-    if (!paused || area !== 'first') return
+    if (!paused || !isImmersiveArea(area)) return
     flushSync(() => {})
     explorationControls.current?.resumeAfterUi()
   }
@@ -264,6 +270,7 @@ function App() {
     (position: Point) => dispatch({ type: 'position', position, area }),
     [area],
   )
+  const saveView3d = useCallback((view: View3d) => dispatch({ type: 'view3d', view }), [])
   const talk = useCallback((lines: Message[]) => dispatch({ type: 'talk', lines }), [])
   const finishDodge = useCallback(
     (success: boolean) => dispatch({ type: 'staff-result', success }),
@@ -272,7 +279,8 @@ function App() {
   const interact = useCallback(
     (entity: Entity) => {
       if (sixthChapter && isChapter6Area(area)) {
-        if (entity.id === 'final-control') setPanel('final-control')
+        if (['final-control', 'final-s01', 'final-g01'].includes(entity.id))
+          setPanel('final-control')
         else if (entity.id === 'final-review') setPanel('final-review')
         else if (entity.id === 'recovery-sealed')
           talk([
@@ -685,7 +693,7 @@ function App() {
         </div>
       </header>
       <main>
-        {sixthChapter && (
+        {!immersive && sixthChapter && (
           <div className="power-status">
             <span>
               {state.chapter3.npcBoarded
@@ -699,7 +707,10 @@ function App() {
           </div>
         )}
         {state.chapter6.completed && (
-          <button className="primary full" onClick={() => setPanel('episode-result')}>
+          <button
+            className="primary full episode-result-button"
+            onClick={() => setPanel('episode-result')}
+          >
             에피소드 1 완료 · 저장된 결과 보기
           </button>
         )}
@@ -762,18 +773,23 @@ function App() {
                     : '신도림역을 모티브로 한 가상 공간'}
           </span>
         </div>
-        {area !== 'first' && !sixthChapter && !thirdChapter && !fourthChapter && !fifthChapter && (
-          <div className="power-status" aria-label="예비 전원 상태">
-            {powerDevices.map((d) => (
-              <span key={d.id} className={chapter2.power.includes(d.id) ? 'on' : ''}>
-                <i />
-                {d.title} {chapter2.power.includes(d.id) ? 'ON' : 'OFF'}
-              </span>
-            ))}
-            <small>{chapter2.power.length}/2 회로</small>
-          </div>
-        )}
-        {thirdChapter && !fourthChapter && !fifthChapter && (
+        {!immersive &&
+          area !== 'first' &&
+          !sixthChapter &&
+          !thirdChapter &&
+          !fourthChapter &&
+          !fifthChapter && (
+            <div className="power-status" aria-label="예비 전원 상태">
+              {powerDevices.map((d) => (
+                <span key={d.id} className={chapter2.power.includes(d.id) ? 'on' : ''}>
+                  <i />
+                  {d.title} {chapter2.power.includes(d.id) ? 'ON' : 'OFF'}
+                </span>
+              ))}
+              <small>{chapter2.power.length}/2 회로</small>
+            </div>
+          )}
+        {!immersive && thirdChapter && !fourthChapter && !fifthChapter && (
           <div className="power-status train-status">
             <span>
               {clues.includes('train-b') || clues.includes('platform-record')
@@ -798,7 +814,7 @@ function App() {
             챕터 4 · 정차하지 않는 열차 시작 →
           </button>
         )}
-        {fourthChapter && !fifthChapter && (
+        {!immersive && fourthChapter && !fifthChapter && (
           <div className="power-status train-four-status">
             <span>B-04 · {chapter3.npcBoarded ? '객실 2명 (나·생존자)' : '객실 1명 (나)'}</span>
             <span>{chapter4.links.power ? 'P-02 전원 연결' : 'P-02 차단 · 비상등'}</span>
@@ -817,7 +833,7 @@ function App() {
             </button>
           </div>
         )}
-        {fifthChapter && (
+        {!immersive && fifthChapter && (
           <div className="power-status moon-status">
             <span>문래역 · {chapter3.npcBoarded ? '나와 동행 생존자' : '단독 탐색'}</span>
             <span>
@@ -859,7 +875,23 @@ function App() {
               health={state.health}
               battery={battery}
               objective={objective}
+              power={
+                immersive && ['hall', 'electrical', 'stairs'].includes(area)
+                  ? chapter2.power
+                  : undefined
+              }
               paused={paused}
+              operation={
+                sixthChapter
+                  ? `${state.chapter6.route === 'manual' ? 'S-01 수동 경로' : state.chapter6.route === 'automatic' ? 'G-01 → S-02' : '경로 미확정'} / ${state.chapter6.completed ? '도착 확인 완료' : state.chapter6.boltOpen ? '해치 개방' : state.chapter6.drained ? '배수 완료' : '지역 전원 유지'}`
+                  : fifthChapter
+                    ? `${chapter5.response === 'answered' ? '응답' : chapter5.response === 'silent' ? '무응답' : '응답 미선택'} / ${chapter5.routeOpen ? '정비 통로 개방' : chapter5.externalPaused ? '등록 처리 완료' : '현장 조사'}`
+                    : fourthChapter
+                      ? `${chapter4.links.power ? 'P-02 연결' : 'P-02 차단 · 비상등'} / ${chapter4.arrived ? `${chapter4.destination} — 비상 정차` : '터널 운행 중'}`
+                      : thirdChapter
+                        ? `${chapter3.signal === 'green' ? '출발 신호 · 녹색' : chapter3.signal === 'changing' ? '신호 전환 중' : '출발 신호 · 붉음'} / ${chapter3.doorOpen ? 'B 출입문 개방' : 'B 출입문 닫힘'}`
+                        : undefined
+              }
               onHelp={() => setPanel('help')}
               onFullscreen={() => {
                 if (document.fullscreenElement) void document.exitFullscreen()
@@ -883,6 +915,8 @@ function App() {
             controlsRef={explorationControls}
             onInteract={interact}
             onPosition={savePosition}
+            view3d={state.view3d}
+            onView3d={saveView3d}
           />
           {area === 'first' && fieldNote && !paused && (
             <aside className="field-note" role="status" aria-live="polite">
@@ -1065,6 +1099,11 @@ function App() {
       )}
       {stage === 'intro' && (
         <Overlay title="차가운 바닥에서 눈을 떴다.">
+          <SoundSettings
+            settings={sound.settings}
+            onChange={sound.setSettings}
+            status={sound.status}
+          />
           <p className="intro-text">{episode.intro}</p>
           <div className="intro-instructions">
             <p>
@@ -1190,6 +1229,11 @@ function App() {
       )}
       {panel === 'help' && (
         <Overlay title="탐색 조작 안내" onClose={closePanel}>
+          <SoundSettings
+            settings={sound.settings}
+            onChange={sound.setSettings}
+            status={sound.status}
+          />
           <div className="pc-input-help">
             <p>WASD / 방향키 이동 · 마우스 시점 · E 조사</p>
             <p>Tab 휴대폰 · I 소지품·단서 · Esc 닫기 / 잠금 해제</p>

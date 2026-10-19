@@ -1,6 +1,6 @@
 import type { Dispatch, ReactNode } from 'react'
 import type { Action, State } from '../game/engine'
-import { trainLinks } from '../game/chapter4'
+import { trainLinks, trainPanelStatus } from '../game/chapter4'
 import { Overlay } from './Overlay'
 import { SignalSync } from './SignalSync'
 
@@ -93,19 +93,7 @@ export const Chapter4Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
   if (panel === 'train-panel')
     return (
       <Overlay title="가상 비상 운행 · 정차 요청" onClose={onClose}>
-        <p className="intro-text">
-          {!c.links.power
-            ? '패널 꺼짐 / 객실 전원 없음'
-            : !c.links.relay
-              ? '연결 오류 / CAB-R01 없음'
-              : c.links.external
-                ? '외부 명령 우선 / 수동 요청 대기'
-                : c.arrived
-                  ? `${c.destination} — 비상 정차`
-                  : c.sync === 'accepted'
-                    ? '정차 요청 수락 / 다음 안전 정차 지점 진입'
-                    : '수동 정차 요청 가능'}
-        </p>
+        <p className="intro-text">{trainPanelStatus(c)}</p>
         <p className="muted">운전실에는 들어가지 않습니다. 게임 전용 시스템에 정차를 요청합니다.</p>
         <button
           className="primary full"

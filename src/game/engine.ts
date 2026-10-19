@@ -1,3 +1,7 @@
+import { applyEntryView } from './entryView'
+import { makeView3d, normalizeView3d } from './view3d'
+import { toWorldPosition } from './firstPerson'
+import type { View3d } from './firstPerson'
 import {
   defaultChapter6,
   finalObjects,
@@ -50,6 +54,8 @@ export type Chapter2 = {
   completed: boolean
 }
 export type State = {
+  view3d: View3d | null
+
   chapter6: Chapter6
   reading: Reading
   savedAt?: string
@@ -118,6 +124,7 @@ export type Action =
   | { type: 'signal-ready' }
   | { type: 'call-train-b' }
   | { type: 'board-train-b' }
+  | { type: 'view3d'; view: View3d }
   | { type: 'position'; position: Point; area?: Area }
   | { type: 'start' }
   | { type: 'inspect'; id: string }
@@ -147,6 +154,7 @@ export const initialState: State = {
   version: 1,
   area: 'first',
   position: room.spawn,
+  view3d: null,
   stage: 'intro',
   health: 100,
   battery: 64,
@@ -166,7 +174,7 @@ export const initialState: State = {
   sceneIndex: 0,
 }
 const scene = (lines: Message[]) => ({ scene: lines, sceneIndex: 0 })
-export function reducer(state: State, action: Action): State {
+const reduceState = (state: State, action: Action): State => {
   if (action.type === 'read')
     return {
       ...state,
@@ -178,6 +186,29 @@ export function reducer(state: State, action: Action): State {
   if (action.type === 'reset') return { ...initialState }
   const aiChatResult = reduceAiChat(state, action)
   if (aiChatResult) return aiChatResult
+  if (action.type === 'view3d') {
+    const view = normalizeView3d(
+      action.view,
+      state.area,
+      state.chapter2.power,
+      state.chapter3,
+      state.chapter4,
+      state.chapter5,
+      state.chapter6,
+    )
+    if (!view || (state.chapter2.staffEvent === 'active' && state.view3d?.area === state.area))
+      return state
+    const previous = state.view3d
+    if (
+      previous?.area === view.area &&
+      Math.abs(previous.position.x - view.position.x) < 1e-8 &&
+      Math.abs(previous.position.z - view.position.z) < 1e-8 &&
+      Math.abs(previous.yaw - view.yaw) < 1e-8 &&
+      Math.abs(previous.pitch - view.pitch) < 1e-8
+    )
+      return state
+    return { ...state, view3d: view, position: toWorldPosition(view.position, view.area) }
+  }
   if (action.type === 'position') {
     if (
       state.scene.length ||
@@ -191,12 +222,21 @@ export function reducer(state: State, action: Action): State {
       (action.area && action.area !== state.area) ||
       !walkable(
         action.position,
-        getWorld(state.area, state.chapter3.npc, state.chapter3.npcBoarded),
+        getWorld(
+          state.area,
+          state.chapter3.npc,
+          state.chapter3.npcBoarded,
+          state.chapter2.power,
+          state.chapter3.doorOpen,
+          state.chapter4,
+          state.chapter5,
+          state.chapter6,
+        ),
       ) ||
       (state.position.x === action.position.x && state.position.y === action.position.y)
     )
       return state
-    return { ...state, position: action.position }
+    return { ...state, position: action.position, view3d: null }
   }
   if (action.type === 'advance') {
     const chapter4Advance = reduceChapter4(state, action)
@@ -317,6 +357,7 @@ export function reducer(state: State, action: Action): State {
     return {
       ...state,
       position: { x: 115, y: 300 },
+      view3d: state.view3d ? makeView3d('hall', { x: 115, y: 300 }) : null,
       health: Math.max(1, state.health - (action.success ? 0 : 20)),
       chapter2: { ...state.chapter2, staffEvent: action.success ? 'success' : 'failed' },
       messages: [
@@ -504,6 +545,9 @@ export function reducer(state: State, action: Action): State {
   }
   return state
 }
+export const reducer = (state: State, action: Action): State =>
+  applyEntryView(state, reduceState(state, action))
+
 export const SAVE_KEY = 'last-transfer-save-v1'
 const validMessages = (value: unknown): value is Message[] =>
   Array.isArray(value) &&
@@ -617,9 +661,19 @@ export function loadGame(): State {
       value.sceneIndex < savedScene.length
         ? value.sceneIndex
         : 0
+    const view3d = normalizeView3d(
+      value.view3d,
+      restoredArea,
+      chapter2.power,
+      chapter3,
+      chapter4,
+      chapter5,
+      chapter6,
+    )
     return {
       ...initialState,
       ...value,
+      view3d,
       area: restoredArea,
       chapter2,
       chapter3,
@@ -633,11 +687,24 @@ export function loadGame(): State {
       inventory: [...new Set<string>(value.inventory)],
       scene: savedScene,
       sceneIndex,
-      position:
-        value.position &&
-        Number.isFinite(value.position.x) &&
-        Number.isFinite(value.position.y) &&
-        walkable(value.position, getWorld(restoredArea, chapter3.npc, chapter3.npcBoarded))
+      position: view3d
+        ? toWorldPosition(view3d.position, restoredArea)
+        : value.position &&
+            Number.isFinite(value.position.x) &&
+            Number.isFinite(value.position.y) &&
+            walkable(
+              value.position,
+              getWorld(
+                restoredArea,
+                chapter3.npc,
+                chapter3.npcBoarded,
+                chapter2.power,
+                chapter3.doorOpen,
+                chapter4,
+                chapter5,
+                chapter6,
+              ),
+            )
           ? value.position
           : worlds[restoredArea].spawn,
     }

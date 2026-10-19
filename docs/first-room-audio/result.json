@@ -1,0 +1,12 @@
+{
+  "ambientRms": 0.0032528603003685688,
+  "mutedRms": 0,
+  "oneContext": true,
+  "stepsOnTravel": true,
+  "noStepsAtRestOrMenu": true,
+  "doorOnUnlock": true,
+  "chapter2Silent": true,
+  "settingsPersist": true,
+  "mobileTouchUnlockAndMute": true,
+  "recordingMime": "audio/webm;codecs=opus"
+}

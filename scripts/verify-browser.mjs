@@ -9,40 +9,46 @@ import { join } from 'node:path'
 import assert from 'node:assert/strict'
 import { verifyAiChat } from './verify-ai-chat.mjs'
 import { verifyChapter5 } from './verify-chapter5.mjs'
-const base = 'http://127.0.0.1:5175',
-  debug = 'http://127.0.0.1:9223'
+const browserPort = process.env.BROWSER_PORT || '5175'
+const debugPort = process.env.BROWSER_DEBUG_PORT || '9223'
+const base = `http://127.0.0.1:${browserPort}`,
+  debug = `http://127.0.0.1:${debugPort}`
 const chrome =
   process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 await access(chrome)
 const artifacts = await mkdtemp(join(tmpdir(), 'last-transfer-ch5-'))
 const backendJar = 'backend/target/last-transfer-api-0.0.1-SNAPSHOT.jar'
-const chatServer = spawn(
-  process.env.JAVA_HOME ? join(process.env.JAVA_HOME, 'bin', 'java') : 'java',
-  process.env.KEYLESS_CHAT_CHECK || (process.env.FIRST_PERSON_CHECK && !process.env.MOCK_CHAT_CHECK)
-    ? ['-jar', backendJar]
-    : [
-        '-Dloader.main=com.lasttransfer.fixture.BrowserFixtureApplication',
-        '-Dloader.path=backend/target/test-classes',
-        '-cp',
-        backendJar,
-        'org.springframework.boot.loader.launch.PropertiesLauncher',
-      ],
-  {
-    stdio: 'ignore',
-    env: {
-      ...process.env,
-      OPENAI_API_KEY: '',
-      AI_PROVIDER: 'openai',
-      API_PORT: '3301',
-      API_HOST: '127.0.0.1',
-      CHAT_ALLOWED_ORIGINS: 'http://127.0.0.1:5175',
-      CHAT_SECURE_COOKIE: 'false',
-    },
-  },
-)
+const frontendOnly = !!process.env.FIRST_PERSON_CHECK && !process.env.MOCK_CHAT_CHECK
+const chatServer = frontendOnly
+  ? null
+  : spawn(
+      process.env.JAVA_HOME ? join(process.env.JAVA_HOME, 'bin', 'java') : 'java',
+      process.env.KEYLESS_CHAT_CHECK ||
+        (process.env.FIRST_PERSON_CHECK && !process.env.MOCK_CHAT_CHECK)
+        ? ['-jar', backendJar]
+        : [
+            '-Dloader.main=com.lasttransfer.fixture.BrowserFixtureApplication',
+            '-Dloader.path=backend/target/test-classes',
+            '-cp',
+            backendJar,
+            'org.springframework.boot.loader.launch.PropertiesLauncher',
+          ],
+      {
+        stdio: 'ignore',
+        env: {
+          ...process.env,
+          OPENAI_API_KEY: '',
+          AI_PROVIDER: 'openai',
+          API_PORT: '3301',
+          API_HOST: '127.0.0.1',
+          CHAT_ALLOWED_ORIGINS: base,
+          CHAT_SECURE_COOKIE: 'false',
+        },
+      },
+    )
 const server = spawn(
   process.execPath,
-  ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', '5175', '--strictPort'],
+  ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', browserPort, '--strictPort'],
   {
     stdio: 'ignore',
     env: {
@@ -60,7 +66,7 @@ const browser = spawn(
     '--enable-unsafe-swiftshader',
     '--no-first-run',
     '--no-default-browser-check',
-    '--remote-debugging-port=9223',
+    `--remote-debugging-port=${debugPort}`,
     `--user-data-dir=${join(artifacts, 'profile')}`,
     'about:blank',
   ],
@@ -81,7 +87,7 @@ try {
     }
     throw new Error(`Could not start ${url}`)
   }
-  await ready('http://127.0.0.1:3301/api/chat/status')
+  if (!frontendOnly) await ready('http://127.0.0.1:3301/api/chat/status')
   await ready(base)
   for (const path of [
     '/backend/src/main/resources/private/characters.json',
@@ -90,6 +96,8 @@ try {
     '/docs/chapter5-author.md',
     '/.env.example',
   ]) {
+    // Java build output is absent in frontend-only checks; existing private files are still checked.
+    if (frontendOnly && path.includes('/target/')) continue
     const response = await fetch(base + path)
     assert.equal(response.status, 403, `Private development file exposed: ${path}`)
   }
@@ -100,6 +108,9 @@ try {
   const pending = new Map(),
     errors = []
   let aiRequests = 0
+  const consoleErrors = [],
+    assetFailures = [],
+    requestUrls = new Map()
   ws.addEventListener('message', (event) => {
     const message = JSON.parse(event.data)
     if (
@@ -114,6 +125,27 @@ try {
       else job.resolve(message.result)
     }
     if (message.method === 'Runtime.exceptionThrown') errors.push(message.params.exceptionDetails)
+    if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error')
+      consoleErrors.push(message.params.args.map((x) => x.value ?? x.description).join(' '))
+    if (message.method === 'Network.requestWillBeSent')
+      requestUrls.set(message.params.requestId, message.params.request.url)
+    if (
+      message.method === 'Network.responseReceived' &&
+      message.params.response.url.includes('/art/') &&
+      message.params.response.status >= 400
+    )
+      assetFailures.push({
+        url: message.params.response.url,
+        status: message.params.response.status,
+      })
+    if (
+      message.method === 'Network.loadingFailed' &&
+      requestUrls.get(message.params.requestId)?.includes('/art/')
+    )
+      assetFailures.push({
+        url: requestUrls.get(message.params.requestId),
+        error: message.params.errorText,
+      })
   })
   function send(method, params = {}) {
     return new Promise((resolve, reject) => {
@@ -193,12 +225,12 @@ try {
   async function walkTo(id) {
     for (let attempt = 0; attempt < 12; attempt++) {
       const route = await evaluate(`(async()=>{
-        const m=await import('/src/game/world.ts'),s=JSON.parse(localStorage.getItem('last-transfer-save-v1')),w=m.getWorld(s.area,s.chapter3?.npc,s.chapter3?.npcBoarded),p=s.position;
-        if(m.nearestEntity(p,w)?.id===${JSON.stringify(id)})return [];
+        const m=await import('/src/game/world.ts'),s=JSON.parse(localStorage.getItem('last-transfer-save-v1')),w=m.getWorld(s.area,s.chapter3?.npc,s.chapter3?.npcBoarded,s.chapter2?.power,s.chapter3?.doorOpen,s.chapter4,s.chapter5,s.chapter6),p=s.position;
+        if(m.nearestEntity(p,w)?.id===${JSON.stringify(id)}&&(${JSON.stringify(id)}!=='train-phone'||Math.hypot(p.x-w.entities.find(e=>e.id==='train-phone').x-26.5,p.y-w.entities.find(e=>e.id==='train-phone').y-17)<60))return [];
         const start={x:Math.round(p.x/10)*10,y:Math.round(p.y/10)*10};
         const queue=[start],seen=new Set(),parents=new Map();let goal;
         for(let i=0;i<queue.length;i++){const q=queue[i],k=q.x+','+q.y;if(seen.has(k))continue;seen.add(k);
-          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=Math.hypot(q.x-Math.max(entity.x,Math.min(q.x,entity.x+entity.w)),q.y-Math.max(entity.y,Math.min(q.y,entity.y+entity.h)));if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&distance<40){goal=q;break}
+          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=Math.hypot(q.x-Math.max(entity.x,Math.min(q.x,entity.x+entity.w)),q.y-Math.max(entity.y,Math.min(q.y,entity.y+entity.h)));if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&distance<40&&(entity.id!=='train-phone'||Math.hypot(q.x-entity.x-26.5,q.y-entity.y-17)<58)){goal=q;break}
           for(const d of [{x:10,y:0},{x:-10,y:0},{x:0,y:10},{x:0,y:-10}]){const v={x:q.x+d.x,y:q.y+d.y},vk=v.x+','+v.y;if(m.walkable(v,w)&&!seen.has(vk)&&!parents.has(vk)){parents.set(vk,q);queue.push(v)}}}
         if(!goal)throw Error('No route to '+${JSON.stringify(id)});
         const path=[goal];while(path.at(-1).x!==start.x||path.at(-1).y!==start.y){path.push(parents.get(path.at(-1).x+','+path.at(-1).y));if(path.length>2000)throw Error('Invalid path')}
@@ -872,6 +904,14 @@ try {
       'PASS chapter 3: survivor direction/invite/wait, train A return, questions, approval retry, signal/resume, call, boarding/company, ending persistence, mobile layout',
     )
   }
+  if (process.env.FIRST_PERSON_CHECK === 'episode') {
+    await writeFile(
+      'docs/episode1-3d-integration/network.json',
+      JSON.stringify({ aiRequests, errors, consoleErrors, assetFailures }, null, 2),
+    )
+    assert.deepEqual(consoleErrors, [])
+    assert.deepEqual(assetFailures, [])
+  }
   assert.deepEqual(errors, [])
   if (!process.env.MOCK_CHAT_CHECK) assert.equal(aiRequests, 0, 'AI requests must remain disabled')
   console.log(
@@ -892,5 +932,5 @@ try {
   ws?.close()
   browser.kill('SIGTERM')
   server.kill('SIGTERM')
-  chatServer.kill('SIGTERM')
+  chatServer?.kill('SIGTERM')
 }

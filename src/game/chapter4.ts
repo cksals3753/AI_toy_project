@@ -236,3 +236,16 @@ export const normalizeChapter4 = (value: unknown): Chapter4 => {
         : defaultChapter4.destination,
   }
 }
+
+export const trainPanelStatus = (c: Chapter4) =>
+  !c.links.power
+    ? '패널 꺼짐 / 객실 전원 없음'
+    : !c.links.relay
+      ? '연결 오류 / CAB-R01 없음'
+      : c.links.external
+        ? '외부 명령 우선 / 수동 요청 대기'
+        : c.arrived
+          ? `${c.destination} — 비상 정차`
+          : c.sync === 'accepted'
+            ? '정차 요청 수락 / 다음 안전 정차 지점 진입'
+            : '수동 정차 요청 가능'

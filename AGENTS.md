@@ -2,7 +2,7 @@
 
 ## 개요와 현재 범위
 
-마지막 환승은 모바일 우선 반응형 아포칼립스 생존 웹게임이다. 가상의 신도림역을 배경으로 직접 이동·현장 조사·초상화 대화·단톡방·퍼즐을 결합한다. React 19, TypeScript, Vite, 첫 방 Three.js(WebGL2), 이후 Canvas를 사용한다. 선택적 AI 자유 대화는 Java 21 / Spring Boot 4.1.1 / Maven Wrapper의 별도 `backend/`가 담당한다.
+마지막 환승은 모바일 우선 반응형 아포칼립스 생존 웹게임이다. 가상의 신도림역을 배경으로 직접 이동·현장 조사·초상화 대화·단톡방·퍼즐을 결합한다. React 19, TypeScript, Vite, 챕터 1~6 Three.js(WebGL2), 에피소드 결과 React UI를 사용한다. 선택적 AI 자유 대화는 Java 21 / Spring Boot 4.1.1 / Maven Wrapper의 별도 `backend/`가 담당한다.
 
 현재 플레이 범위는 첫 방부터 챕터 6의 지상 대피소 도착·에피소드 1 완료까지이며 상세 내용과 제약은 [README](README.md)를 따른다. 외부 AI 자유 대화는 챕터 2만 지원한다. 다음 챕터, 전투, 로그인, DB, 전체 게임 상태 서버 이전, 외부 배포는 구현 완료로 간주하지 않는다. 스크립트 기본 플레이에는 AI 키나 서버가 필요하지 않다.
 
@@ -22,7 +22,7 @@
 
 ## 구현과 저장
 
-- 첫 방은 `ExplorationView.tsx`에서 지연 로드한 `FirstPersonRoom.tsx`를 사용한다. `firstRoomScene.ts`는 표현만 담당하며 `world.ts` 좌표·충돌과 기존 reducer 판정을 재사용한다. 새 3D 에셋은 `firstPerson.ts`에 등록하고 `public/art/README.md`에 출처·라이선스·수정 여부를 기록한다. 나머지 챕터를 요청 없이 3D로 변환하지 않는다. `ExplorationHud.tsx`는 공통 작은 HUD를 제공한다. 첫 방의 `is-immersive` 가용 화면 레이아웃과 다른 챕터의 2D 레이아웃을 구분하고 HUD·메뉴·safe area를 크기별로 확인한다. 상세 조작은 첫 안내/도움말에 두며 복귀 안내는 작은 문구로 유지한다. `ohModel.ts`는 첫 방 NPC 외형·대기 애니메이션만 담당하며 인물 설정과 판정을 바꾸지 않는다.
+- 첫 방과 챕터 2~6는 `ExplorationView.tsx`에서 지연 로드한 `FirstPersonExploration.tsx`를 공유한다(`FirstPersonRoom.tsx`는 호환 export). `firstRoomScene.ts`·`chapter2Scene.ts`·`chapter3Scene.ts`·`trainScene.ts`·`moonScene.ts`·`finalScene.ts`는 표현만 담당하며 `world.ts` 좌표·충돌과 기존 reducer 판정을 재사용한다. 새 3D 에셋은 `firstPerson.ts`에 등록하고 `public/art/README.md`에 출처·라이선스·수정 여부를 기록한다. 나머지 챕터를 요청 없이 3D로 변환하지 않는다. `ExplorationHud.tsx`는 공통 작은 HUD를 제공한다. 챕터 1~6의 `is-immersive` 가용 화면 레이아웃과 2D 대체 렌더러·결과 UI 레이아웃을 구분하고 HUD·메뉴·safe area를 크기별로 확인한다. 상세 조작은 첫 안내/도움말에 두며 복귀 안내는 작은 문구로 유지한다. `ohModel.ts`는 기존 오반장·생존자의 모델 로딩·대기 애니메이션·좌석 자세를 담당하며 인물 설정과 판정을 바꾸지 않는다.
 - 탐색 키는 `explorationInput.ts`의 물리 `event.code`를 사용하고 입력창·contenteditable·반복 입력을 구분한다. 키·버튼·터치는 같은 선택 대상과 상호작용 함수를 사용한다. 첫 방의 짧은 조사는 비차단 현장 기록으로 표시한다. 3D 대화·메뉴·퍼즐은 마지막 사용자 입력에서 React 상태를 반영한 뒤 남은 UI가 없을 때만 잠금 복귀를 한 번 요청한다. 거부·Esc 해제 후 자동 재시도하지 않으며 화면의 복귀 클릭은 상호작용이나 이동에 재사용하지 않는다. 모바일은 잠금 없이 UI 종료 후 복구한다. blur·잠금 해제·UI 전환 시 이동과 드래그 입력을 비운다.
 - 메뉴 단축키는 `App.tsx`에서 물리 Tab·KeyI·Escape로 처리한다. 탐색 영역 또는 열린 휴대폰·소지품 메뉴의 포커스에서만 가로채고 입력창·contenteditable·다른 페이지 요소·대화·퍼즐·전환 중에는 메뉴를 열지 않는다. Shift+Tab은 포커스 이동으로 유지한다. 반복 키는 눌림 상태와 repeat로 차단한다. 메뉴 전환은 일시정지 상태를 유지하고 닫을 때만 기존 복귀 함수를 호출한다. 메뉴를 떠날 때 기존 읽음 처리를 보존하며 PC에만 키 안내를 표시한다.
 - 모바일 터치와 PC 키보드·마우스를 함께 고려한다. 대화·메뉴·퍼즐 중에는 기존 paused 입력 제어를 유지한다.
@@ -53,6 +53,9 @@
 | `npm run backend:test`             | Java 단위·로컬 HTTP 테스트                 |
 | `npm run backend:build`            | Java 테스트·실행 JAR 생성                  |
 | `npm run test:browser`             | Spring 모의 제공자·Vite·Chrome 플레이 검증 |
+| `npm run test:browser:first`       | Java 없이 공통 3D 탐색·챕터 2 검증         |
 | `npm run format:check`             | Prettier 대상 파일 형식 검사               |
 
 JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에는 로컬 Chrome이 필요하다. 기본 `test:browser`는 기존 2D로 챕터 1~6 회귀, `FIRST_PERSON_CHECK=1 npm run test:browser`는 3D 첫 방과 터치, `FIRST_PERSON_CHECK=resume npm run test:browser`는 비차단 조사·UI 종료 복귀·Esc·잠금 거부 후 클릭 복귀를, `E_KEY_CHECK=after npm run test:browser`는 한글 E키 입력을 검증한다. `FIRST_PERSON_CHECK=shortcuts npm run test:browser`는 메뉴 단축키·입력/포커스 범위·2D 구간을 검사한다. `VISUAL_LABEL=after FIRST_PERSON_CHECK=visual npm run test:browser`는 화면 크기·모델 로딩·전후 캡처와 RAF/드로콜 측정을 수행한다. 결과는 `docs/visual-review/`에 두고 실기기 GPU 성능과 구분한다. 헤드리스 3D는 SwiftShader를 사용할 수 있으며 실제 GPU·모바일 성능 검증과 구분한다. Java 소스는 Prettier 대상이 아니다. 변경 범위에 맞는 검사와 플레이 확인을 수행하며 분기·복구·저장·이어하기를 중점 검증한다. 브라우저 모바일 에뮬레이션과 실제 기기 검증을 구분한다. 수행하지 않은 검사를 통과했다고 보고하지 않는다. 완료 보고에는 변경 내용·검증 결과·미확인 항목·제약을 포함하고 동작·실행 방법이 바뀌면 관련 문서를 갱신한다.
+
+챕터 2 3D 기록은 [구현·플레이·캡처](docs/chapter2-3d/README.md)를 참조한다. `FIRST_PERSON_CHECK=chapter2 npm run test:browser:first`는 첫 방에서 실제로 이어지는 3D 챕터 2 검증이다. `view3d`는 버전·현재 구역·렌더러 x/z·yaw/pitch를 저장하고 `world.ts` 충돌로 검증한다. 과거 챕터 2 2D 저장은 진행을 유지하고 안전 시작점으로 이동하며, 신규 3D 입력·판정·저장을 장별로 복제하지 않는다. 첫 방 전용/3D 검증은 `test:browser:first`로 Java 없이 실행할 수 있다.

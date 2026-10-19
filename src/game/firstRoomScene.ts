@@ -1,11 +1,13 @@
+import { createSceneTarget } from './sceneInteraction'
 import * as T from 'three'
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
-import { addMaintenanceDetails } from './firstRoomDetails'
+import { addFacilityFace } from './firstRoomFacilities'
+import { addMaintenanceDetails, addAftermathDetails } from './firstRoomDetails'
 import { loadOhModel } from './ohModel'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { firstRoomAssets, FIRST_PERSON_SCALE as SCALE } from './firstPerson'
 import { room } from './world'
-import type { Entity, Rect } from './world'
+import type { Rect } from './world'
 
 export function createFirstRoomScene(onAssetError: () => void) {
   const scene = new T.Scene()
@@ -76,8 +78,8 @@ export function createFirstRoomScene(onAssetError: () => void) {
     box({ x: n, y: 549, w: 2, h: 2 }, 3.4, dark)
   }
   box({ x: 44, y: 60, w: 872, h: 500 }, 0.12, dark, 3.4)
-  scene.add(new T.HemisphereLight('#a8c7dd', '#252c30', 1.15))
-  const light = new T.PointLight('#accde7', 42, 17, 2)
+  scene.add(new T.HemisphereLight('#a8c7dd', '#343830', 1.1))
+  const light = new T.PointLight('#accde7', 32, 17, 2)
   light.position.set(0, 2.8, 1)
   scene.add(light)
   for (const px of [180, 780]) {
@@ -89,7 +91,15 @@ export function createFirstRoomScene(onAssetError: () => void) {
   const cold = new T.PointLight('#8fb9dd', 12, 8, 2)
   cold.position.set(5, 2.6, -2)
   scene.add(cold)
+  const mapLight = new T.PointLight('#d9dfba', 9, 5, 2)
+  mapLight.position.set(0, 2.3, -3.3)
+  const exitLight = new T.PointLight('#dfb881', 9, 6, 2)
+  exitLight.position.set(-7.2, 2.1, -0.7)
+  const faceFill = new T.PointLight('#d4d4bf', 5, 6, 2)
+  faceFill.position.set(-4.8, 2.15, 3.1)
+  scene.add(mapLight, exitLight, faceFill)
   addMaintenanceDetails(scene, box)
+  addAftermathDetails(scene, box)
   const loader = new GLTFLoader()
   let westDoor: T.Object3D | null = null
   let westCover: T.Mesh | null = null
@@ -140,7 +150,9 @@ export function createFirstRoomScene(onAssetError: () => void) {
   }
   for (const [i, rect] of room.obstacles.entries()) {
     if (i < 2) {
-      model(firstRoomAssets.bench, rect, 0.85)
+      const visualRect =
+        i === 1 ? { ...rect, x: rect.x + 4, y: rect.y + 3, w: rect.w - 8, h: rect.h - 6 } : rect
+      model(firstRoomAssets.bench, visualRect, 0.85, i === 1 ? 0.075 : 0)
       blockers.push(box(rect, 0.42, new T.MeshBasicMaterial({ visible: false })))
     } else blockers.push(box(rect, 3.4, steel))
   }
@@ -201,8 +213,8 @@ export function createFirstRoomScene(onAssetError: () => void) {
     } else if (entity.id === 'cabinet') {
       model(firstRoomAssets.cabinet, rect, height)
       sign(
-        '비상 물품\n가까이에서 조사',
-        { x: entity.x + entity.w / 2, y: entity.y + entity.h + 1, w: 65, h: 24 },
+        '비상 물품 · EQ-03',
+        { x: entity.x + entity.w / 2, y: entity.y + entity.h + 1, w: 43, h: 10 },
         1.3,
       )
     } else if (entity.kind === 'npc') {
@@ -213,13 +225,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
       )
     } else {
       box(rect, height, entity.id === 'panel' ? steel : dark)
-      sign(
-        entity.id === 'panel' ? '침수 감지\n기록 확인' : '역 안내도\n현 위치 · 정비실',
-        { x: entity.x + entity.w / 2, y: entity.y + entity.h + 1, w: entity.w - 5, h: 45 },
-        1.15,
-        0,
-        entity.color,
-      )
+      addFacilityFace(scene, entity, resources)
       if (entity.id === 'panel')
         box({ x: entity.x + 8, y: entity.y + entity.h + 1, w: 8, h: 2 }, 0.08, lamp, 1.55)
     }
@@ -259,21 +265,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
     }
     geometries.forEach((geometry) => geometry.dispose())
   }
-  const ray = new T.Raycaster()
-  function target(camera: T.Camera): Entity | null {
-    ray.setFromCamera(new T.Vector2(0, 0), camera)
-    const hit = ray.intersectObjects([...interactables, ...blockers], false)[0]
-    if (!hit || hit.distance > 2.1 || !hit.object.userData.entityId) return null
-    const entity = room.entities.find((entity) => entity.id === hit.object.userData.entityId)
-    if (!entity) return null
-    const px = camera.position.x * SCALE + 480,
-      py = camera.position.z * SCALE + 310
-    const distance = Math.hypot(
-      px - Math.max(entity.x, Math.min(px, entity.x + entity.w)),
-      py - Math.max(entity.y, Math.min(py, entity.y + entity.h)),
-    )
-    return distance < 60 ? entity : null
-  }
+  const target = createSceneTarget(room, SCALE, interactables, blockers)
   function highlight(id: string | null) {
     highlights.forEach((mesh, key) => {
       mesh.visible = key === id
@@ -293,6 +285,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
     })
   }
   return {
+    ready: oh?.ready ?? Promise.resolve(),
     scene,
     animate(open: boolean, dt: number, reducedMotion: boolean) {
       oh?.update(dt, reducedMotion)

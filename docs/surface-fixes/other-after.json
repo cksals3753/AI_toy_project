@@ -1,0 +1,115 @@
+{
+  "label": "other-after",
+  "views": [
+    {
+      "name": "oh-first",
+      "position": {
+        "x": 220,
+        "y": 430
+      },
+      "yaw": 0,
+      "pitch": -0.2,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.07500000000000001",
+        "pitch": "-0.2",
+        "drawCalls": "31",
+        "triangles": "3918",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "first",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "oh-hall",
+      "position": {
+        "x": 745,
+        "y": 320
+      },
+      "yaw": 0,
+      "pitch": -0.2,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.07500000000000001",
+        "pitch": "-0.2",
+        "drawCalls": "14",
+        "triangles": "3340",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-mullae",
+      "position": {
+        "x": 615,
+        "y": 425
+      },
+      "yaw": 0,
+      "pitch": -0.2,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "0.07500000000000001",
+        "pitch": "-0.2",
+        "drawCalls": "36",
+        "triangles": "1968",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "moonPlatform",
+        "lightsOn": "false",
+        "doorOpen": "false",
+        "npcCount": "1",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    },
+    {
+      "name": "npc-shelter",
+      "position": {
+        "x": 615,
+        "y": 260
+      },
+      "yaw": 3.141592653589793,
+      "pitch": -0.25,
+      "renderer": {
+        "engine": "three.js r186",
+        "yaw": "3.2159073464102073",
+        "pitch": "-0.25",
+        "drawCalls": "25",
+        "triangles": "1882",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "shelter",
+        "lightsOn": "false",
+        "doorOpen": "true",
+        "npcCount": "1",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "false"
+      }
+    }
+  ],
+  "npcReentry": false,
+  "npcResume": false
+}

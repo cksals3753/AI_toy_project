@@ -1,3 +1,6 @@
+import type { Chapter6 } from './chapter6'
+import type { Chapter5 } from './chapter5'
+import type { Chapter4 } from './chapter4'
 export type Point = { x: number; y: number }
 export type Rect = Point & { w: number; h: number }
 export type Entity = Rect & {
@@ -5,6 +8,7 @@ export type Entity = Rect & {
   label: string
   kind: 'object' | 'npc' | 'door'
   color: string
+  passable?: boolean
 }
 export type Area =
   | 'first'
@@ -234,10 +238,18 @@ export const stairs: World = {
 }
 export const platform: World = {
   ...room,
-  spawn: { x: 450, y: 240 },
+  spawn: { x: 140, y: 240 },
   obstacles: [
-    { x: 110, y: 75, w: 300, h: 80 },
-    { x: 495, y: 483, w: 350, h: 65 },
+    { x: 110, y: 75, w: 85, h: 80 },
+    { x: 290, y: 75, w: 120, h: 80 },
+    { x: 195, y: 75, w: 95, h: 30 },
+    { x: 495, y: 483, w: 105, h: 65 },
+    { x: 695, y: 483, w: 150, h: 65 },
+    { x: 600, y: 524, w: 95, h: 24 },
+    { x: 54, y: 155, w: 141, h: 6 },
+    { x: 290, y: 155, w: 616, h: 6 },
+    { x: 54, y: 477, w: 546, h: 6 },
+    { x: 695, y: 477, w: 211, h: 6 },
     { x: 250, y: 300, w: 34, h: 50 },
     { x: 440, y: 315, w: 115, h: 38 },
     { x: 630, y: 210, w: 34, h: 48 },
@@ -379,7 +391,7 @@ const trainEntity = (
 export const trainB: World = {
   ...room,
   spawn: { x: 450, y: 420 },
-  obstacles: trainSeats,
+  obstacles: [...trainSeats, { x: 600, y: 330, w: 30, h: 30 }],
   entities: [
     trainEntity('train-phone', '좌석 01 · 좌석 아래 휴대폰', 190, 270),
     trainEntity('train-route', '객실 노선 표시기', 430, 100),
@@ -414,6 +426,8 @@ export const moonPlatform: World = {
   obstacles: [
     { x: 130, y: 200, w: 120, h: 40 },
     { x: 510, y: 240, w: 35, h: 45 },
+    { x: 350, y: 544, w: 80, h: 5 },
+    { x: 510, y: 544, w: 190, h: 5 },
   ],
   entities: [
     trainEntity('moon-warning', '전광판 · 차단문 경고', 430, 100),
@@ -465,6 +479,8 @@ export const maintenance = finalRoom([
   trainEntity('final-window', 'G-01 점검창', 700, 100),
   trainEntity('final-review', '현장 기록 확인대', 150, 320),
   trainEntity('final-control', '문·승인·전원 제어반', 740, 340),
+  trainEntity('final-s01', 'S-01 · 지상 대피소 정문', 100, 500, 'door'),
+  trainEntity('final-g01', 'G-01 · 등록 확인 구역', 780, 500, 'door'),
 ])
 export const recovery = finalRoom([
   trainEntity('recovery-sealed', '내려온 진입 차단문', 430, 510, 'door'),
@@ -474,6 +490,7 @@ export const recovery = finalRoom([
   trainEntity('recovery-bolt', '해치 빗장', 740, 340),
   trainEntity('recovery-hatch', 'S-02 비상 해치', 150, 340, 'door'),
 ])
+export const shelterArrivals = { front: { x: 450, y: 450 }, side: { x: 160, y: 450 } } as const
 export const shelter = finalRoom([
   trainEntity('shelter-sign', '지상 대피소 내부 표식', 180, 100),
   trainEntity('shelter-arrival', '대피소 내부 도착 확인대', 700, 100),
@@ -495,16 +512,160 @@ export const worlds: Record<Area, World> = {
   moonBooth,
   moonHolding,
 }
-export function getWorld(area: Area, npc = 'unseen', npcBoarded = false): World {
+export function getWorld(
+  area: Area,
+  npc = 'unseen',
+  npcBoarded = false,
+  power: readonly string[] = [],
+  doorOpen = false,
+  chapter4?: Pick<Chapter4, 'started' | 'arrived'>,
+  chapter5?: Pick<Chapter5, 'routeOpen' | 'registration'>,
+  chapter6?: Pick<Chapter6, 'settings' | 'route' | 'drained' | 'boltOpen'>,
+): World {
+  if (chapter6 && ['maintenance', 'recovery', 'shelter'].includes(area)) {
+    const base = worlds[area]
+    const entities = base.entities.map((e) => {
+      const passable =
+        e.id === 'final-s01'
+          ? chapter6.settings?.door === 'S-01'
+          : e.id === 'final-g01'
+            ? chapter6.settings?.door === 'G-01'
+            : e.id === 'recovery-hatch'
+              ? chapter6.boltOpen
+              : undefined
+      return passable === undefined ? e : { ...e, passable }
+    })
+    return {
+      ...base,
+      spawn:
+        area === 'shelter' && chapter6.route === 'automatic' ? shelterArrivals.side : base.spawn,
+      obstacles: [
+        ...base.obstacles,
+        ...(area === 'recovery' || area === 'shelter' ? [{ x: 600, y: 330, w: 30, h: 30 }] : []),
+        ...entities
+          .filter((e) => e.kind === 'door' && 'passable' in e && e.passable)
+          .flatMap((e) => [
+            { x: e.x, y: e.y, w: 5, h: e.h },
+            { x: e.x + e.w - 5, y: e.y, w: 5, h: e.h },
+          ]),
+      ],
+      entities: [
+        ...entities,
+        ...(npcBoarded
+          ? [
+              {
+                id: 'survivor',
+                label: area === 'recovery' ? '동행 생존자 · 안전 대기' : '동행 생존자',
+                kind: 'npc' as const,
+                x: area === 'recovery' && chapter6.boltOpen ? 565 : 600,
+                y: area === 'recovery' && chapter6.boltOpen ? 430 : 330,
+                w: 30,
+                h: 30,
+                color: '#ba947b',
+              },
+            ]
+          : []),
+      ],
+    }
+  }
+  if (chapter5 && ['moonPlatform', 'moonBooth', 'moonHolding'].includes(area)) {
+    const base = worlds[area]
+    const entities = base.entities.map((e) => {
+      const passable =
+        e.id === 'moon-shoes'
+          ? true
+          : e.id === 'moon-maintenance'
+            ? chapter5.routeOpen
+            : e.id === 'moon-booth-door' || (area === 'moonBooth' && e.id === 'moon-platform-door')
+              ? true
+              : area === 'moonHolding' && e.id === 'moon-platform-door'
+                ? chapter5.registration === 'cancelled'
+                : undefined
+      return passable === undefined ? e : { ...e, passable }
+    })
+    return {
+      ...base,
+      obstacles: [
+        ...base.obstacles,
+        ...entities
+          .filter((e) => e.kind === 'door' && 'passable' in e && e.passable)
+          .flatMap((e) => [
+            { x: e.x, y: e.y, w: 5, h: e.h },
+            { x: e.x + e.w - 5, y: e.y, w: 5, h: e.h },
+          ]),
+      ],
+      entities: [
+        ...entities,
+        ...(npcBoarded
+          ? [
+              {
+                id: 'survivor',
+                label: '동행 생존자',
+                kind: 'npc' as const,
+                x: 600,
+                y: 330,
+                w: 30,
+                h: 30,
+                color: '#ba947b',
+              },
+            ]
+          : []),
+      ],
+    }
+  }
+  if (area === 'hall' && power.includes('gate'))
+    return {
+      ...hall,
+      entities: hall.entities.map((e) => (e.id === 'gate' ? { ...e, passable: true } : e)),
+      obstacles: [
+        ...hall.obstacles,
+        { x: 856, y: 255, w: 48, h: 12 },
+        { x: 856, y: 338, w: 48, h: 12 },
+      ],
+    }
   if (area === 'platform')
     return {
       ...platform,
       entities: platform.entities.map((e) =>
-        e.id === 'survivor' && ['helped', 'invited', 'waiting'].includes(npc)
-          ? { ...e, x: 610, y: 315, label: '다친 생존자 · 대기 의자' }
-          : e,
+        e.id === 'train-b' && doorOpen
+          ? { ...e, passable: true, label: 'B-04 / ◇-2 · 문 열림' }
+          : e.id === 'survivor' && ['helped', 'invited', 'waiting'].includes(npc)
+            ? { ...e, x: 610, y: 315, label: '다친 생존자 · 대기 의자' }
+            : e,
       ),
     }
+  if (chapter4?.started && ['trainRear', 'trainFront'].includes(area)) return worlds[area]
+  if (area === 'trainB' && chapter4?.started) {
+    const base = worlds.trainB
+    return {
+      ...base,
+      entities: [
+        ...base.entities.map((e) =>
+          e.id === 'train-exit'
+            ? {
+                ...e,
+                passable: chapter4.arrived,
+                label: chapter4.arrived ? '중앙 출입문 · 문래역 하차 확인' : e.label,
+              }
+            : e,
+        ),
+        ...(npcBoarded
+          ? [
+              {
+                id: 'survivor',
+                label: '함께 탄 생존자 · 좌석',
+                kind: 'npc' as const,
+                x: chapter4.arrived ? 565 : 600,
+                y: chapter4.arrived ? 450 : 330,
+                w: 30,
+                h: 30,
+                color: '#ba947b',
+              },
+            ]
+          : []),
+      ],
+    }
+  }
   if (
     [
       'trainB',
@@ -551,7 +712,9 @@ export function walkable(p: Point, world: World = room) {
     p.x <= 906 - room.radius &&
     p.y >= 70 + room.radius &&
     p.y <= 550 - room.radius &&
-    ![...world.obstacles, ...world.entities].some((rect) => overlaps(p, rect))
+    ![...world.obstacles, ...world.entities.filter((e) => !('passable' in e && e.passable))].some(
+      (rect) => overlaps(p, rect),
+    )
   )
 }
 // Resolve axes separately for sliding; substeps prevent tunnelling after slow frames.

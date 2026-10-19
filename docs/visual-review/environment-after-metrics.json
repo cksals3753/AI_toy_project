@@ -1,0 +1,198 @@
+{
+  "label": "environment-after",
+  "environment": "Chrome headless / SwiftShader, DPR 1; development build. RAF is presentation timing, not GPU frame time.",
+  "views": [
+    {
+      "name": "desktop",
+      "frames": 241,
+      "meanMs": 16.66597510373444,
+      "p95Ms": 16.700000000000728,
+      "drawCalls": 31,
+      "triangles": 3938,
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 800
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "position": {
+        "x": 480,
+        "y": 460
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    {
+      "name": "mobile",
+      "frames": 240,
+      "meanMs": 16.66625,
+      "p95Ms": 16.800000000000182,
+      "drawCalls": 16,
+      "triangles": 3344,
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "position": {
+        "x": 480,
+        "y": 460
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    {
+      "name": "layout-844x390",
+      "canvas": {
+        "width": 844,
+        "height": 390
+      },
+      "width": 844,
+      "height": 390,
+      "buttons": [
+        {
+          "text": "⌖ 다음 목표−",
+          "x": 31,
+          "y": 55,
+          "right": 265,
+          "bottom": 88
+        },
+        {
+          "text": "?",
+          "x": 754,
+          "y": 14,
+          "right": 790,
+          "bottom": 54
+        },
+        {
+          "text": "⛶",
+          "x": 796,
+          "y": 14,
+          "right": 832,
+          "bottom": 54
+        },
+        {
+          "text": "▯ 휴대폰 [Tab]✦ 새 메시지 4✦ 4",
+          "x": 594.953125,
+          "y": 14,
+          "right": 667.859375,
+          "bottom": 56
+        },
+        {
+          "text": "⊞ 소지품·단서 [I]✓ 0개 확인✓",
+          "x": 673.859375,
+          "y": 14,
+          "right": 738,
+          "bottom": 56
+        }
+      ]
+    },
+    {
+      "name": "layout-360x640",
+      "canvas": {
+        "width": 360,
+        "height": 640
+      },
+      "width": 360,
+      "height": 640,
+      "buttons": [
+        {
+          "text": "⌖ 다음 목표−",
+          "x": 23,
+          "y": 96,
+          "right": 287,
+          "bottom": 129
+        },
+        {
+          "text": "?",
+          "x": 274,
+          "y": 49,
+          "right": 310,
+          "bottom": 84
+        },
+        {
+          "text": "⛶",
+          "x": 316,
+          "y": 49,
+          "right": 352,
+          "bottom": 84
+        },
+        {
+          "text": "▯ 휴대폰 [Tab]✦ 새 메시지 4✦ 4",
+          "x": 122.953125,
+          "y": 49,
+          "right": 193.859375,
+          "bottom": 87
+        },
+        {
+          "text": "⊞ 소지품·단서 [I]✓ 0개 확인✓",
+          "x": 199.859375,
+          "y": 49,
+          "right": 262,
+          "bottom": 87
+        }
+      ]
+    },
+    {
+      "name": "layout-1920x1080",
+      "canvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "text": "⌖ 다음 목표−",
+          "x": 31,
+          "y": 62,
+          "right": 335,
+          "bottom": 95
+        },
+        {
+          "text": "?",
+          "x": 1830,
+          "y": 14,
+          "right": 1866,
+          "bottom": 54
+        },
+        {
+          "text": "⛶",
+          "x": 1872,
+          "y": 14,
+          "right": 1908,
+          "bottom": 54
+        },
+        {
+          "text": "▯ 휴대폰 [Tab]✦ 새 메시지 4✦ 4",
+          "x": 1602.78125,
+          "y": 14,
+          "right": 1715.796875,
+          "bottom": 56
+        },
+        {
+          "text": "⊞ 소지품·단서 [I]✓ 0개 확인✓",
+          "x": 1721.796875,
+          "y": 14,
+          "right": 1814,
+          "bottom": 56
+        }
+      ]
+    }
+  ]
+}

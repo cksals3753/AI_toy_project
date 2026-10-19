@@ -1,0 +1,726 @@
+[
+  {
+    "name": "01-first",
+    "elapsedSeconds": 0,
+    "area": "first",
+    "position": {
+      "x": 480,
+      "y": 460
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": 0,
+        "z": 3
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 100,
+    "battery": 64,
+    "clues": 0,
+    "inventory": [],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 197,
+      "Nodes": 409,
+      "JSHeapUsedSize": 20279076
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "31",
+      "triangles": "3938",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "first",
+      "lightsOn": "false",
+      "doorOpen": "false",
+      "npcCount": "0",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "02-hall",
+    "elapsedSeconds": 14,
+    "area": "hall",
+    "position": {
+      "x": 470,
+      "y": 460
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -0.25,
+        "z": 3.75
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 100,
+    "battery": 51,
+    "clues": 3,
+    "inventory": [
+      "절연 장갑"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 226,
+      "Nodes": 437,
+      "JSHeapUsedSize": 39832908
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "18",
+      "triangles": "3694",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "hall",
+      "lightsOn": "false",
+      "doorOpen": "false",
+      "npcCount": "0",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "03-repeat-0",
+    "elapsedSeconds": 41,
+    "area": "hall",
+    "position": {
+      "x": 215,
+      "y": 478
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -6.625,
+        "z": 4.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 175,
+      "Nodes": 381,
+      "JSHeapUsedSize": 24752296
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "19",
+      "triangles": "3548",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "hall",
+      "lightsOn": "true",
+      "doorOpen": "false",
+      "npcCount": "0",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "true"
+    }
+  },
+  {
+    "name": "03-repeat-1",
+    "elapsedSeconds": 43,
+    "area": "hall",
+    "position": {
+      "x": 215,
+      "y": 478
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -6.625,
+        "z": 4.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 176,
+      "Nodes": 383,
+      "JSHeapUsedSize": 43022304
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "19",
+      "triangles": "3548",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "hall",
+      "lightsOn": "true",
+      "doorOpen": "false",
+      "npcCount": "0",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "true"
+    }
+  },
+  {
+    "name": "03-repeat-2",
+    "elapsedSeconds": 45,
+    "area": "hall",
+    "position": {
+      "x": 215,
+      "y": 478
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -6.625,
+        "z": 4.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 175,
+      "Nodes": 383,
+      "JSHeapUsedSize": 31456096
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "19",
+      "triangles": "3548",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "hall",
+      "lightsOn": "true",
+      "doorOpen": "false",
+      "npcCount": "0",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "true"
+    }
+  },
+  {
+    "name": "04-stairs",
+    "elapsedSeconds": 51,
+    "area": "stairs",
+    "position": {
+      "x": 480,
+      "y": 440
+    },
+    "view3d": {
+      "version": 1,
+      "area": "stairs",
+      "position": {
+        "x": 0,
+        "z": 2.888888888888889
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 235,
+      "Nodes": 458,
+      "JSHeapUsedSize": 32449736
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "7",
+      "triangles": "890",
+      "shadows": "false",
+      "npcModel": "false",
+      "npcIdle": "false",
+      "area": "stairs",
+      "lightsOn": "true",
+      "doorOpen": "false",
+      "npcCount": "0",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "true"
+    }
+  },
+  {
+    "name": "05-platform",
+    "elapsedSeconds": 56,
+    "area": "platform",
+    "position": {
+      "x": 140,
+      "y": 240
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": -6.8,
+        "z": -1.4
+      },
+      "yaw": -1.45,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 204,
+      "Nodes": 414,
+      "JSHeapUsedSize": 46550204
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "-1.4500000000000002",
+      "pitch": "0",
+      "drawCalls": "62",
+      "triangles": "2256",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "platform",
+      "lightsOn": "false",
+      "doorOpen": "false",
+      "npcCount": "0",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "red",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "06-train",
+    "elapsedSeconds": 93,
+    "area": "trainB",
+    "position": {
+      "x": 450,
+      "y": 420
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainB",
+      "position": {
+        "x": -0.6,
+        "z": 2.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 12,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 286,
+      "Nodes": 512,
+      "JSHeapUsedSize": 30436580
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "31",
+      "triangles": "1934",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "trainB",
+      "lightsOn": "true",
+      "doorOpen": "false",
+      "npcCount": "1",
+      "travel": "59.99999999999999",
+      "trainStatus": "외부 명령 우선 / 수동 요청 대기",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "07-mullae",
+    "elapsedSeconds": 134,
+    "area": "moonPlatform",
+    "position": {
+      "x": 450,
+      "y": 420
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonPlatform",
+      "position": {
+        "x": -0.6,
+        "z": 2.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 18,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 231,
+      "Nodes": 476,
+      "JSHeapUsedSize": 63487068
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "32",
+      "triangles": "1918",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "moonPlatform",
+      "lightsOn": "false",
+      "doorOpen": "false",
+      "npcCount": "1",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "08-maintenance",
+    "elapsedSeconds": 176,
+    "area": "maintenance",
+    "position": {
+      "x": 450,
+      "y": 450
+    },
+    "view3d": {
+      "version": 1,
+      "area": "maintenance",
+      "position": {
+        "x": -0.6,
+        "z": 2.8
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 27,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 215,
+      "Nodes": 421,
+      "JSHeapUsedSize": 46664748
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "28",
+      "triangles": "1918",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "maintenance",
+      "lightsOn": "false",
+      "doorOpen": "false",
+      "npcCount": "1",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "09-shelter",
+    "elapsedSeconds": 187,
+    "area": "shelter",
+    "position": {
+      "x": 450,
+      "y": 450
+    },
+    "view3d": {
+      "version": 1,
+      "area": "shelter",
+      "position": {
+        "x": -0.6,
+        "z": 2.8
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 29,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 207,
+      "Nodes": 409,
+      "JSHeapUsedSize": 40061308
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "0",
+      "pitch": "0",
+      "drawCalls": "36",
+      "triangles": "2004",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "shelter",
+      "lightsOn": "false",
+      "doorOpen": "true",
+      "npcCount": "1",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "10-complete",
+    "elapsedSeconds": 195,
+    "area": "shelter",
+    "position": {
+      "x": 670.011,
+      "y": 158.49449999999982
+    },
+    "view3d": {
+      "version": 1,
+      "area": "shelter",
+      "position": {
+        "x": 3.8002199999999995,
+        "z": -3.0301100000000036
+      },
+      "yaw": -1.0399999999999991,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 30,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 335,
+      "Nodes": 847,
+      "JSHeapUsedSize": 30249432
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "-1.04",
+      "pitch": "0",
+      "drawCalls": "16",
+      "triangles": "1774",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "shelter",
+      "lightsOn": "false",
+      "doorOpen": "true",
+      "npcCount": "1",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  },
+  {
+    "name": "11-replayed",
+    "elapsedSeconds": 198,
+    "area": "shelter",
+    "position": {
+      "x": 670.011,
+      "y": 158.49449999999982
+    },
+    "view3d": {
+      "version": 1,
+      "area": "shelter",
+      "position": {
+        "x": 3.8002199999999995,
+        "z": -3.0301100000000036
+      },
+      "yaw": -1.0425000000000004,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 30,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 2
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 301,
+      "Nodes": 1282,
+      "JSHeapUsedSize": 40730360
+    },
+    "renderer": {
+      "engine": "three.js r186",
+      "yaw": "-1.0424999999999993",
+      "pitch": "0",
+      "drawCalls": "16",
+      "triangles": "1774",
+      "shadows": "false",
+      "npcModel": "true",
+      "npcIdle": "true",
+      "area": "shelter",
+      "lightsOn": "false",
+      "doorOpen": "true",
+      "npcCount": "1",
+      "travel": "0",
+      "trainStatus": "",
+      "signal": "",
+      "gateOpen": "false"
+    }
+  }
+]

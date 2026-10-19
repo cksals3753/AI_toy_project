@@ -2,8 +2,13 @@ import assert from 'node:assert/strict'
 export async function verifyUx({ evaluate, click, close, wait, state, send, screenshot }) {
   const before = await state()
   await send('Page.reload')
-  await wait(600)
-  assert.equal(await evaluate('!!document.querySelector(\'[aria-label="저장된 여정"]\')'), true)
+  for (
+    let i = 0;
+    i < 60 && !(await evaluate('!!document.querySelector(\'[aria-label$="저장된 여정"]\')'));
+    i++
+  )
+    await wait(100)
+  assert.equal(await evaluate('!!document.querySelector(\'[aria-label$="저장된 여정"]\')'), true)
   assert.match(await evaluate('document.querySelector(".overlay-panel").textContent'), /챕터 2/)
   await evaluate(
     "[...document.querySelectorAll('button')].find(b=>b.textContent==='새 게임').click()",

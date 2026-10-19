@@ -2315,3 +2315,61 @@ summary {
   background: #101c23eb;
   border-radius: 5px;
 }
+
+.hud-power {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid #9cb3a53b;
+  color: #adbbb3;
+  font: 10px monospace;
+}
+.hud-power .on {
+  color: #deedb3;
+}
+
+/* Keep the completed train's action available without taking space from the 3D viewport. */
+.is-immersive .chapter4-complete {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: max(110px, env(safe-area-inset-top));
+  transform: translateX(-50%);
+  width: min(440px, calc(100vw - 32px));
+  margin: 0;
+}
+
+.is-immersive .episode-result-button {
+  position: absolute;
+  z-index: 6;
+  top: max(110px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, calc(100vw - 32px));
+}
+
+.sound-settings {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0.8rem 0;
+  padding: 0.8rem;
+  border: 1px solid #48584d;
+}
+.sound-settings label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sound-settings input[type='checkbox'] {
+  width: auto;
+}
+.sound-settings input[type='range'] {
+  width: 100%;
+  min-height: 32px;
+  accent-color: #b8ca94;
+}
+.sound-settings small {
+  color: #a9b6a6;
+  line-height: 1.5;
+}

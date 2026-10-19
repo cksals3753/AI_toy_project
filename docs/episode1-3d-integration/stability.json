@@ -1,0 +1,315 @@
+{
+  "checkpoint": "real continuous 03-repeat-2",
+  "roundTrips": 8,
+  "samples": [
+    {
+      "round": 0,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 19184304
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 1,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 19850596
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 2,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 20228592
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 3,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 20448980
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 4,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 20657724
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 5,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 20720080
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 6,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 20804448
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 7,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 20881076
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    },
+    {
+      "round": 8,
+      "canvas": 1,
+      "listeners": {
+        "keydown": 2,
+        "keyup": 2,
+        "mousemove": 1,
+        "blur": 2
+      },
+      "metrics": {
+        "Documents": 2,
+        "JSEventListeners": 173,
+        "Nodes": 378,
+        "JSHeapUsedSize": 20935420
+      },
+      "render": {
+        "engine": "three.js r186",
+        "yaw": "0",
+        "pitch": "0",
+        "drawCalls": "19",
+        "triangles": "3548",
+        "shadows": "false",
+        "npcModel": "true",
+        "npcIdle": "true",
+        "area": "hall",
+        "lightsOn": "true",
+        "doorOpen": "false",
+        "npcCount": "0",
+        "travel": "0",
+        "trainStatus": "",
+        "signal": "",
+        "gateOpen": "true"
+      }
+    }
+  ],
+  "pcMenus": true,
+  "realTabBlur": true,
+  "mobileSimultaneous": true
+}

@@ -147,3 +147,5 @@ export const defaultChapter3: Chapter3 = {
 }
 export const approvalClues = ['train-a', 'train-b', 'platform-record', 'platform-signal']
 export const isChapter3Area = (area: string) => ['platform', 'trainA', 'trainB'].includes(area)
+
+export const departureTrain = trains[1]

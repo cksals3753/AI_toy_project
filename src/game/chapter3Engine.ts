@@ -1,4 +1,10 @@
-import { approvalClues, platformObjects, platformOpening, survivorIntro } from './chapter3'
+import {
+  departureTrain,
+  approvalClues,
+  platformObjects,
+  platformOpening,
+  survivorIntro,
+} from './chapter3'
 import type { Action, State } from './engine'
 import { worlds } from './world'
 const scene = (lines: State['scene']) => ({ scene: lines, sceneIndex: 0 })
@@ -119,10 +125,10 @@ export function reduceChapter3(state: State, action: Action): State | undefined 
         ...state,
         notice: `차량·기록·신호를 먼저 확인하세요. 미확인: ${missing.map((id) => platformObjects.find((o) => o.id === id)!.title).join(', ')}`,
       }
-    if (action.vehicle !== 'B-04' || action.track !== '◇-2')
+    if (action.vehicle !== departureTrain.id || action.track !== departureTrain.track)
       return {
         ...state,
-        notice: `승인 불일치: ${[action.vehicle !== 'B-04' ? '운행 차량' : '', action.track !== '◇-2' ? '선로 표식' : ''].filter(Boolean).join(' / ')}. 현장 기록과 대조해 다시 입력하세요. 재시도 제한이나 자원 차감은 없습니다.`,
+        notice: `승인 불일치: ${[action.vehicle !== departureTrain.id ? '운행 차량' : '', action.track !== departureTrain.track ? '선로 표식' : ''].filter(Boolean).join(' / ')}. 현장 기록과 대조해 다시 입력하세요. 재시도 제한이나 자원 차감은 없습니다.`,
       }
     return {
       ...state,

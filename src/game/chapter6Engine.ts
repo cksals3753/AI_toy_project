@@ -8,7 +8,7 @@ import {
   isChapter6Area,
   routeEvidence,
 } from './chapter6'
-import { worlds } from './world'
+import { worlds, shelterArrivals } from './world'
 const scene = (lines: State['scene']) => ({ scene: lines, sceneIndex: 0 })
 export function reduceChapter6(s: State, a: Action): State | undefined {
   const c = s.chapter6
@@ -175,7 +175,7 @@ export function reduceChapter6(s: State, a: Action): State | undefined {
     return {
       ...s,
       area: 'shelter',
-      position: worlds.shelter.spawn,
+      position: shelterArrivals.side,
       ...scene([
         {
           who: 'player',

@@ -18,7 +18,7 @@ describe('sound preferences and graceful fallback', () => {
     })
     expect(loadSound().muted).toBe(false)
   })
-  it('does not construct audio outside the first room and fails without blocking gameplay', async () => {
+  it('does not construct audio until enabled and fails without blocking gameplay', async () => {
     vi.stubGlobal('window', {})
     const audio = createRoomAudio()
     await audio.unlock()

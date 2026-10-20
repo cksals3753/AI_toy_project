@@ -1,3 +1,5 @@
+import { verifyChapter56Audio } from './verify-chapter56-audio.mjs'
+import { verifyChapter34Audio } from './verify-chapter34-audio.mjs'
 import { verifyFirstRoomAudio } from './verify-first-room-audio.mjs'
 import { verifySurfaceVisual } from './verify-surface-visual.mjs'
 import { verifyAimEntry } from './verify-aim-entry.mjs'
@@ -163,6 +165,44 @@ export async function verifyFirstPerson({
   assert.equal(await evaluate("!!document.querySelector('.first-person canvas')"), true)
   await screenshot('3d-01-room-desktop.png')
   await resume3d()
+  if (process.env.FIRST_PERSON_CHECK === 'audio56') {
+    await verifyChapter56Audio({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      hold,
+      wait,
+      resume3d,
+      trustedClick,
+      approach,
+      pressE,
+      advanceAll,
+      inputCode,
+      look,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'audio34') {
+    await verifyChapter34Audio({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      hold,
+      wait,
+      resume3d,
+      trustedClick,
+      approach,
+      pressE,
+      advanceAll,
+      inputCode,
+      look,
+    })
+    return
+  }
   if (process.env.FIRST_PERSON_CHECK === 'audio') {
     await verifyFirstRoomAudio({
       send,

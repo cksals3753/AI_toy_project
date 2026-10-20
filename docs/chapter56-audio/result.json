@@ -1,0 +1,6811 @@
+{
+  "documents": [
+    {
+      "peak": 0.012971654534339905,
+      "contexts": 1,
+      "status": "running",
+      "sources": 40,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015644104940073914,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.012053554877638817,
+      "contexts": 1,
+      "status": "running",
+      "sources": 29,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0017218684300342128,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.013154587708413601,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0012854802805261204,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001998826891947934,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0029563645366579294,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015124354868536604,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.022396229207515717,
+      "contexts": 1,
+      "status": "running",
+      "sources": 47,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0032801850918496864,
+      "cues": ["chime", "chime", "sensor", "door"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.01661483198404312,
+      "contexts": 1,
+      "status": "running",
+      "sources": 23,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0036898090751136133,
+      "cues": ["processed", "door"],
+      "profiles": [
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.012121208943426609,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001652584471308819,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.012565694749355316,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0009559827745568368,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001998826891947934,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0033864141441881657,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0013992066665288565,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.012665040791034698,
+      "contexts": 1,
+      "status": "running",
+      "sources": 40,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015798887007327427,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.012664919719099998,
+      "contexts": 1,
+      "status": "running",
+      "sources": 28,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0014431722430941407,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.013415718451142311,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0010369687670978842,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001998826891947934,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.003530337242409587,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0016153179030789012,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.021816177293658257,
+      "contexts": 1,
+      "status": "running",
+      "sources": 46,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00276984712991658,
+      "cues": ["chime", "chime", "sensor", "door"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.016363773494958878,
+      "contexts": 1,
+      "status": "running",
+      "sources": 23,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.003900295154642265,
+      "cues": ["processed", "door"],
+      "profiles": [
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.011858595535159111,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0014527101172877362,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0132606141269207,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0012497557032287296,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001998826891947934,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.003998653497546911,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0013600055094062898,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0018570838399043041,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0061648087576031685,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015621770654708012,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.011107899248600006,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0014009540685088328,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.01113805826753378,
+      "contexts": 1,
+      "status": "running",
+      "sources": 4,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0034938738252437446,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.009018229320645332,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004869011968261291,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.00842609629034996,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 12,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 4.0535004343526827e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.012997579760849476,
+      "contexts": 1,
+      "status": "running",
+      "sources": 35,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001420572384025321,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.01713089644908905,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.004404484984937607,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0146986348554492,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": true
+        }
+      ],
+      "rms": 0.003435689268115725,
+      "cues": ["valve"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.016644183546304703,
+      "contexts": 1,
+      "status": "running",
+      "sources": 10,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004169588068477784,
+      "cues": ["latch", "door"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.009685732424259186,
+      "contexts": 1,
+      "status": "running",
+      "sources": 34,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0003990872410844967,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008602659218013287,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 11,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 4.516163486489656e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.010807324200868607,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0014871862794796904,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.011422991752624512,
+      "contexts": 1,
+      "status": "running",
+      "sources": 4,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0028114562226261054,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008959242142736912,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00047536613117415266,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008898458443582058,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 11,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 3.573059809327037e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.011821165680885315,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0013898519938094788,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0171308983117342,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.00360523499097854,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.014305825345218182,
+      "contexts": 1,
+      "status": "running",
+      "sources": 40,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": true
+        }
+      ],
+      "rms": 0.003634114258596813,
+      "cues": ["valve"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.01616601273417473,
+      "contexts": 1,
+      "status": "running",
+      "sources": 10,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00411605550138938,
+      "cues": ["latch", "door"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.010244205594062805,
+      "contexts": 1,
+      "status": "running",
+      "sources": 34,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.000381866081778576,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.00827398244291544,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 11,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 4.459514206340051e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.0062617771327495575,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001822264495822136,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.010221526026725769,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0024407732086639974,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "label": "진입 승인 · 챕터 4 완료",
+      "peak": 0.009465612471103668,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0027235412898329167,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 5 · 대답 없는 승강장 시작",
+      "peak": 0.009465612471103668,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0005449410307957437,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "기본 이름",
+      "peak": 0.009465612471103668,
+      "contexts": 1,
+      "status": "running",
+      "sources": 5,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015633330446424654,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "응답하지 않는다",
+      "peak": 0.012971654534339905,
+      "contexts": 1,
+      "status": "running",
+      "sources": 40,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00035685810445767313,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.012053554877638817,
+      "contexts": 1,
+      "status": "running",
+      "sources": 27,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00044742787645040956,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.012053554877638817,
+      "contexts": 1,
+      "status": "running",
+      "sources": 27,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00040540114302310486,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "미확인 등록 보류",
+      "peak": 0.012053554877638817,
+      "contexts": 1,
+      "status": "running",
+      "sources": 29,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0016729587056908124,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.013154587708413601,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0003960010193353292,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.013154587708413601,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00035385465617637616,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.013154587708413601,
+      "contexts": 1,
+      "status": "running",
+      "sources": 22,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004072428192956311,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "열린 정비 통로 앞에서 이동 확인",
+      "peak": 0.013154587708413601,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.003201777018498372,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "정비 통로 이동 승인 · 챕터 5 완료",
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0020579515941983265,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 6",
+      "peak": 0.0013775898842141032,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00041253939599163425,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "진입 승인 · 챕터 4 완료",
+      "peak": 0.010108579881489277,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0025569351921305205,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 5 · 대답 없는 승강장 시작",
+      "peak": 0.010108579881489277,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0006594036257051975,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "기본 이름",
+      "peak": 0.010108579881489277,
+      "contexts": 1,
+      "status": "running",
+      "sources": 5,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015607788483310533,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "경고를 확인했으며 대답한다",
+      "peak": 0.022396229207515717,
+      "contexts": 1,
+      "status": "running",
+      "sources": 47,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.005128955155266252,
+      "cues": ["chime", "chime", "sensor", "door"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "활성 등록 취소",
+      "peak": 0.012665040791034698,
+      "contexts": 1,
+      "status": "running",
+      "sources": 19,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0003138680402153898,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "활성 등록 취소",
+      "peak": 0.01661483198404312,
+      "contexts": 1,
+      "status": "running",
+      "sources": 23,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004180395626687031,
+      "cues": ["processed", "door"],
+      "profiles": [
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.012121208943426609,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00046219382249729327,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.012121208943426609,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004774983225553301,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "취소된 등록의 외부 유도 보류",
+      "peak": 0.012121208943426609,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.001630372612282858,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012121052481234074,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00039965597927862136,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012121052481234074,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004140797142344235,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012121052481234074,
+      "contexts": 1,
+      "status": "running",
+      "sources": 22,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004105688952875232,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "열린 정비 통로 앞에서 이동 확인",
+      "peak": 0.012565694749355316,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0030757415892140997,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "정비 통로 이동 승인 · 챕터 5 완료",
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0020579515941983265,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 6",
+      "peak": 0.0013775898842141032,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00041253939599163425,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "진입 승인 · 챕터 4 완료",
+      "peak": 0.009350724518299103,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.002618024403270812,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 5 · 대답 없는 승강장 시작",
+      "peak": 0.009350724518299103,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0005182053590703417,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "기본 이름",
+      "peak": 0.009350724518299103,
+      "contexts": 1,
+      "status": "running",
+      "sources": 5,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015601117429423178,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "응답하지 않는다",
+      "peak": 0.012665040791034698,
+      "contexts": 1,
+      "status": "running",
+      "sources": 40,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00043474787766729103,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.012664919719099998,
+      "contexts": 1,
+      "status": "running",
+      "sources": 26,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00040721541962595854,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.012664919719099998,
+      "contexts": 1,
+      "status": "running",
+      "sources": 26,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00044358620940285854,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "미확인 등록 보류",
+      "peak": 0.012664919719099998,
+      "contexts": 1,
+      "status": "running",
+      "sources": 28,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0017632975570180556,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012053489685058594,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0003704390311222868,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012053489685058594,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004741922517669502,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012053489685058594,
+      "contexts": 1,
+      "status": "running",
+      "sources": 22,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0040335649775737085,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "열린 정비 통로 앞에서 이동 확인",
+      "peak": 0.013415718451142311,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0031151522141006634,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "정비 통로 이동 승인 · 챕터 5 완료",
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0020579515941983265,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 6",
+      "peak": 0.0013775898842141032,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004524974857801729,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "진입 승인 · 챕터 4 완료",
+      "peak": 0.009465612471103668,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.002614035065305543,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 5 · 대답 없는 승강장 시작",
+      "peak": 0.009465612471103668,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0005131152436001796,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "기본 이름",
+      "peak": 0.009465612471103668,
+      "contexts": 1,
+      "status": "running",
+      "sources": 5,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015344809144063338,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "경고를 확인했으며 대답한다",
+      "peak": 0.021816177293658257,
+      "contexts": 1,
+      "status": "running",
+      "sources": 46,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.005184172513319114,
+      "cues": ["chime", "chime", "sensor", "door"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "활성 등록 취소",
+      "peak": 0.012053489685058594,
+      "contexts": 1,
+      "status": "running",
+      "sources": 19,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00046247184884230146,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "활성 등록 취소",
+      "peak": 0.016363773494958878,
+      "contexts": 1,
+      "status": "running",
+      "sources": 23,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004291865350037793,
+      "cues": ["processed", "door"],
+      "profiles": [
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonHolding",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.011858595535159111,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00041274043119427796,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "등록 건·첨부 원본 대조",
+      "peak": 0.011858595535159111,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0003946416478618363,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "취소된 등록의 외부 유도 보류",
+      "peak": 0.011858595535159111,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0016614525760327123,
+      "cues": ["processed"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonBooth",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012053489685058594,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00033637237983365415,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.012053489685058594,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00047670812854721953,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "현장 통행 조건 대조",
+      "peak": 0.013136823661625385,
+      "contexts": 1,
+      "status": "running",
+      "sources": 22,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00401548102494167,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "열린 정비 통로 앞에서 이동 확인",
+      "peak": 0.0132606141269207,
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0030356827932182463,
+      "cues": ["door", "chime"],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "정비 통로 이동 승인 · 챕터 5 완료",
+      "peak": 0.0061736078932881355,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0020579515941983265,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "챕터 6",
+      "peak": 0.0013775898842141032,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00041253939599163425,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.011107899248600006,
+      "contexts": 1,
+      "status": "running",
+      "sources": 35,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00036148547724172193,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.011107899248600006,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004280257698944833,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.000353802576823617,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.01113805826753378,
+      "contexts": 1,
+      "status": "running",
+      "sources": 4,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0038776255616995783,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.012997579760849476,
+      "contexts": 1,
+      "status": "running",
+      "sources": 34,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004428528633635332,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.012997579760849476,
+      "contexts": 1,
+      "status": "running",
+      "sources": 35,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00037424417935031664,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00033757974402146094,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.01713089644908905,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.005267085129192712,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.010807324200868607,
+      "contexts": 1,
+      "status": "running",
+      "sources": 35,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004381859085098088,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.010807324200868607,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00038622280310265114,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00033757974402146094,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.011422991752624512,
+      "contexts": 1,
+      "status": "running",
+      "sources": 4,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004027769380880319,
+      "cues": ["door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.011821165680885315,
+      "contexts": 1,
+      "status": "running",
+      "sources": 35,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0002959174208996128,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.011821165680885315,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00036560509884508334,
+      "cues": ["switch"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00033757974402146094,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.0171308983117342,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.005267085128625616,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    }
+  ],
+  "checkpointBased": true
+}

@@ -1,0 +1,1695 @@
+{
+  "documents": [
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 89,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0019182177512131805,
+      "cues": ["approved", "call", "door"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 9,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0032212614216294497,
+      "cues": ["door", "depart", "vibration"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 4,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0013442848904149482,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 9,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0023816389071079605,
+      "cues": ["door", "depart", "vibration"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0015955034854346734,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 59,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 13,
+          "ended": false
+        }
+      ],
+      "rms": 0.002233873756470308,
+      "cues": ["door", "depart", "vibration", "switch"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": false,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 66,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.002037211164643646,
+      "cues": ["switch", "restore", "switch", "switch", "switch"],
+      "profiles": [
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 31,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0017633799706273082,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 24,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": true
+        }
+      ],
+      "rms": 0.0005616571896371333,
+      "cues": ["request", "brake", "stop", "door"],
+      "profiles": [
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "slowing"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.003356756087892892,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "label": "부축해 승강장 의자까지 데려간다",
+      "contexts": 1,
+      "status": "running",
+      "sources": 9,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0003959186259702259,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "A-17 내부 조사",
+      "contexts": 1,
+      "status": "running",
+      "sources": 25,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.003074383875999457,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "기록 대조 · 승인 요청",
+      "contexts": 1,
+      "status": "running",
+      "sources": 82,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00045116944747943113,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "기록 대조 · 승인 요청",
+      "contexts": 1,
+      "status": "running",
+      "sources": 84,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0008727295528776057,
+      "cues": ["approved"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainA",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "최종 확인 · 탑승하고 출발",
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.005894645919801873,
+      "cues": ["door", "depart"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "챕터 4 · 정차하지 않는 열차 시작",
+      "contexts": 1,
+      "status": "running",
+      "sources": 9,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.004631885968174137,
+      "cues": ["door", "depart", "vibration"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "위치와 대피 방향을 알려주고 먼저 조사한다",
+      "contexts": 1,
+      "status": "running",
+      "sources": 4,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004448011703694247,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "함께 탑승하자고 제안한다",
+      "contexts": 1,
+      "status": "running",
+      "sources": 4,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004352333552759794,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "최종 확인 · 탑승하고 출발",
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.005120508741308403,
+      "cues": ["door", "depart"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "챕터 4 · 정차하지 않는 열차 시작",
+      "contexts": 1,
+      "status": "running",
+      "sources": 9,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.004304107300343176,
+      "cues": ["door", "depart", "vibration"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "최종 확인 · 탑승하고 출발",
+      "contexts": 1,
+      "status": "running",
+      "sources": 18,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 13,
+          "ended": false
+        }
+      ],
+      "rms": 0.005130644075223819,
+      "cues": ["door", "depart"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": false,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": false,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "챕터 4 · 정차하지 않는 열차 시작",
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 13,
+          "ended": false
+        }
+      ],
+      "rms": 0.0040546309775451525,
+      "cues": ["door", "depart", "vibration"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": false,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "P-02 / 객실 전원",
+      "contexts": 1,
+      "status": "running",
+      "sources": 59,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 13,
+          "ended": false
+        }
+      ],
+      "rms": 0.001781394679272909,
+      "cues": ["door", "depart", "vibration", "switch"],
+      "profiles": [
+        {
+          "area": "platform",
+          "power": false,
+          "motion": "stopped"
+        },
+        {
+          "area": "trainB",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "P-02 / 객실 전원",
+      "contexts": 1,
+      "status": "running",
+      "sources": 6,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0049792755902760815,
+      "cues": ["switch", "restore"],
+      "profiles": [
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "R-01 / 객실 중계기",
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0035750175191514716,
+      "cues": ["switch", "restore", "switch"],
+      "profiles": [
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "R-01 / 객실 중계기",
+      "contexts": 1,
+      "status": "running",
+      "sources": 65,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.002153923754771034,
+      "cues": ["switch", "restore", "switch", "switch"],
+      "profiles": [
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "X-09 / 외부 송신기",
+      "contexts": 1,
+      "status": "running",
+      "sources": 66,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.002037211164643646,
+      "cues": ["switch", "restore", "switch", "switch", "switch"],
+      "profiles": [
+        {
+          "area": "trainRear",
+          "power": false,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "신호 동기화 시작",
+      "contexts": 1,
+      "status": "running",
+      "sources": 31,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.002385578929062667,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainRear",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        },
+        {
+          "area": "trainFront",
+          "power": true,
+          "motion": "moving"
+        }
+      ]
+    },
+    {
+      "label": "이 신호에 맞추기",
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.001828951931371048,
+      "cues": [],
+      "profiles": []
+    },
+    {
+      "label": "이 신호에 맞추기",
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0020038794651781097,
+      "cues": [],
+      "profiles": []
+    },
+    {
+      "label": "느린 신호 보조 켜기",
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0020903942430717873,
+      "cues": [],
+      "profiles": []
+    },
+    {
+      "label": "이 신호에 맞추기",
+      "contexts": 1,
+      "status": "running",
+      "sources": 5,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0022635487600561055,
+      "cues": ["request"],
+      "profiles": []
+    },
+    {
+      "label": "진입 승인 · 챕터 4 완료",
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "챕터 5 · 대답 없는 승강장 시작",
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    },
+    {
+      "label": "기본 이름",
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": ["chime"],
+      "profiles": [
+        {
+          "area": "trainB",
+          "power": true,
+          "motion": "stopped"
+        },
+        {
+          "area": "moonPlatform",
+          "power": true,
+          "motion": "stopped"
+        }
+      ]
+    }
+  ],
+  "checkpointBased": true
+}

@@ -339,7 +339,25 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
             latest.current.chapter6,
           ),
         )
-        if (area === 'first')
+        if (
+          [
+            'first',
+            'hall',
+            'electrical',
+            'stairs',
+            'platform',
+            'trainA',
+            'trainB',
+            'trainRear',
+            'trainFront',
+            'moonPlatform',
+            'moonBooth',
+            'moonHolding',
+            'maintenance',
+            'recovery',
+            'shelter',
+          ].includes(area)
+        )
           firstRoomAudio.travel(
             Math.hypot(position.current.x - beforeStep.x, position.current.y - beforeStep.y),
           )

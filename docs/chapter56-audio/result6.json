@@ -1,0 +1,2157 @@
+{
+  "documents": [
+    {
+      "peak": 0.01321546919643879,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0039838415942489635,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0007647681296591526,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008671967312693596,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004090225623874635,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008621079847216606,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 11,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 2.7869483629876e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.013584901578724384,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.003775939612507594,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.0171308983117342,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.00430693443654634,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.017219508066773415,
+      "contexts": 1,
+      "status": "running",
+      "sources": 40,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": true
+        }
+      ],
+      "rms": 0.0033252169291988604,
+      "cues": ["valve"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.01819184236228466,
+      "contexts": 1,
+      "status": "running",
+      "sources": 10,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004135062858983887,
+      "cues": ["latch", "door"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.012572087347507477,
+      "contexts": 1,
+      "status": "running",
+      "sources": 34,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.000460986677806135,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008848906494677067,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 11,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 4.1320516415731436e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.014003450982272625,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0039738646420768384,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0006304907538684871,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008727416396141052,
+      "contexts": 1,
+      "status": "running",
+      "sources": 20,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00041540144108673406,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.008898458443582058,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 11,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 2.7869483629876e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.013501070439815521,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.003729338153950718,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.01645807735621929,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.004094179872050776,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.014833063818514347,
+      "contexts": 1,
+      "status": "running",
+      "sources": 42,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": true
+        }
+      ],
+      "rms": 0.00375476422219676,
+      "cues": ["valve"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.016180260106921196,
+      "contexts": 1,
+      "status": "running",
+      "sources": 10,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004047409536863203,
+      "cues": ["latch", "door"],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.010669314302504063,
+      "contexts": 1,
+      "status": "running",
+      "sources": 34,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004455161255804854,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.00909857451915741,
+      "contexts": 1,
+      "status": "suspended",
+      "sources": 11,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 4.516163486489656e-7,
+      "cues": ["complete"],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "peak": 0.0062617771327495575,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0017245406819134798,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "peak": 0.010221526026725769,
+      "contexts": 1,
+      "status": "running",
+      "sources": 3,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.0024670711963693547,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.012052862904965878,
+      "contexts": 1,
+      "status": "running",
+      "sources": 34,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00034739975770372135,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.01321546919643879,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.003976038021069614,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00030732741885757057,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0002091549446407677,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.01290503703057766,
+      "contexts": 1,
+      "status": "running",
+      "sources": 34,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00036257631407987857,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.013584901578724384,
+      "contexts": 1,
+      "status": "running",
+      "sources": 37,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004034815169566233,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00033758625773146704,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.0171308983117342,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.005187653752252809,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.012053072452545166,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.000395886425383926,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.014003450982272625,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.004022493103205358,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00038850998227053216,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0002142319050224592,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.010408979840576649,
+      "contexts": 1,
+      "status": "running",
+      "sources": 36,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.0004579722117249397,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "장치 설정 대조",
+      "peak": 0.013501070439815521,
+      "contexts": 1,
+      "status": "running",
+      "sources": 39,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.003939343248412685,
+      "cues": ["switch", "door"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이동 전 근거 확인",
+      "peak": 0.006408120971173048,
+      "contexts": 1,
+      "status": "running",
+      "sources": 2,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        }
+      ],
+      "rms": 0.00030734298926008894,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "이 경로로 이동 확정",
+      "peak": 0.01645807735621929,
+      "contexts": 1,
+      "status": "running",
+      "sources": 7,
+      "loops": [
+        {
+          "id": 0,
+          "ended": false
+        },
+        {
+          "id": 2,
+          "ended": false
+        }
+      ],
+      "rms": 0.004941861499315941,
+      "cues": ["door", "warning"],
+      "profiles": [
+        {
+          "area": "maintenance",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": false
+        },
+        {
+          "area": "recovery",
+          "power": true,
+          "motion": "stopped",
+          "water": true,
+          "finished": false
+        }
+      ]
+    },
+    {
+      "label": "저장된 결과 보기",
+      "peak": 0,
+      "contexts": 0,
+      "sources": 0,
+      "loops": [],
+      "rms": 0,
+      "cues": [],
+      "profiles": [
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        },
+        {
+          "area": "shelter",
+          "power": true,
+          "motion": "stopped",
+          "water": false,
+          "finished": true
+        }
+      ]
+    }
+  ],
+  "checkpointBased": true
+}

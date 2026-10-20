@@ -10,7 +10,7 @@ export const SoundSettings = ({
   status: string
 }) => (
   <fieldset className="sound-settings">
-    <legend>사운드 · 첫 방</legend>
+    <legend>사운드 · 챕터 1–6</legend>
     <label>
       <input
         type="checkbox"
@@ -40,7 +40,7 @@ export const SoundSettings = ({
         ? '이 브라우저에서 소리를 재생할 수 없습니다. 자막으로 계속할 수 있습니다.'
         : status === 'locked'
           ? '화면을 누르거나 키를 입력하면 소리가 준비됩니다.'
-          : '환풍·설비 환경음, 발걸음, 정비문 개방음 · 소리 자막 유지'}
+          : '환풍·설비 환경음, 발걸음, 문·장치 효과음 · 소리 자막 유지'}
     </small>
   </fieldset>
 )

@@ -1,0 +1,18 @@
+{
+  "ambientRms": 0.003156232869601867,
+  "mutedRms": 0,
+  "oneContext": true,
+  "stepsOnTravel": true,
+  "noStepsAtRestOrMenu": true,
+  "doorOnUnlock": true,
+  "chapter2Audible": true,
+  "chapter3Audible": true,
+  "hallRms": 0.0015939634328556473,
+  "poweredRms": 0.002996340656830911,
+  "idleRms": 0.0010461723237793364,
+  "dangerAndPowerTransitions": true,
+  "noReplayOnLoad": true,
+  "settingsPersist": true,
+  "mobileTouchUnlockAndMute": true,
+  "recordingMime": "audio/webm;codecs=opus"
+}

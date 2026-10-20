@@ -15,7 +15,7 @@ export const verifyFirstRoomAudio = async ({
   advanceAll,
   inputCode,
 }) => {
-  const dir = 'docs/first-room-audio'
+  const dir = 'docs/chapter2-audio'
   await mkdir(dir, { recursive: true })
   const install = `(()=>{
     const original=window.AudioContext,connect=AudioNode.prototype.connect;
@@ -37,7 +37,6 @@ export const verifyFirstRoomAudio = async ({
   await wait(500)
   assert.equal(await evaluate('window.__soundProbe.contexts.length'), 1)
   assert.equal(await evaluate('window.__soundProbe.contexts[0].state'), 'running')
-  const firstCheckpoint = await state()
   const ambient = await rms()
   assert.ok(ambient > 0.00001, 'rendered ambient samples')
   await evaluate(
@@ -128,19 +127,112 @@ export const verifyFirstRoomAudio = async ({
   await wait(450)
   assert.equal(
     await evaluate('window.__soundProbe.contexts[0].state'),
-    'suspended',
-    'room sound stops rendering in chapter 2',
+    'running',
+    'chapter 2 shares the same running audio context',
   )
+  assert.equal(await evaluate('window.__soundProbe.contexts.length'), 1)
+  const hallRms = await rms()
+  assert.ok(hallRms > 0.00001 && hallRms < ambient * 1.3, 'hall remains restrained')
+  const count = () => evaluate('window.__soundProbe.sources.length')
+  const act = async (id) => {
+    await approach(id)
+    await pressE()
+  }
+  const finish = async () => {
+    await advanceAll()
+    await resume3d()
+  }
+  await act('hall-desk')
+  assert.ok((await state()).inventory.includes('전기실 열쇠'))
+  await finish()
+  await act('hall-desk')
+  const repeatKey = await count()
+  await finish()
+  assert.equal(await count(), repeatKey, 'reinspection does not replay key cue')
+  await act('staff')
+  const beforeDanger = await count()
+  await click('직원 통로 진입')
+  assert.equal((await state()).chapter2.staffEvent, 'active')
+  assert.ok((await count()) >= beforeDanger + 4, 'warning and fire door sound')
+  await click('회피 시작')
+  await click('몸 빼기')
+  await finish()
+  await act('electrical')
+  await wait(500)
+  await resume3d()
+  await act('powerboard')
+  let n = await count()
+  await click('개찰구')
+  await wait(150)
+  assert.ok((await count()) >= n + 3, 'switch and actual gate opening')
+  await wait(300)
+  n = await count()
+  await click('조명')
+  await wait(150)
+  assert.ok((await count()) >= n + 3, 'switch and restoration')
+  assert.deepEqual((await state()).chapter2.power, ['gate', 'lights'])
+  await close()
+  await resume3d()
+  await wait(500)
+  const poweredRms = await rms()
+  await act('powerboard')
+  await click('조명')
+  await click('개찰구')
+  await close()
+  await resume3d()
+  await wait(600)
+  const idleRms = await rms()
+  assert.ok(poweredRms > idleRms, 'electrical ambience reflects actual power')
+  await act('powerboard')
+  await click('개찰구')
+  await wait(300)
+  await click('조명')
+  await close()
+  await resume3d()
   const game = await state()
   await send('Page.reload')
   await wait(1100)
   await state()
-  assert.equal((await state()).area, 'hall')
+  assert.equal((await state()).area, 'electrical')
   assert.equal((await state()).health, game.health)
   assert.deepEqual(await evaluate("JSON.parse(localStorage.getItem('last-transfer-audio-v1'))"), {
     muted: false,
     volume: 0.2,
   })
+  // Probe a restored, completed power state: only the two continuous sources are created.
+  const loadedProbe = await send('Page.addScriptToEvaluateOnNewDocument', { source: install })
+  await send('Page.reload')
+  await wait(1100)
+  await send('Page.removeScriptToEvaluateOnNewDocument', { identifier: loadedProbe.identifier })
+  await state()
+  await resume3d()
+  await wait(400)
+  assert.equal(await count(), 2, 'load does not replay key, gate, power or danger effects')
+  for (let i = 0; i < 2; i++) {
+    await act('hall-return')
+    await wait(500)
+    await resume3d()
+    await act('electrical')
+    await wait(500)
+    await resume3d()
+  }
+  assert.equal(await evaluate('window.__soundProbe.contexts.length'), 1)
+  assert.equal(await evaluate("document.querySelectorAll('.first-person canvas').length"), 1)
+  await act('hall-return')
+  await wait(500)
+  await resume3d()
+  await act('gate')
+  await advanceAll()
+  assert.equal((await state()).area, 'stairs')
+  // Chapter 3 now has ambience; no AI is enabled by the shared browser harness.
+  await click('완료 기록 저장')
+  await wait(300)
+  await resume3d()
+  await act('next-chapter')
+  await advanceAll()
+  await resume3d()
+  await wait(400)
+  assert.equal(await evaluate('window.__soundProbe.contexts[0].state'), 'running')
   await send('Emulation.setDeviceMetricsOverride', {
     width: 390,
     height: 844,
@@ -151,7 +243,7 @@ export const verifyFirstRoomAudio = async ({
   const mobileScript = await send('Page.addScriptToEvaluateOnNewDocument', {
     source:
       install +
-      `;localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify(firstCheckpoint))})`,
+      `;localStorage.setItem('last-transfer-save-v1',${JSON.stringify(JSON.stringify({ ...game, area: 'hall', view3d: null }))})`,
   })
   await send('Page.reload')
   await wait(1100)
@@ -195,7 +287,13 @@ export const verifyFirstRoomAudio = async ({
         stepsOnTravel: true,
         noStepsAtRestOrMenu: true,
         doorOnUnlock: true,
-        chapter2Silent: true,
+        chapter2Audible: true,
+        chapter3Audible: true,
+        hallRms,
+        poweredRms,
+        idleRms,
+        dangerAndPowerTransitions: true,
+        noReplayOnLoad: true,
         settingsPersist: true,
         mobileTouchUnlockAndMute: true,
         recordingMime: recording.mime,
@@ -205,6 +303,6 @@ export const verifyFirstRoomAudio = async ({
     ),
   )
   console.log(
-    'PASS first-room audio: real WebAudio samples/recording, travel/still/menu, mute/volume/focus, door/chapter boundary, persistence',
+    'PASS chapters 1–2 audio: real WebAudio samples/recording, travel/still/menu, mute/volume/focus, door/chapter boundary, persistence',
   )
 }

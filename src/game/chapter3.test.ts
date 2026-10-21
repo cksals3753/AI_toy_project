@@ -9,7 +9,7 @@ const finish = (state: State) => {
   while (next.scene.length) next = reducer(next, { type: 'advance' })
   return next
 }
-function stairs() {
+const stairs = () => {
   let s = apply(
     initialState,
     { type: 'start' },
@@ -33,7 +33,7 @@ function stairs() {
   return finish(s)
 }
 const platform = () => finish(reducer(stairs(), { type: 'enter-platform' }))
-function prepared(choice: 'help' | 'direct' = 'help') {
+const prepared = (choice: 'help' | 'direct' = 'help') => {
   let s = finish(reducer(platform(), { type: 'discover-survivor' }))
   s = finish(reducer(s, { type: 'survivor-choice', choice }))
   return apply(s, ...approvalClues.map((id): Action => ({ type: 'inspect', id })))
@@ -47,7 +47,7 @@ const ready = (choice: 'help' | 'direct' = 'help') =>
       { type: 'call-train-b' },
     ),
   )
-function reload(state: unknown) {
+const reload = (state: unknown) => {
   Object.defineProperty(globalThis, 'localStorage', {
     configurable: true,
     value: { getItem: () => JSON.stringify(state) },

@@ -8,7 +8,7 @@ import {
 import type { Action, State } from './engine'
 import { worlds } from './world'
 const scene = (lines: State['scene']) => ({ scene: lines, sceneIndex: 0 })
-export function reduceChapter3(state: State, action: Action): State | undefined {
+export const reduceChapter3 = (state: State, action: Action): State | undefined => {
   const c = state.chapter3
   if (
     action.type === 'enter-platform' &&

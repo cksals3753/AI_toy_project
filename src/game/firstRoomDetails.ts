@@ -1,7 +1,7 @@
 import * as T from 'three'
 import type { Rect } from './world'
 type Box = (rect: Rect, height: number, material: T.Material, bottom?: number) => T.Mesh
-export function addMaintenanceDetails(scene: T.Scene, box: Box) {
+export const addMaintenanceDetails = (scene: T.Scene, box: Box) => {
   const metal = new T.MeshStandardMaterial({ color: '#52636a', roughness: 0.86, metalness: 0.25 })
   const cable = new T.MeshStandardMaterial({ color: '#1d2a30', roughness: 1 })
   const trim = new T.MeshStandardMaterial({ color: '#7a898a', roughness: 0.9 })

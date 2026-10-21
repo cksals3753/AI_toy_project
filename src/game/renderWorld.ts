@@ -22,7 +22,7 @@ export type RenderOptions = {
   clock: number
 }
 let actors: HTMLImageElement | undefined, tiles: HTMLImageElement | undefined
-function assets() {
+const assets = () => {
   if (!actors) {
     actors = new Image()
     actors.src = '/art/survivors.svg'
@@ -32,7 +32,7 @@ function assets() {
     tiles.src = '/art/station-atlas.svg'
   }
 }
-function tile(ctx: CanvasRenderingContext2D, index: number, r: Rect) {
+const tile = (ctx: CanvasRenderingContext2D, index: number, r: Rect) => {
   if (tiles?.complete && tiles.naturalWidth)
     ctx.drawImage(tiles, index * 64, 0, 64, 64, r.x, r.y, r.w, r.h)
   else {
@@ -40,14 +40,14 @@ function tile(ctx: CanvasRenderingContext2D, index: number, r: Rect) {
     ctx.fillRect(r.x, r.y, r.w, r.h)
   }
 }
-function actor(
+const actor = (
   ctx: CanvasRenderingContext2D,
   p: Point,
   row: number,
   facing: Facing,
   moving: boolean,
   clock: number,
-) {
+) => {
   const frame = moving ? Math.floor(clock * 9) % 4 : 0
   const direction = ['down', 'up', 'left', 'right'].indexOf(facing)
   const breath = moving ? 0 : Math.sin(clock * 2) * 0.55
@@ -68,7 +68,7 @@ function actor(
     ctx.fillRect(p.x - 12, p.y - 25, 24, 36)
   }
 }
-export function renderWorld(
+export const renderWorld = (
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
@@ -77,7 +77,7 @@ export function renderWorld(
   outcome: string | null,
   near: string | null,
   options: RenderOptions,
-) {
+) => {
   assets()
   const world = getWorld(
       options.area,

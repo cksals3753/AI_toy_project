@@ -10,7 +10,7 @@ import {
 } from './chapter6'
 import { worlds, shelterArrivals } from './world'
 const scene = (lines: State['scene']) => ({ scene: lines, sceneIndex: 0 })
-export function reduceChapter6(s: State, a: Action): State | undefined {
+export const reduceChapter6 = (s: State, a: Action): State | undefined => {
   const c = s.chapter6
   if (a.type === 'maintenance-start') {
     if (c.started || !s.chapter5.completed || s.area !== 'moonPlatform') return s

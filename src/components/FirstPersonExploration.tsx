@@ -159,7 +159,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     let targetId: string | null = null,
       skipLook = true
     const controls = runtime.current
-    function resetInputs() {
+    const resetInputs = () => {
       keys.clear()
       stick.current = { x: 0, y: 0 }
       joystickPointer.current = null
@@ -168,7 +168,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       setKnob({ x: 0, y: 0 })
       persistRef.current()
     }
-    function clear() {
+    const clear = () => {
       resetInputs()
       controls.active = false
       setActive(false)
@@ -184,12 +184,12 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       clear()
       setLockError('화면을 클릭하면 탐색을 계속합니다.')
     }
-    function interact() {
+    const interact = () => {
       if (!ready || !controls.active || latest.current.paused || !target) return
       persistRef.current()
       latest.current.onInteract(target)
     }
-    function resume() {
+    const resume = () => {
       if (disposed || !ready || latest.current.paused || pendingLock) return
       resetInputs()
       setLockError('')
@@ -246,7 +246,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       .finally(() => clearTimeout(loadTimer))
     const handle = { resumeAfterUi: resume }
     if (latest.current.controlsRef) latest.current.controlsRef.current = handle
-    function lock() {
+    const lock = () => {
       pendingLock = false
       clear()
       if (document.pointerLockElement === element) {
@@ -257,7 +257,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         }
       }
     }
-    function keydown(event: KeyboardEvent) {
+    const keydown = (event: KeyboardEvent) => {
       if (event.code === 'Escape' && document.pointerLockElement === element) {
         document.exitPointerLock()
         clear()
@@ -282,10 +282,10 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       keys.add(key)
       if (key === 'e') interact()
     }
-    function keyup(event: KeyboardEvent) {
+    const keyup = (event: KeyboardEvent) => {
       if (keys.delete(gameKey(event))) persistRef.current()
     }
-    function mouse(event: MouseEvent) {
+    const mouse = (event: MouseEvent) => {
       if (latest.current.paused || !controls.active || document.pointerLockElement !== element)
         return
       if (skipLook) {
@@ -304,7 +304,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       camera.updateProjectionMatrix()
     })
     resize.observe(element)
-    function tick(time: number) {
+    const tick = (time: number) => {
       const dt = last ? Math.min((time - last) / 1000, 0.05) : 0
       last = time
       if (
@@ -461,7 +461,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       renderer.dispose()
     }
   }, [fallback, revision, area, SCALE])
-  function dragStick(event: PointerEvent<HTMLDivElement>) {
+  const dragStick = (event: PointerEvent<HTMLDivElement>) => {
     if (joystickPointer.current !== event.pointerId || props.paused || !runtime.current.active)
       return
     const bounds = event.currentTarget.getBoundingClientRect()
@@ -473,7 +473,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     stick.current = length < 5 ? { x: 0, y: 0 } : point
     setKnob({ x: point.x * limit, y: point.y * limit })
   }
-  function releaseStick() {
+  const releaseStick = () => {
     joystickPointer.current = null
     stick.current = { x: 0, y: 0 }
     setKnob({ x: 0, y: 0 })

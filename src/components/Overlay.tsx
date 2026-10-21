@@ -1,7 +1,7 @@
 import { editingText } from '../game/explorationInput'
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
-export function Overlay({
+export const Overlay = ({
   title,
   children,
   onClose,
@@ -13,7 +13,7 @@ export function Overlay({
   onClose?: () => void
   wide?: boolean
   shortcutMenu?: 'phone' | 'bag'
-}) {
+}) => {
   const container = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null

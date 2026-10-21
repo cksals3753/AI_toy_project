@@ -512,7 +512,7 @@ export const worlds: Record<Area, World> = {
   moonBooth,
   moonHolding,
 }
-export function getWorld(
+export const getWorld = (
   area: Area,
   npc = 'unseen',
   npcBoarded = false,
@@ -521,7 +521,7 @@ export function getWorld(
   chapter4?: Pick<Chapter4, 'started' | 'arrived'>,
   chapter5?: Pick<Chapter5, 'routeOpen' | 'registration'>,
   chapter6?: Pick<Chapter6, 'settings' | 'route' | 'drained' | 'boltOpen'>,
-): World {
+): World => {
   if (chapter6 && ['maintenance', 'recovery', 'shelter'].includes(area)) {
     const base = worlds[area]
     const entities = base.entities.map((e) => {
@@ -698,7 +698,7 @@ export function getWorld(
     }
   return worlds[area]
 }
-export function overlaps(p: Point, rect: Rect, radius = room.radius) {
+export const overlaps = (p: Point, rect: Rect, radius = room.radius) => {
   return (
     p.x + radius > rect.x &&
     p.x - radius < rect.x + rect.w &&
@@ -706,7 +706,7 @@ export function overlaps(p: Point, rect: Rect, radius = room.radius) {
     p.y - radius < rect.y + rect.h
   )
 }
-export function walkable(p: Point, world: World = room) {
+export const walkable = (p: Point, world: World = room) => {
   return (
     p.x >= 54 + room.radius &&
     p.x <= 906 - room.radius &&
@@ -718,12 +718,12 @@ export function walkable(p: Point, world: World = room) {
   )
 }
 // Resolve axes separately for sliding; substeps prevent tunnelling after slow frames.
-export function movePlayer(
+export const movePlayer = (
   position: Point,
   direction: Point,
   seconds: number,
   world: World = room,
-): Point {
+): Point => {
   const magnitude = Math.hypot(direction.x, direction.y)
   if (!magnitude) return position
   const dt = Math.min(Math.max(seconds, 0), 0.1)
@@ -738,7 +738,7 @@ export function movePlayer(
   }
   return p
 }
-export function nearestEntity(p: Point, world: World = room): Entity | null {
+export const nearestEntity = (p: Point, world: World = room): Entity | null => {
   const candidates = world.entities
     .map((entity) => ({
       entity,

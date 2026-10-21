@@ -1,5 +1,5 @@
 // Physical codes work with both Korean and Latin keyboard layouts.
-export function gameKey(event: Pick<KeyboardEvent, 'code' | 'key'>): string {
+export const gameKey = (event: Pick<KeyboardEvent, 'code' | 'key'>): string => {
   const codes: Record<string, string> = {
     KeyW: 'w',
     KeyA: 'a',
@@ -14,7 +14,7 @@ export function gameKey(event: Pick<KeyboardEvent, 'code' | 'key'>): string {
   return codes[event.code] ?? event.key.toLowerCase()
 }
 
-export function editingText(target: EventTarget | null): boolean {
+export const editingText = (target: EventTarget | null): boolean => {
   return (
     target instanceof Element &&
     !!target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')

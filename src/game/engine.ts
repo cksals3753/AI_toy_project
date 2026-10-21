@@ -552,7 +552,7 @@ export const SAVE_KEY = 'last-transfer-save-v1'
 const validMessages = (value: unknown): value is Message[] =>
   Array.isArray(value) &&
   value.every((m) => m && typeof m.who === 'string' && typeof m.text === 'string')
-export function loadGame(): State {
+export const loadGame = (): State => {
   try {
     const value = JSON.parse(localStorage.getItem(SAVE_KEY) ?? 'null')
     if (

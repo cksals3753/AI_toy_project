@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Overlay } from './Overlay'
 // Local input timing produces a result event; only the reducer applies damage once.
-export function DodgeGame({ onFinish }: { onFinish: (success: boolean) => void }) {
+export const DodgeGame = ({ onFinish }: { onFinish: (success: boolean) => void }) => {
   const [started, setStarted] = useState(false)
   const [progress, setProgress] = useState(0)
   const elapsed = useRef(0)

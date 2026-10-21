@@ -9,7 +9,7 @@ import { firstRoomAssets, FIRST_PERSON_SCALE as SCALE } from './firstPerson'
 import { room } from './world'
 import type { Rect } from './world'
 
-export function createFirstRoomScene(onAssetError: () => void) {
+export const createFirstRoomScene = (onAssetError: () => void) => {
   const scene = new T.Scene()
   scene.background = new T.Color('#0b1419')
   scene.fog = new T.FogExp2('#0b1419', 0.035)
@@ -30,7 +30,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
   })
   const x = (n: number) => (n - 480) / SCALE
   const z = (n: number) => (n - 310) / SCALE
-  function box(rect: Rect, height: number, material: T.Material, bottom = 0) {
+  const box = (rect: Rect, height: number, material: T.Material, bottom = 0) => {
     const mesh = new T.Mesh(new T.BoxGeometry(rect.w / SCALE, height, rect.h / SCALE), material)
     mesh.position.set(x(rect.x + rect.w / 2), height / 2 + bottom, z(rect.y + rect.h / 2))
     mesh.userData.staticBox = material.visible
@@ -104,7 +104,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
   let westDoor: T.Object3D | null = null
   let westCover: T.Mesh | null = null
   let doorProgress = 0
-  function model(path: string, rect: Rect, height: number, rotation = 0, doorId?: string) {
+  const model = (path: string, rect: Rect, height: number, rotation = 0, doorId?: string) => {
     loader.load(
       path,
       ({ scene: source }) => {
@@ -156,7 +156,7 @@ export function createFirstRoomScene(onAssetError: () => void) {
       blockers.push(box(rect, 0.42, new T.MeshBasicMaterial({ visible: false })))
     } else blockers.push(box(rect, 3.4, steel))
   }
-  function sign(text: string, rect: Rect, height: number, rotation = 0, color = '#b8c9bc') {
+  const sign = (text: string, rect: Rect, height: number, rotation = 0, color = '#b8c9bc') => {
     const canvas = document.createElement('canvas')
     canvas.width = 512
     canvas.height = 192
@@ -266,12 +266,12 @@ export function createFirstRoomScene(onAssetError: () => void) {
     geometries.forEach((geometry) => geometry.dispose())
   }
   const target = createSceneTarget(room, SCALE, interactables, blockers)
-  function highlight(id: string | null) {
+  const highlight = (id: string | null) => {
     highlights.forEach((mesh, key) => {
       mesh.visible = key === id
     })
   }
-  function disposeObject(root: T.Object3D) {
+  const disposeObject = (root: T.Object3D) => {
     root.traverse((obj) => {
       if (obj instanceof T.Mesh || obj instanceof T.Sprite) {
         if (obj instanceof T.Mesh) obj.geometry.dispose()

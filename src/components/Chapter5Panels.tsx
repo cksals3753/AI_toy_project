@@ -1,3 +1,4 @@
+import { Button } from './ui/Button'
 import { useState } from 'react'
 import type { Dispatch, ReactNode } from 'react'
 import type { Action, State } from '../game/engine'
@@ -84,14 +85,16 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
           <p className="notice" role="status">
             {state.notice}
           </p>
-          <button className="primary full">이 표시 이름 확인 · 승강장으로</button>
+          <Button type="submit" full>
+            이 표시 이름 확인 · 승강장으로
+          </Button>
         </form>
-        <button
-          className="text-button"
+        <Button
+          variant="text"
           onClick={() => dispatch({ type: 'moon-profile-confirm', useDefault: true })}
         >
           기본 이름 ‘{defaultDisplayName}’ 사용
-        </button>
+        </Button>
       </Overlay>
     )
   if (c.exitPrompt)
@@ -104,18 +107,12 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
         <p className="muted">
           승인하면 챕터 5 완료와 이동 승인을 저장합니다. 통로 안 탐색은 다음 챕터에서 이어집니다.
         </p>
-        <button
-          className="primary full"
-          onClick={() => dispatch({ type: 'moon-finish', confirm: true })}
-        >
+        <Button full onClick={() => dispatch({ type: 'moon-finish', confirm: true })}>
           정비 통로 이동 승인 · 챕터 5 완료
-        </button>
-        <button
-          className="text-button"
-          onClick={() => dispatch({ type: 'moon-finish', confirm: false })}
-        >
+        </Button>
+        <Button variant="text" onClick={() => dispatch({ type: 'moon-finish', confirm: false })}>
           승강장에서 더 확인하기
-        </button>
+        </Button>
       </Overlay>
     )
   if (panel === 'moon-response')
@@ -132,8 +129,8 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
               먼저 전광판 경고와 응답 감지기를 조사하세요. 아래 버튼을 명시적으로 선택할 때만
               응답으로 판정합니다.
             </p>
-            <button
-              className="primary full"
+            <Button
+              full
               disabled={!['moon-warning', 'moon-sensor'].every((id) => state.clues.includes(id))}
               onClick={() => {
                 onClose()
@@ -141,9 +138,9 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
               }}
             >
               경고를 확인했으며 대답한다
-            </button>
-            <button
-              className="text-button"
+            </Button>
+            <Button
+              variant="text"
               disabled={!['moon-warning', 'moon-sensor'].every((id) => state.clues.includes(id))}
               onClick={() => {
                 onClose()
@@ -151,7 +148,7 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
               }}
             >
               응답하지 않는다 · 안내 부스 조사
-            </button>
+            </Button>
           </>
         ) : (
           <p>
@@ -171,8 +168,8 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
           name={c.displayName}
           disabled={c.registration !== 'active'}
         />
-        <button
-          className="primary full"
+        <Button
+          full
           disabled={c.registration !== 'active'}
           onClick={() => {
             dispatch({ type: 'moon-cancel', caseId })
@@ -184,7 +181,7 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
           }}
         >
           활성 등록 취소
-        </button>
+        </Button>
         <p className="notice" role="status">
           {state.notice}
         </p>
@@ -211,15 +208,11 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
           name={c.displayName}
           disabled={c.matched}
         />
-        <button
-          className="primary full"
-          disabled={c.matched}
-          onClick={() => dispatch({ type: 'moon-match', caseId })}
-        >
+        <Button full disabled={c.matched} onClick={() => dispatch({ type: 'moon-match', caseId })}>
           {c.matched ? '등록 건 대조 완료' : '등록 건·첨부 원본 대조'}
-        </button>
-        <button
-          className="primary full"
+        </Button>
+        <Button
+          full
           disabled={!c.matched || c.externalPaused || c.registration === 'active'}
           onClick={() => dispatch({ type: 'moon-process' })}
         >
@@ -228,7 +221,7 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
             : c.response === 'answered'
               ? '취소된 등록의 외부 유도 보류'
               : '미확인 등록 보류'}
-        </button>
+        </Button>
         <p className="notice" role="status">
           {state.notice}
         </p>
@@ -269,23 +262,23 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
             <option value="local">지역 수동 승인</option>
           </select>
         </label>
-        <button
-          className="primary full"
+        <Button
+          full
           disabled={c.routeOpen}
           onClick={() => dispatch({ type: 'moon-unlock', door, mode })}
         >
           {c.routeOpen ? '정비 통로 개방됨' : '현장 통행 조건 대조'}
-        </button>
+        </Button>
         {c.routeOpen && (
-          <button
-            className="primary full"
+          <Button
+            full
             onClick={() => {
               onClose()
               dispatch({ type: 'moon-exit' })
             }}
           >
             열린 정비 통로 앞에서 이동 확인
-          </button>
+          </Button>
         )}
         <p className="notice" role="status">
           {state.notice}

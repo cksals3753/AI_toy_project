@@ -40,7 +40,7 @@ export type ExplorationProps = {
   onInteract: (entity: Entity) => void
   onPosition: (position: Point) => void
 }
-export function Exploration({
+export const Exploration = ({
   area,
   chapter3,
   chapter4,
@@ -54,7 +54,7 @@ export function Exploration({
   outcome,
   onInteract,
   onPosition,
-}: ExplorationProps) {
+}: ExplorationProps) => {
   const animation = useRef({ clock: 0, facing: 'down' as Facing, moving: false })
   const pointer = useRef<number | null>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
@@ -237,7 +237,7 @@ export function Exploration({
     onInteract,
     onPosition,
   ])
-  function drag(event: PointerEvent<HTMLDivElement>) {
+  const drag = (event: PointerEvent<HTMLDivElement>) => {
     if (pointer.current !== event.pointerId || paused) return
     const bounds = event.currentTarget.getBoundingClientRect()
     const dx = event.clientX - bounds.left - bounds.width / 2,
@@ -248,7 +248,7 @@ export function Exploration({
     stick.current = length < 5 ? { x: 0, y: 0 } : point
     setKnob({ x: point.x * limit, y: point.y * limit })
   }
-  function release() {
+  const release = () => {
     pointer.current = null
     stick.current = { x: 0, y: 0 }
     setKnob({ x: 0, y: 0 })

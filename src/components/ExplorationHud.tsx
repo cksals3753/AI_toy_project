@@ -1,5 +1,5 @@
 import { useState } from 'react'
-export function ExplorationHud({
+export const ExplorationHud = ({
   chapter,
   health,
   battery,
@@ -19,7 +19,7 @@ export function ExplorationHud({
   paused: boolean
   operation?: string
   power?: readonly string[]
-}) {
+}) => {
   const [expanded, setExpanded] = useState(true)
   return (
     <div className="compact-hud">

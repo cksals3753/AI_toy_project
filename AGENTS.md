@@ -59,3 +59,9 @@
 JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에는 로컬 Chrome이 필요하다. 기본 `test:browser`는 기존 2D로 챕터 1~6 회귀, `FIRST_PERSON_CHECK=1 npm run test:browser`는 3D 첫 방과 터치, `FIRST_PERSON_CHECK=resume npm run test:browser`는 비차단 조사·UI 종료 복귀·Esc·잠금 거부 후 클릭 복귀를, `E_KEY_CHECK=after npm run test:browser`는 한글 E키 입력을 검증한다. `FIRST_PERSON_CHECK=shortcuts npm run test:browser`는 메뉴 단축키·입력/포커스 범위·2D 구간을 검사한다. `VISUAL_LABEL=after FIRST_PERSON_CHECK=visual npm run test:browser`는 화면 크기·모델 로딩·전후 캡처와 RAF/드로콜 측정을 수행한다. 결과는 `docs/visual-review/`에 두고 실기기 GPU 성능과 구분한다. 헤드리스 3D는 SwiftShader를 사용할 수 있으며 실제 GPU·모바일 성능 검증과 구분한다. Java 소스는 Prettier 대상이 아니다. 변경 범위에 맞는 검사와 플레이 확인을 수행하며 분기·복구·저장·이어하기를 중점 검증한다. 브라우저 모바일 에뮬레이션과 실제 기기 검증을 구분한다. 수행하지 않은 검사를 통과했다고 보고하지 않는다. 완료 보고에는 변경 내용·검증 결과·미확인 항목·제약을 포함하고 동작·실행 방법이 바뀌면 관련 문서를 갱신한다.
 
 챕터 2 3D 기록은 [구현·플레이·캡처](docs/chapter2-3d/README.md)를 참조한다. `FIRST_PERSON_CHECK=chapter2 npm run test:browser:first`는 첫 방에서 실제로 이어지는 3D 챕터 2 검증이다. `view3d`는 버전·현재 구역·렌더러 x/z·yaw/pitch를 저장하고 `world.ts` 충돌로 검증한다. 과거 챕터 2 2D 저장은 진행을 유지하고 안전 시작점으로 이동하며, 신규 3D 입력·판정·저장을 장별로 복제하지 않는다. 첫 방 전용/3D 검증은 `test:browser:first`로 Java 없이 실행할 수 있다.
+
+## 프론트 코드 스타일
+
+- TypeScript 함수와 React 컴포넌트는 `const` 화살표 함수로 작성한다. 호이스팅에 의존하지 말고 호출 시점과 초기화 순서를 확인한다. Java 메서드와 React 오류 경계의 클래스 메서드는 해당 언어·프레임워크 구조를 유지한다.
+- 공통 UI는 `src/components/ui/`의 `Button`, `RecordEntry`, `RecordList`를 우선 재사용한다. 챕터별 화면은 상태 판정과 표현을 분리하고, 결과 화면은 `EpisodeResult.tsx`를 사용한다.
+- 새 UI는 Tailwind CSS 4 유틸리티를 우선 사용한다. Preflight 없이 기존 base/components 레이어와 함께 동작하므로 전역 초기화나 무관한 화면 스타일 변경을 추가하지 않는다. `src/index.css`의 소스 탐색 범위는 프론트 `src/`로 제한한다.

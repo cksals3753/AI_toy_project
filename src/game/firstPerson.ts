@@ -22,13 +22,13 @@ export const firstRoomAssets = {
 }
 
 // Camera rotation is presentation only. The authoritative position remains world.ts coordinates.
-export function firstPersonDirection(stick: Point, yaw: number): Point {
+export const firstPersonDirection = (stick: Point, yaw: number): Point => {
   return {
     x: Math.cos(yaw) * stick.x + Math.sin(yaw) * stick.y,
     y: -Math.sin(yaw) * stick.x + Math.cos(yaw) * stick.y,
   }
 }
-export function clampPitch(pitch: number) {
+export const clampPitch = (pitch: number) => {
   return Math.max(-1.1, Math.min(1.1, pitch))
 }
 

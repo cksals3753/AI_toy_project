@@ -1,10 +1,11 @@
+import { Button } from './ui/Button'
 import { useState } from 'react'
 import type { Dispatch, ReactNode } from 'react'
 import type { Action, State } from '../game/engine'
 import { approvalClues, platformObjects, trains } from '../game/chapter3'
 import { Overlay } from './Overlay'
 export type Chapter3Panel = 'approval' | 'survivor' | 'train-a' | 'train-b' | 'depart'
-export function Chapter3Panels({
+export const Chapter3Panels = ({
   state,
   panel,
   onClose,
@@ -16,7 +17,7 @@ export function Chapter3Panels({
   onClose: () => void
   dispatch: Dispatch<Action>
   notebook: ReactNode
-}) {
+}) => {
   const [vehicle, setVehicle] = useState('')
   const [track, setTrack] = useState('')
   const c = state.chapter3
@@ -36,12 +37,9 @@ export function Chapter3Panels({
             <p className="muted">
               어느 선택도 체력·구급품을 소모하지 않으며 조사를 계속할 수 있습니다.
             </p>
-            <button
-              className="primary full"
-              onClick={() => act({ type: 'survivor-choice', choice: 'help' })}
-            >
+            <Button full onClick={() => act({ type: 'survivor-choice', choice: 'help' })}>
               부축해 승강장 의자까지 데려간다
-            </button>
+            </Button>
             <button
               className="secondary full"
               onClick={() => act({ type: 'survivor-choice', choice: 'direct' })}
@@ -58,12 +56,9 @@ export function Chapter3Panels({
             </p>
             {['directed', 'waiting'].includes(c.npc) && (
               <>
-                <button
-                  className="primary full"
-                  onClick={() => act({ type: 'survivor-choice', choice: 'invite' })}
-                >
+                <Button full onClick={() => act({ type: 'survivor-choice', choice: 'invite' })}>
                   함께 탑승하자고 제안한다
-                </button>
+                </Button>
                 <button
                   className="secondary full"
                   onClick={() => act({ type: 'survivor-choice', choice: 'wait' })}
@@ -85,9 +80,9 @@ export function Chapter3Panels({
         <p className="muted">
           탑승해 내부를 확인할 수 있습니다. 이 열차는 출발하지 않으며 언제든 다시 내릴 수 있습니다.
         </p>
-        <button className="primary full" onClick={() => act({ type: 'enter-train-a' })}>
+        <Button full onClick={() => act({ type: 'enter-train-a' })}>
           A-17 내부 조사 →
-        </button>
+        </Button>
       </Overlay>
     )
   if (panel === 'train-b')
@@ -110,9 +105,9 @@ export function Chapter3Panels({
             출입문 <b>{c.doorOpen ? '개방' : '닫힘'}</b>
           </p>
         </div>
-        <button className="primary full" onClick={() => act({ type: 'call-train-b' })}>
+        <Button full onClick={() => act({ type: 'call-train-b' })}>
           {c.doorOpen ? '문 개방 상태 확인' : '외부 비상 호출 장치 사용'}
-        </button>
+        </Button>
         <p className="muted">문이 열리면 옆의 ‘B-04 선두 · 출발 확인’에서 최종 탑승합니다.</p>
       </Overlay>
     )
@@ -168,9 +163,9 @@ export function Chapter3Panels({
               </option>
             ))}
           </select>
-          <button className="primary full" disabled={c.approved || !vehicle || !track}>
+          <Button type="submit" full disabled={c.approved || !vehicle || !track}>
             {c.approved ? '승인 완료' : '기록 대조 · 승인 요청'}
-          </button>
+          </Button>
         </form>
         <p className="notice" role="status">
           {state.notice}
@@ -228,19 +223,15 @@ export function Chapter3Panels({
         {['unseen', 'found'].includes(c.npc) && (
           <p className="notice">기둥 뒤에서 들리는 기침 소리를 먼저 확인하세요.</p>
         )}
-        <button
-          className="primary full"
-          disabled={!ready}
-          onClick={() => act({ type: 'board-train-b' })}
-        >
+        <Button full disabled={!ready} onClick={() => act({ type: 'board-train-b' })}>
           최종 확인 · 탑승하고 출발 →
-        </button>
+        </Button>
         {!ready && (
           <p className="muted">비상 부스 승인 → 녹색 신호 → B-04 외부 비상 호출을 확인하세요.</p>
         )}
-        <button className="text-button" onClick={onClose}>
+        <Button variant="text" onClick={onClose}>
           아직 출발하지 않는다
-        </button>
+        </Button>
       </Overlay>
     )
   }

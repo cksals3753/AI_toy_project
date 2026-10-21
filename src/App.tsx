@@ -30,7 +30,6 @@ import { ExplorationView } from './components/ExplorationView'
 import { Portrait } from './components/Portrait'
 import { Overlay } from './components/Overlay'
 import { DodgeGame } from './components/DodgeGame'
-import './App.css'
 
 type Panel =
   | 'help'
@@ -48,7 +47,7 @@ type Panel =
   | Chapter4Panel
   | Chapter5Panel
   | null
-function App() {
+const App = () => {
   const [state, dispatch] = useReducer(reducer, undefined, loadGame)
   const [welcome, setWelcome] = useState(state.stage !== 'intro')
   const [transition, setTransition] = useState(false)
@@ -110,7 +109,7 @@ function App() {
   const immersive =
     playing && usesFirstPerson(area) && import.meta.env.VITE_FIRST_ROOM_3D !== 'false'
   const menuKeys = useRef(new Set<string>())
-  function finishUiGesture() {
+  const finishUiGesture = () => {
     if (!paused || !isImmersiveArea(area)) return
     flushSync(() => {})
     explorationControls.current?.resumeAfterUi()
@@ -211,7 +210,7 @@ function App() {
   }, [panel])
   useEffect(() => {
     const held = menuKeys.current
-    function keydown(event: KeyboardEvent) {
+    const keydown = (event: KeyboardEvent) => {
       if (
         document.visibilityState === 'hidden' ||
         !document.hasFocus() ||
@@ -1533,7 +1532,7 @@ function App() {
     </div>
   )
 }
-function cluesUnread(state: import('./game/engine').State) {
+const cluesUnread = (state: import('./game/engine').State) => {
   return state.clues.filter((id) => !state.reading.clues.includes(id)).length
 }
 export default App

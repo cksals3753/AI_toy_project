@@ -1,3 +1,4 @@
+import { Button } from './ui/Button'
 import type { Dispatch, ReactNode } from 'react'
 import type { Action, State } from '../game/engine'
 import { trainLinks, trainPanelStatus } from '../game/chapter4'
@@ -38,18 +39,12 @@ export const Chapter4Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
         <p className="muted">
           승인하면 챕터 4 완료와 도착 상태를 저장합니다. 역 안 본격 탐색은 챕터 5에서 이어집니다.
         </p>
-        <button
-          className="primary full"
-          onClick={() => dispatch({ type: 'train-entry', confirm: true })}
-        >
+        <Button full onClick={() => dispatch({ type: 'train-entry', confirm: true })}>
           진입 승인 · 챕터 4 완료
-        </button>
-        <button
-          className="text-button"
-          onClick={() => dispatch({ type: 'train-entry', confirm: false })}
-        >
+        </Button>
+        <Button variant="text" onClick={() => dispatch({ type: 'train-entry', confirm: false })}>
           문 앞에서 더 생각하기
-        </button>
+        </Button>
       </Overlay>
     )
   if (panel === 'train-links')
@@ -95,8 +90,8 @@ export const Chapter4Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
       <Overlay title="가상 비상 운행 · 정차 요청" onClose={onClose}>
         <p className="intro-text">{trainPanelStatus(c)}</p>
         <p className="muted">운전실에는 들어가지 않습니다. 게임 전용 시스템에 정차를 요청합니다.</p>
-        <button
-          className="primary full"
+        <Button
+          full
           disabled={!c.links.power || !c.links.relay || c.links.external || c.sync !== 'idle'}
           onClick={() => {
             onClose()
@@ -104,7 +99,7 @@ export const Chapter4Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
           }}
         >
           신호 동기화 시작
-        </button>
+        </Button>
         <details>
           <summary>현장 기록 확인</summary>
           {notebook}

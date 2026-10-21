@@ -59,7 +59,7 @@ export const finalQuestions = [
     label: '개방 표시 뒤에 차단문 폐쇄 안내가 있어요.',
   },
 ] as const
-export function finalAnswer(id: string): Message[] {
+export const finalAnswer = (id: string): Message[] => {
   const q = finalQuestions.find((q) => q.id === id)!
   return [
     { who: 'player', text: q.label },
@@ -133,7 +133,7 @@ export const defaultChapter6: Chapter6 = {
   result: null,
 }
 export const routeEvidence = ['final-map', 'final-manual']
-export function finalObjective(s: State) {
+export const finalObjective = (s: State) => {
   const c = s.chapter6
   if (c.completed)
     return '에피소드 1 완료 · 지상 대피소에 도착했습니다. 저장된 결과와 기록을 확인하세요.'
@@ -152,7 +152,7 @@ export function finalObjective(s: State) {
       ? '제어반에서 문·승인 방식·전원을 대조하세요. 이동은 별도 확인합니다.'
       : '현장 기록을 다시 확인한 뒤 경로 이동을 확정하세요.'
 }
-export function normalizeChapter6(value: unknown, eligible: boolean): Chapter6 {
+export const normalizeChapter6 = (value: unknown, eligible: boolean): Chapter6 => {
   if (!eligible || !value || typeof value !== 'object') return { ...defaultChapter6 }
   const c = value as Partial<Chapter6>
   const started = c.started === true

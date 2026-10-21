@@ -1,13 +1,13 @@
 import * as T from 'three'
 import { FBXLoader } from 'three/addons/loaders/FBXLoader.js'
 import { firstRoomAssets } from './firstPerson'
-export function loadOhModel(
+export const loadOhModel = (
   scene: T.Scene,
   position: T.Vector3,
   onError: () => void,
   identity: 'oh' | 'survivor' = 'oh',
   seatedInitially = false,
-) {
+) => {
   let disposed = false,
     mixer: T.AnimationMixer | null = null,
     root: T.Group | null = null
@@ -133,7 +133,7 @@ export function loadOhModel(
     undefined,
     failReady,
   )
-  function dispose(object: T.Object3D) {
+  const dispose = (object: T.Object3D) => {
     object.traverse((obj) => {
       if (obj instanceof T.Mesh) {
         obj.geometry.dispose()

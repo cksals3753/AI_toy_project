@@ -24,7 +24,7 @@ const firstClear = () =>
 const hall = () => finishDialogue(reducer(firstClear(), { type: 'enter-hall' }))
 const withKey = () => apply(hall(), { type: 'inspect', id: 'hall-desk' })
 const electrical = () => apply(withKey(), { type: 'enter-electrical' })
-function reload(state: unknown) {
+const reload = (state: unknown) => {
   Object.defineProperty(globalThis, 'localStorage', {
     configurable: true,
     value: { getItem: () => JSON.stringify(state) },

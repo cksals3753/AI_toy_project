@@ -1,3 +1,8 @@
+import { defaultComfort } from '../game/comfort'
+import type { ComfortSettings } from '../game/comfort'
+import { useThreat } from './useThreat'
+import { ThreatStatus } from './ThreatStatus'
+import type { ThreatSave } from '../game/threat'
 import { firstRoomAudio } from '../audio/firstRoomAudio'
 import type { View3d } from '../game/firstPerson'
 import { gameKey, editingText } from '../game/explorationInput'
@@ -22,6 +27,12 @@ import { renderWorld } from '../game/renderWorld'
 
 export type ExplorationControls = { resumeAfterUi: () => void }
 export type ExplorationProps = {
+  comfort?: ComfortSettings
+  threat?: ThreatSave
+  onThreatAlert?: (alert: boolean) => void
+  onCaught?: () => void
+  onGateHeard?: () => void
+  onRoomBeat?: () => void
   view3d?: View3d | null
   onView3d?: (view: View3d) => void
 
@@ -41,6 +52,12 @@ export type ExplorationProps = {
   onPosition: (position: Point) => void
 }
 export const Exploration = ({
+  comfort,
+  threat,
+  onThreatAlert,
+  onCaught,
+  onGateHeard,
+  onRoomBeat,
   area,
   chapter3,
   chapter4,
@@ -55,6 +72,31 @@ export const Exploration = ({
   onInteract,
   onPosition,
 }: ExplorationProps) => {
+  const {
+    runtime: enemyRuntime,
+    advance: advanceThreat,
+    mode: threatMode,
+  } = useThreat({
+    comfort,
+    area,
+    chapter3,
+    chapter4,
+    chapter5,
+    chapter6,
+    power,
+    staffEvent,
+    initialPosition,
+    paused,
+    clues,
+    outcome,
+    onInteract,
+    onPosition,
+    threat,
+    onThreatAlert,
+    onCaught,
+    onGateHeard,
+    onRoomBeat,
+  })
   const animation = useRef({ clock: 0, facing: 'down' as Facing, moving: false })
   const pointer = useRef<number | null>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
@@ -135,7 +177,7 @@ export const Exploration = ({
     const tick = (time: number) => {
       const dt = last ? (time - last) / 1000 : 0
       last = time
-      if (!paused && document.visibilityState !== 'hidden') {
+      if (!paused && document.visibilityState !== 'hidden' && document.hasFocus()) {
         const direction = {
           x:
             stick.current.x +
@@ -148,7 +190,13 @@ export const Exploration = ({
         }
         const previous = position.current
         const beforeStep = position.current
-        position.current = movePlayer(position.current, direction, dt, world)
+        position.current = movePlayer(
+          position.current,
+          direction,
+          dt,
+          world,
+          comfort?.moveSpeed ?? defaultComfort.moveSpeed,
+        )
         if (
           [
             'first',
@@ -188,6 +236,7 @@ export const Exploration = ({
           lastSave = time
         }
       }
+      advanceThreat(dt, position.current, world, !paused)
       const entity = nearestEntity(position.current, world)
       if ((entity?.id ?? '') !== nearId) {
         nearId = entity?.id ?? ''
@@ -201,6 +250,7 @@ export const Exploration = ({
         chapter4,
         chapter5,
         chapter6,
+        threat: enemyRuntime.current,
         ...animation.current,
         moving: !paused && animation.current.moving,
       })
@@ -236,6 +286,9 @@ export const Exploration = ({
     outcome,
     onInteract,
     onPosition,
+    advanceThreat,
+    enemyRuntime,
+    comfort,
   ])
   const drag = (event: PointerEvent<HTMLDivElement>) => {
     if (pointer.current !== event.pointerId || paused) return
@@ -256,6 +309,7 @@ export const Exploration = ({
   }
   return (
     <div className={`exploration ${paused ? 'is-paused' : ''}`}>
+      <ThreatStatus area={area} mode={threatMode} paused={paused} />
       <canvas
         ref={canvas}
         tabIndex={0}

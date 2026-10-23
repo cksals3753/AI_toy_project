@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-23",
+  "unitTests": {
+    "files": 21,
+    "passed": 197
+  },
+  "lint": "passed",
+  "build": "npm run build:playtest passed",
+  "format": "changed source and documentation passed",
+  "browser": {
+    "comfort": "passed; dev Chrome, mobile emulation DPR2",
+    "minimumSpeedThreat": "passed; saved fixtures with speed 0.6; detection, capture, retry, menu/focus pause, mobile evade, 2D fallback",
+    "resume": "passed; E interactions, NPC dialogue, puzzle success/cancel, pointer lock denied fallback, Escape",
+    "shortcuts": "passed; Tab, Korean KeyI, repeat/editable/focus guards",
+    "production": {
+      "durationSeconds": 597,
+      "stateInjection": false,
+      "chapters": [1, 2, 3, 4, 5, 6],
+      "endingReloadReplay": true,
+      "network": {
+        "aiRequests": 0,
+        "externalRequests": [],
+        "errors": [],
+        "consoleErrors": [],
+        "assetFailures": []
+      }
+    }
+  },
+  "frameSample": {
+    "condition": "headless Chrome SwiftShader, stationary first room, 100 frames; no before comparison",
+    "p50Ms": 16.7,
+    "p95Ms": 16.7,
+    "maxMs": 16.8
+  },
+  "unverified": [
+    "physical mobile devices",
+    "native GPU performance across devices",
+    "OS/hardware mouse DPI differences",
+    "human motion sickness response",
+    "long-duration frame cadence across every scene"
+  ],
+  "testHarnessCorrections": [
+    "Hall restore notices are blocking dialogue; finish them before menu shortcut assertions.",
+    "Waypoints use configured speed and a stable target-selection margin, rather than fixed 165 units/s.",
+    "Chapter2 development-only dataset assertions cannot run against a production build; used the production-compatible episode test."
+  ]
+}

@@ -280,7 +280,7 @@ export const createRoomAudio = () => {
               ? 0.25
               : kind === 'brake'
                 ? 1.4
-                : kind === 'step'
+                : kind === 'step' || kind === 'infected'
                   ? 0.16
                   : kind === 'switch'
                     ? 0.1
@@ -300,13 +300,15 @@ export const createRoomAudio = () => {
         ? 500
         : kind === 'vibration'
           ? 95
-          : kind === 'step'
-            ? 430
-            : kind === 'key'
-              ? 2200
-              : kind === 'switch'
-                ? 1600
-                : 1050
+          : kind === 'infected'
+            ? 180
+            : kind === 'step'
+              ? 430
+              : kind === 'key'
+                ? 2200
+                : kind === 'switch'
+                  ? 1600
+                  : 1050
     filter.Q.value = 0.6
     const envelope = own(context.createGain())
     envelope.gain.setValueAtTime(0, t)

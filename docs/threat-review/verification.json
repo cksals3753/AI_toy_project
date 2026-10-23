@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-23",
+  "environment": "Headless local Chrome / SwiftShader, 390x844 touch emulation; no Spring",
+  "tests": {
+    "files": 20,
+    "passed": 192
+  },
+  "productionFocused": {
+    "controlledSaveFixtures": true,
+    "realDetectionAndChase": true,
+    "twoCapturesAndRetries3D": true,
+    "realCapture2D": true,
+    "menuAndReadingPause": true,
+    "browserTabFocusPause": true,
+    "pursuitSaveRestoresCheckpoint": true,
+    "touchMovementAndLookEvasion": true,
+    "resources": "health=1, battery=0 preserved",
+    "network": {
+      "aiRequests": 0,
+      "externalRequests": [],
+      "errors": [],
+      "consoleErrors": [],
+      "assetFailures": []
+    }
+  },
+  "developmentFocused": {
+    "walkingJointAngleVariationAsserted": true,
+    "enemyPositionUnchangedDuringPauseAsserted": true
+  },
+  "fullRegression": {
+    "fromNewGame": true,
+    "stateInjection": false,
+    "durationSeconds": 488,
+    "staffBranch": "failed",
+    "chapter2Completed": true,
+    "episodeCompleted": true,
+    "npcTogether": true,
+    "route": "manual",
+    "endingReplayAndReload": true,
+    "network": {
+      "aiRequests": 0,
+      "externalRequests": [],
+      "errors": [],
+      "consoleErrors": [],
+      "assetFailures": []
+    }
+  },
+  "limitations": [
+    "Real mobile device, physical GPU/speakers and new-player comprehension untested",
+    "Whole production playthrough covered the manual ending with a companion, not every optional branch",
+    "Procedural walking has no knee IK or full foot planting",
+    "Thin-corner visibility and contact hardening was validated by unit tests and the final focused production replay; the earlier full run covers unchanged chapters 3–6"
+  ],
+  "testHarnessNotes": [
+    "An early pause check used the wrong synthetic Tab code; corrected to physical Tab",
+    "Mobile does not use pointer lock; the harness respects that",
+    "A stationary 2D actor behind cover did not get caught: final capture check uses a controlled visible encounter instead"
+  ]
+}

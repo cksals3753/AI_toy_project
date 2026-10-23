@@ -1,3 +1,5 @@
+import { exitMarkers } from './threat'
+import type { ThreatRuntime } from './threat'
 import type { Chapter6 } from './chapter6'
 import { isChapter5Area, moonStation } from './chapter5'
 import type { Chapter5 } from './chapter5'
@@ -10,6 +12,7 @@ import type { Chapter3 } from './chapter3'
 import type { Chapter2 } from './engine'
 export type Facing = 'down' | 'up' | 'left' | 'right'
 export type RenderOptions = {
+  threat?: ThreatRuntime
   area: Area
   chapter3: Chapter3
   chapter4?: Chapter4
@@ -415,5 +418,33 @@ export const renderWorld = (
   glow.addColorStop(1, lit ? '#020a0433' : '#020a047f')
   ctx.fillStyle = glow
   ctx.fillRect(0, 0, world.width, world.height)
+  if (options.area === 'hall' && options.threat) {
+    for (const r of exitMarkers) {
+      ctx.strokeStyle = '#9bbf9b'
+      ctx.lineWidth = 2
+      ctx.strokeRect(r.x, r.y, r.w, r.h)
+    }
+    const e = options.threat
+    ctx.save()
+    ctx.translate(e.position.x, e.position.y)
+    ctx.rotate(e.heading)
+    ctx.fillStyle = '#c18153'
+    ctx.fillRect(-13, -12, 26, 24)
+    ctx.fillStyle = '#9baa9d'
+    ctx.beginPath()
+    ctx.arc(12, 0, 9, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.restore()
+    ctx.fillStyle = '#f2c698'
+    ctx.font = '13px sans-serif'
+    ctx.fillText('⚠ 감염자', e.position.x - 25, e.position.y - 25)
+  }
+  if (options.area === 'first') {
+    ctx.fillStyle = '#746552'
+    ctx.fillRect(590, 73, 70, 12)
+    ctx.fillStyle = '#d1bca0'
+    ctx.font = '12px sans-serif'
+    ctx.fillText('쿵— 봉쇄 시설문', 570, 105)
+  }
   ctx.restore()
 }

@@ -1,3 +1,7 @@
+import { cameraFov, defaultComfort, touchLookScale } from '../game/comfort'
+import { useThreat } from './useThreat'
+import { ThreatStatus } from './ThreatStatus'
+import { createThreatVisual } from '../game/threatVisual'
 import { firstRoomAudio } from '../audio/firstRoomAudio'
 import { trackRendererLookup } from '../game/rendererResources'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -24,6 +28,7 @@ import { createFinalScene, finalSceneNames } from '../game/finalScene'
 import { normalizeView3d, makeView3d } from '../game/view3d'
 
 export const FirstPersonExploration = (props: ExplorationProps) => {
+  const { advance: advanceThreat, mode: threatMode } = useThreat(props)
   const area = isImmersiveArea(props.area) ? props.area : 'first'
   const SCALE = sceneScale(area)
   const savedView = normalizeView3d(
@@ -75,6 +80,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
   const [assetError, setAssetError] = useState(false)
   const [revision, setRevision] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [settling, setSettling] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const persist = () =>
     latest.current.onView3d
@@ -147,6 +153,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
                     latest.current.chapter6,
                     () => setAssetError(true),
                   )
+    const threatVisual = createThreatVisual(world.scene, area)
     const releaseRendererLookup = trackRendererLookup(world.scene)
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const camera = new T.PerspectiveCamera(64, 1, 0.05, 40)
@@ -217,6 +224,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       resetInputs()
       if (touchDevice()) resume()
     }
+    let settleTimer: ReturnType<typeof setTimeout>
     let loadTimer: ReturnType<typeof setTimeout>
     Promise.race([
       world.ready,
@@ -226,14 +234,19 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     ])
       .then(() => {
         if (!disposed) {
-          ready = true
           setActive(false)
           targetId = null
           setNear(null)
           setLoading(false)
           setLoadError(false)
           persistRef.current()
-          if (touchDevice() && !latest.current.paused) resume()
+          settleTimer = setTimeout(() => {
+            if (disposed) return
+            ready = true
+            setSettling(false)
+            resetInputs()
+            if (touchDevice() && !latest.current.paused) resume()
+          }, 240)
         }
       })
       .catch(() => {
@@ -294,8 +307,12 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       }
       // Ignore a discontinuity on lock / browser focus restoration.
       if (Math.abs(event.movementX) > 500 || Math.abs(event.movementY) > 500) return
-      angles.current.yaw -= event.movementX * 0.0025
-      angles.current.pitch = clampPitch(angles.current.pitch - event.movementY * 0.0025)
+      angles.current.yaw -=
+        event.movementX * (latest.current.comfort ?? defaultComfort).mouseSensitivity
+      angles.current.pitch = clampPitch(
+        angles.current.pitch -
+          event.movementY * (latest.current.comfort ?? defaultComfort).mouseSensitivity,
+      )
     }
     const resize = new ResizeObserver(() => {
       const bounds = element.getBoundingClientRect()
@@ -338,6 +355,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
             latest.current.chapter5,
             latest.current.chapter6,
           ),
+          (latest.current.comfort ?? defaultComfort).moveSpeed,
         )
         if (
           [
@@ -366,14 +384,50 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
           lastSave = time
         }
       }
+      const threatWorld = getWorld(
+        area,
+        latest.current.chapter3.npc,
+        latest.current.chapter3.npcBoarded,
+        latest.current.power,
+        latest.current.chapter3.doorOpen,
+        latest.current.chapter4,
+        latest.current.chapter5,
+        latest.current.chapter6,
+      )
+      const threatActive =
+        ready &&
+        controls.active &&
+        !latest.current.paused &&
+        document.hasFocus() &&
+        document.visibilityState !== 'hidden'
+      const enemy = advanceThreat(dt, position.current, threatWorld, threatActive)
+      threatVisual.update(
+        enemy,
+        dt,
+        threatActive,
+        latest.current.threat?.roomBeat ?? 0,
+        reducedMotion,
+      )
+      if (import.meta.env.DEV && area === 'hall') {
+        element!.dataset.threatGait = String(world.scene.userData.threatGait ?? 0)
+        element!.dataset.threatMode = enemy.mode
+        element!.dataset.threatX = String(enemy.position.x)
+        element!.dataset.threatY = String(enemy.position.y)
+      }
       camera.position.set(
         (position.current.x - 480) / SCALE,
         1.5,
         (position.current.y - 310) / SCALE,
       )
       camera.rotation.set(angles.current.pitch, angles.current.yaw, 0, 'YXZ')
+      const nextFov = cameraFov((latest.current.comfort ?? defaultComfort).fov, camera.aspect)
+      if (camera.fov !== nextFov) {
+        camera.fov = nextFov
+        camera.updateProjectionMatrix()
+      }
       camera.updateMatrixWorld()
       if (import.meta.env.DEV) {
+        element!.dataset.cameraFov = String(camera.fov)
         element!.dataset.yaw = String(angles.current.yaw)
         element!.dataset.pitch = String(angles.current.pitch)
       }
@@ -436,6 +490,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     return () => {
       disposed = true
       clearTimeout(loadTimer)
+      clearTimeout(settleTimer)
       cancelAnimationFrame(frame)
       resize.disconnect()
       window.removeEventListener('keydown', keydown)
@@ -457,10 +512,11 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         controls.unpause =
           () => {}
       releaseRendererLookup()
+      threatVisual.dispose()
       world.dispose()
       renderer.dispose()
     }
-  }, [fallback, revision, area, SCALE])
+  }, [fallback, revision, area, SCALE, advanceThreat])
   const dragStick = (event: PointerEvent<HTMLDivElement>) => {
     if (joystickPointer.current !== event.pointerId || props.paused || !runtime.current.active)
       return
@@ -488,6 +544,8 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     )
   return (
     <div className={`exploration first-person ${props.paused ? 'is-paused' : ''}`}>
+      {!loading && settling && <div className="area-settle" aria-hidden="true" />}
+      <ThreatStatus area={area} mode={threatMode} paused={props.paused || !active} />
       <canvas
         ref={canvas}
         tabIndex={0}
@@ -511,8 +569,14 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
           const look = lookPointer.current
           if (!look || look.id !== event.pointerId || props.paused || !runtime.current.active)
             return
-          angles.current.yaw -= (event.clientX - look.x) * 0.006
-          angles.current.pitch = clampPitch(angles.current.pitch - (event.clientY - look.y) * 0.006)
+          const bounds = event.currentTarget.getBoundingClientRect()
+          const sensitivity =
+            (props.comfort ?? defaultComfort).touchSensitivity *
+            touchLookScale(bounds.width, bounds.height)
+          angles.current.yaw -= (event.clientX - look.x) * sensitivity
+          angles.current.pitch = clampPitch(
+            angles.current.pitch - (event.clientY - look.y) * sensitivity,
+          )
           lookPointer.current = { id: event.pointerId, x: event.clientX, y: event.clientY }
         }}
         onPointerUp={() => {
@@ -541,7 +605,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         </span>
         <span>{props.paused ? 'Ⅱ 일시정지' : active ? '● 탐색 중' : '클릭으로 탐색 복귀'}</span>
       </div>
-      {loading && (
+      {(loading || (settling && !loadError)) && (
         <div className="renderer-notice" data-scene-loading role="status">
           공간 준비 중 · 이동 및 조사 대기
         </div>
@@ -554,6 +618,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
               setLoadError(false)
               setAssetError(false)
               setLoading(true)
+              setSettling(true)
               setRevision((v) => v + 1)
             }}
           >
@@ -562,7 +627,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
           <button onClick={() => setFallback(true)}>2D로 계속하기</button>
         </div>
       )}
-      {!loadError && !loading && !props.paused && !active && (
+      {!loadError && !loading && !settling && !props.paused && !active && (
         <div className="exploration-resume" role="status">
           <span>클릭하여 탐색 계속</span>
         </div>
@@ -580,6 +645,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
             onClick={() => {
               setAssetError(false)
               setLoading(true)
+              setSettling(true)
               setRevision((v) => v + 1)
             }}
           >

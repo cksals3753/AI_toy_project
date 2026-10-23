@@ -301,14 +301,19 @@ try {
   }
   // Follow collision-valid waypoints with actual key input, using persisted coordinates as feedback.
   async function walkTo(id) {
+    const speed = await evaluate(
+      "JSON.parse(localStorage.getItem('last-transfer-comfort-v1') ?? 'null')?.moveSpeed ?? 0.8",
+    )
+    if ((await state())?.threat?.caught) throw Error('Threat capture during navigation')
     for (let attempt = 0; attempt < 12; attempt++) {
+      if ((await state())?.threat?.caught) throw Error('Threat capture during navigation')
       const route = await evaluate(`(async()=>{
         const m=await import('/src/game/world.ts'),s=JSON.parse(localStorage.getItem('last-transfer-save-v1')),w=m.getWorld(s.area,s.chapter3?.npc,s.chapter3?.npcBoarded,s.chapter2?.power,s.chapter3?.doorOpen,s.chapter4,s.chapter5,s.chapter6),p=s.position;
         if(m.nearestEntity(p,w)?.id===${JSON.stringify(id)}&&(${JSON.stringify(id)}!=='train-phone'||Math.hypot(p.x-w.entities.find(e=>e.id==='train-phone').x-26.5,p.y-w.entities.find(e=>e.id==='train-phone').y-17)<60))return [];
         const start={x:Math.round(p.x/10)*10,y:Math.round(p.y/10)*10};
         const queue=[start],seen=new Set(),parents=new Map();let goal;
         for(let i=0;i<queue.length;i++){const q=queue[i],k=q.x+','+q.y;if(seen.has(k))continue;seen.add(k);
-          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=Math.hypot(q.x-Math.max(entity.x,Math.min(q.x,entity.x+entity.w)),q.y-Math.max(entity.y,Math.min(q.y,entity.y+entity.h)));if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&distance<40&&(entity.id!=='train-phone'||Math.hypot(q.x-entity.x-26.5,q.y-entity.y-17)<58)){goal=q;break}
+          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=Math.hypot(q.x-Math.max(entity.x,Math.min(q.x,entity.x+entity.w)),q.y-Math.max(entity.y,Math.min(q.y,entity.y+entity.h)));if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&distance<40&&[{x:4,y:0},{x:-4,y:0},{x:0,y:4},{x:0,y:-4}].every(d=>m.nearestEntity({x:q.x+d.x,y:q.y+d.y},w)?.id===entity.id)&&(entity.id!=='train-phone'||Math.hypot(q.x-entity.x-26.5,q.y-entity.y-17)<58)){goal=q;break}
           for(const d of [{x:10,y:0},{x:-10,y:0},{x:0,y:10},{x:0,y:-10}]){const v={x:q.x+d.x,y:q.y+d.y},vk=v.x+','+v.y;if(m.walkable(v,w)&&!seen.has(vk)&&!parents.has(vk)){parents.set(vk,q);queue.push(v)}}}
         if(!goal)throw Error('No route to '+${JSON.stringify(id)});
         const path=[goal];while(path.at(-1).x!==start.x||path.at(-1).y!==start.y){path.push(parents.get(path.at(-1).x+','+path.at(-1).y));if(path.length>2000)throw Error('Invalid path')}
@@ -325,7 +330,7 @@ try {
             distance = horizontal ? dx : dy
           await hold(
             horizontal ? (distance > 0 ? 'd' : 'a') : distance > 0 ? 's' : 'w',
-            Math.max(25, Math.min(2200, (Math.abs(distance) / 165) * 1000)),
+            Math.max(25, Math.min(2200, (Math.abs(distance) / (165 * speed)) * 1000)),
           )
         }
       }

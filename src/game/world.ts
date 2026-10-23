@@ -723,11 +723,12 @@ export const movePlayer = (
   direction: Point,
   seconds: number,
   world: World = room,
+  speed = 1,
 ): Point => {
   const magnitude = Math.hypot(direction.x, direction.y)
   if (!magnitude) return position
   const dt = Math.min(Math.max(seconds, 0), 0.1)
-  const distance = room.speed * dt
+  const distance = room.speed * dt * Math.max(0.6, Math.min(1, speed))
   const steps = Math.max(1, Math.ceil(distance / 5))
   const dx = ((direction.x / Math.max(1, magnitude)) * distance) / steps
   const dy = ((direction.y / Math.max(1, magnitude)) * distance) / steps

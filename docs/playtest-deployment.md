@@ -1,10 +1,24 @@
-# 지인 테스트용 정적 배포
+# 지인 테스트용 Vercel 정적 배포
 
 ## 준비된 구성
 
 챕터 1~6과 에피소드 1 결과 화면을 Spring·AI 없이 제공한다. 저장소에서 기존 호스팅 설정이나 연결 메타데이터는 발견되지 않았다. GitHub 원격은 `cksals3753/AI_toy_project`이다. 외부 계정에 이미 연결된 서비스가 있는지는 확인하지 않았다.
 
-Netlify를 대상으로 `netlify.toml`과 `public/_redirects`를 준비했다. 배포는 아직 수행하지 않았다. 공식 문서: [Vite 설정](https://docs.netlify.com/build/frameworks/framework-setup-guides/vite/), [SPA 처리](https://docs.netlify.com/build/configure-builds/javascript-spas/), [Node 버전](https://docs.netlify.com/build/configure-builds/manage-dependencies/), [설정 파일](https://www.netlify.com/knowledge-base/how-to-configure-redirects-headers-and-env-vars-in-netlifyto/).
+Vercel을 대상으로 루트 `vercel.json`을 준비했다. 배포는 아직 수행하지 않았다. 공식 문서: [Vite 배포](https://vercel.com/docs/frameworks/frontend/vite), [vercel.json 설정](https://vercel.com/docs/project-configuration/vercel-json).
+
+| 항목                  | 설정                                               |
+| --------------------- | -------------------------------------------------- |
+| GitHub 저장소         | `cksals3753/AI_toy_project`                        |
+| Production Branch     | `main` (다른 브랜치를 배포하면 해당 브랜치로 지정) |
+| Root Directory        | 저장소 루트 `.` — `backend/`가 아님                |
+| Framework Preset      | Vite                                               |
+| Install Command       | `npm ci`                                           |
+| Build Command         | `npm run build:playtest`                           |
+| Output Directory      | `dist`                                             |
+| Node.js Version       | 24.x                                               |
+| Environment Variables | 추가할 값 없음                                     |
+
+`vercel.json`에 프레임워크·설치·빌드·출력 경로와 SPA rewrite를 지정했다. 기존 Netlify용 `netlify.toml`과 `public/_redirects`는 대안 설정으로 남아 있으며 Vercel 설정으로 사용하지 않는다.
 
 - 빌드: `npm run build:playtest`
 - 공개 폴더: `dist`만 지정. 저장소 루트·`backend`·`docs`를 공개하지 않는다.
@@ -13,7 +27,7 @@ Netlify를 대상으로 `netlify.toml`과 `public/_redirects`를 준비했다. �
 - `playtest` 빌드는 로컬/호스팅 환경변수 값과 무관하게 AI를 false, 3D를 true로 고정한다. 일반 개발·선택적 AI 코드는 유지한다.
 - 원래 파일은 그대로 제공하고 다른 경로는 `index.html`로 처리한다. URL은 챕터 식별자가 아니다. 직접 URL 접근도 시작/이어하기 화면이며 진행 위치는 브라우저 저장으로 결정된다.
 - API·DB·로그인·새로운 분석 서비스·서비스 워커는 추가하지 않는다.
-- Netlify 설정에 검색 제외 헤더를 넣었지만 비공개 접근 제어가 아니다. URL을 아는 사람은 접속할 수 있다.
+- Vercel 설정에 검색 제외 헤더를 넣었지만 비공개 접근 제어가 아니다. URL을 아는 사람은 접속할 수 있다.
 
 ## 로컬 확인
 
@@ -39,15 +53,26 @@ PRODUCTION_CHECK=1 FIRST_PERSON_CHECK=audio node scripts/verify-browser.mjs
 
 ## 직접 할 배포 절차
 
-1. 변경 파일을 검토하고 Git에 커밋한 뒤 배포할 브랜치로 push한다. 이 작업에서는 커밋·push하지 않았다.
-2. Netlify에 로그인한다. 계정이 없다면 직접 생성한다. 요금과 사용 제한을 확인하고 유료 옵션을 선택하지 않는다.
-3. 새 프로젝트 추가 → 기존 저장소 가져오기 → GitHub를 선택하고, 필요한 저장소 접근을 허용한다.
-4. `cksals3753/AI_toy_project`와 위에서 push한 브랜치를 선택한다. Base directory는 저장소 루트, Build command는 `npm run build:playtest`, Publish directory는 `dist`인지 확인한다. 저장소의 `netlify.toml`을 사용한다.
-5. AI 키·서버 주소 등 환경변수는 추가하지 않는다. 이 배포에는 필요 없다. 배포를 실행한다.
-6. 생성된 HTTPS 주소에서 시작, 모델 로딩, E/Tab/I/Esc, 소리, 새로고침·이어하기를 확인한다. 개발자 도구 Network에서 `/api/` 요청과 에셋 404가 없는지 확인한 뒤 지인에게 URL을 전달한다.
-7. 이후 같은 사이트에 배포를 갱신한다. 사이트/도메인이 달라지면 브라우저 저장도 분리된다. Git 연동 자동 배포 대상 브랜치는 직접 선택한 범위로 관리한다.
+1. 변경 파일(특히 `vercel.json`)을 검토하고 커밋한 뒤 GitHub의 배포할 브랜치로 push한다. 이 작업에서는 커밋·push하지 않았다.
+2. [Vercel](https://vercel.com)에 로그인한다. GitHub 로그인을 사용할 수 있다. 계정 생성이 필요하면 직접 진행하고 요금·사용 제한을 확인한다. 이번 배포에 유료 부가 기능은 필요하지 않으며 자동 업그레이드나 유료 옵션은 선택하지 않는다.
+3. 대시보드에서 **Add New → Project**를 선택한다. GitHub를 연결하고 필요한 저장소 접근을 허용한 뒤 `cksals3753/AI_toy_project`를 **Import**한다. 목록에 없으면 GitHub 연동의 저장소 접근 권한을 확인한다.
+4. Framework Preset이 **Vite**, Root Directory가 저장소 루트인지 확인한다. Build and Output Settings에서 Build Command가 **`npm run build:playtest`**, Output Directory가 **`dist`**, Install Command가 **`npm ci`**인지 확인한다. 자동 감지된 `npm run build` 대신 테스트용 명령을 사용한다. Node.js Version은 프로젝트 설정에서 **24.x**로 맞춘다.
+5. Environment Variables는 비워 둔다. API 키·`OPENAI_API_KEY`·서버 주소·`VITE_` 키는 추가하지 않는다. Spring 서버나 별도 백엔드 프로젝트도 만들 필요 없다.
+6. **Deploy**를 누른다. Build Logs에서 `build:playtest`와 정적 배포 점검의 PASS를 확인한다. 실패하면 해당 로그를 확인하고 빌드 명령·Node 버전·Root Directory부터 점검한다.
+7. 배포 후 Settings의 Git 설정에서 Production Branch가 의도한 브랜치(현재 `main`)인지 확인한다. 지인에게는 배포마다 바뀌는 Preview 주소 대신 프로젝트의 고정 **Production HTTPS 주소**(`https://프로젝트명.vercel.app`)를 전달한다. 실제 주소는 대시보드의 Domains/Visit에서 확인한다.
+8. 접속 시 Vercel 로그인을 요구하면 Deployment Protection 설정과 해당 URL이 Production인지 확인한다. 지인이 접근할 수 있는 주소·보호 설정을 직접 선택하고, 로그아웃/시크릿 창에서 접속 가능 여부를 확인한다. 프로젝트 설정과 요금제에 따라 보호 정책은 달라질 수 있다.
+9. 아래 배포 후 확인을 마친 뒤 URL을 전달한다. 이후 연결된 Production 브랜치에 push하면 자동으로 갱신된다. 다른 브랜치의 Preview와 Production은 주소가 달라 저장도 분리될 수 있다.
 
-저장소 연결을 원하지 않으면 로컬 `npm run build:playtest` 후 Netlify의 수동 배포에 **dist 폴더만** 올릴 수 있다. `_redirects`는 포함되지만 수동 업로드에서는 루트 `netlify.toml`의 빌드/헤더 설정이 적용된다고 가정하지 않는다. 재현 가능한 갱신을 위해 Git 연동을 권장한다.
+### 배포 후 확인
+
+- 첫 진입에서 시작 화면이 표시되고, 게임 시작 후 모델·텍스처가 정상 표시되는지 확인한다.
+- E 조사, Tab 단톡방, I 소지품, Esc 닫기·클릭 복귀와 모바일 터치를 확인한다.
+- 소리 활성화·음소거, 챕터 이동, 새로고침 후 이어하기를 확인한다.
+- `https://실제주소/playtest/direct`를 주소창에 직접 입력하고 새로고침한다. 404 없이 시작/이어하기 화면이 나와야 한다. 이 URL로 특정 챕터를 선택하는 것은 아니다.
+- 개발자 도구 Network에서 `/api/` 요청, `/art/` 및 JS/CSS의 404·실패가 없는지 확인한다.
+- 같은 Production 주소를 유지한다. 도메인을 변경하면 이전 브라우저 저장이 자동 이동하지 않는다.
+
+Vercel CLI나 GitHub Actions는 이번 절차에 필요하지 않다. Git 연동으로 빌드·배포를 진행하며 별도 배포 토큰도 설정하지 않는다.
 
 ## 지인에게 전달할 안내
 
@@ -59,4 +84,4 @@ PRODUCTION_CHECK=1 FIRST_PERSON_CHECK=audio node scripts/verify-browser.mjs
 
 ## 이번 검증 기록 (2026-10-23)
 
-[검증 요약과 네트워크 기록](playtest-verification.json)을 참조한다. 프로덕션 새 게임 → 챕터 1~6 → 실제 도착 상호작용 → 엔딩 저장·재열기를 상태 주입 없이 453초에 완료했다. 전체 진행과 오디오 검사, 직접 URL 검사에서 API·외부 요청 및 최종 에셋 오류가 없었다. 실제 Netlify 헤더·배포는 아직 검증하지 않았다. 이번 캡처 원본은 로컬 임시 폴더 `last-transfer-ch5-nmhV9A`에 보관했으며 기존 개발 검증 캡처는 덮어쓰지 않았다.
+[검증 요약과 네트워크 기록](playtest-verification.json)을 참조한다. 프로덕션 새 게임 → 챕터 1~6 → 실제 도착 상호작용 → 엔딩 저장·재열기를 상태 주입 없이 453초에 완료했다. 전체 진행과 오디오 검사, 직접 URL 검사에서 API·외부 요청 및 최종 에셋 오류가 없었다. 위 기록은 로컬 프로덕션 미리보기 검증이며 Vercel 배포 검증은 아니다. 실제 Vercel의 rewrite·헤더·접근 보호는 배포 후 확인해야 한다. 이번 캡처 원본은 로컬 임시 폴더 `last-transfer-ch5-nmhV9A`에 보관했으며 기존 개발 검증 캡처는 덮어쓰지 않았다.

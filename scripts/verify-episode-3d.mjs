@@ -19,7 +19,7 @@ export const verifyEpisodeThree = async (h) => {
     inputCode,
   } = h
   const started = Date.now(),
-    dir = 'docs/episode1-3d-integration'
+    dir = process.env.EPISODE_ARTIFACTS ?? 'docs/episode1-3d-integration'
   await mkdir(dir, { recursive: true })
   const records = [],
     checkpoints = {}

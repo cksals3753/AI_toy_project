@@ -1,3 +1,5 @@
+import { verifyComfort } from './verify-comfort.mjs'
+import { verifyThreat } from './verify-threat.mjs'
 import { verifyChapter56Audio } from './verify-chapter56-audio.mjs'
 import { verifyChapter34Audio } from './verify-chapter34-audio.mjs'
 import { verifyFirstRoomAudio } from './verify-first-room-audio.mjs'
@@ -102,8 +104,11 @@ export async function verifyFirstPerson({
       const yawDelta = process.env.PRODUCTION_CHECK
         ? Math.atan2(Math.sin(a.yaw - yaw), Math.cos(a.yaw - yaw))
         : a.yaw - yaw
-      const dx = Math.max(-180, Math.min(180, yawDelta / 0.0025))
-      const dy = Math.max(-100, Math.min(100, (a.pitch - pitch) / 0.0025))
+      const sensitivity = await evaluate(
+        "JSON.parse(localStorage.getItem('last-transfer-comfort-v1') ?? 'null')?.mouseSensitivity ?? 0.0015",
+      )
+      const dx = Math.max(-180, Math.min(180, yawDelta / sensitivity))
+      const dy = Math.max(-100, Math.min(100, (a.pitch - pitch) / sensitivity))
       if (Math.abs(dx) < 2 && Math.abs(dy) < 2) return
       mx += dx
       my += dy
@@ -133,7 +138,7 @@ export async function verifyFirstPerson({
     await wait(150)
     await resume3d()
   }
-  async function approach(id) {
+  async function approachOnce(id) {
     await resume3d()
     await look(0)
     await walkTo(id)
@@ -152,6 +157,26 @@ export async function verifyFirstPerson({
           : 0,
     )
     await wait(80)
+  }
+  const approach = async (id) => {
+    for (let retry = 0; retry < 5; retry++) {
+      try {
+        await approachOnce(id)
+        if (!(await state()).threat?.caught) return
+      } catch (error) {
+        if (!(await state()).threat?.caught) throw error
+      }
+      await click('안전 체크포인트에서 재시도')
+      await advanceAll()
+      await resume3d()
+      if ((await state()).area === 'electrical' && !['powerboard', 'hall-return'].includes(id)) {
+        await approachOnce('hall-return')
+        await pressE()
+        await advanceAll()
+        await resume3d()
+      }
+    }
+    throw Error('Repeated capture while approaching ' + id)
   }
   async function pressE(korean = false, repeat = false) {
     await send('Input.dispatchKeyEvent', {
@@ -176,6 +201,38 @@ export async function verifyFirstPerson({
   assert.equal(await evaluate("!!document.querySelector('.first-person canvas')"), true)
   await screenshot('3d-01-room-desktop.png')
   await resume3d()
+  if (process.env.FIRST_PERSON_CHECK === 'threat') {
+    await verifyThreat({
+      send,
+      evaluate,
+      state,
+      wait,
+      look,
+      click,
+      close,
+      advanceAll,
+      resume3d,
+      approach,
+      pressE,
+      screenshot,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'comfort') {
+    await verifyComfort({
+      send,
+      evaluate,
+      wait,
+      click,
+      close,
+      resume3d,
+      look,
+      hold,
+      state,
+      screenshot,
+    })
+    return
+  }
   if (process.env.FIRST_PERSON_CHECK === 'static') return
   if (process.env.FIRST_PERSON_CHECK === 'audio56') {
     await verifyChapter56Audio({
@@ -381,6 +438,8 @@ export async function verifyFirstPerson({
   }
   if (process.env.FIRST_PERSON_CHECK === 'shortcuts') {
     await verifyShortcuts({
+      advanceAll,
+      approach,
       send,
       evaluate,
       state,

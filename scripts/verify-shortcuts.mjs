@@ -10,6 +10,8 @@ export async function verifyShortcuts({
   pressE,
   trustedClick,
   resume3d,
+  advanceAll,
+  approach,
 }) {
   const panel = () => evaluate("document.querySelector('[data-game-menu]')?.dataset.gameMenu??null")
   const locked = () => evaluate('!!document.pointerLockElement')
@@ -161,6 +163,9 @@ export async function verifyShortcuts({
   )
   await wait(900)
   await state()
+  // Hall saves intentionally resume through a paused safe-checkpoint notice.
+  await advanceAll()
+  await resume3d()
   await evaluate("document.querySelector('canvas').focus()")
   await key('KeyI', 'ㅑ')
   assert.equal(await panel(), 'bag')
@@ -169,6 +174,7 @@ export async function verifyShortcuts({
   await key('Escape')
   assert.equal(await panel(), null)
   await resume3d()
+  await approach('hall-map')
   await pressE(true)
   assert.ok((await state()).clues.includes('hall-map'))
   const dialogue = (await state()).scene.length

@@ -1,3 +1,5 @@
+import { ComfortSettings } from './components/ComfortSettings'
+import { useComfort } from './components/useComfort'
 import { useFirstRoomAudio } from './audio/useFirstRoomAudio'
 import { SoundSettings } from './components/SoundSettings'
 import { isImmersiveArea, usesFirstPerson } from './game/firstPerson'
@@ -48,6 +50,7 @@ type Panel =
   | Chapter5Panel
   | null
 const App = () => {
+  const comfort = useComfort()
   const [state, dispatch] = useReducer(reducer, undefined, loadGame)
   const [welcome, setWelcome] = useState(state.stage !== 'intro')
   const [transition, setTransition] = useState(false)
@@ -90,6 +93,7 @@ const App = () => {
   const showEscape = chapter3.escaped && !escapeDismissed && !chapter4.started
   const npcChoice = area === 'platform' && chapter3.npc === 'found' && !scene.length
   const blocking =
+    state.threat.caught ||
     welcome ||
     transition ||
     scene.length > 0 ||
@@ -899,7 +903,8 @@ const App = () => {
             />
           )}
           <ExplorationView
-            key={`${worldKey}:${area}:${chapter2.staffEvent}`}
+            comfort={comfort.settings}
+            key={`${worldKey}:${area}:${chapter2.staffEvent}:${state.threat.revision}`}
             area={area}
             power={chapter2.power}
             staffEvent={chapter2.staffEvent}
@@ -916,6 +921,11 @@ const App = () => {
             onPosition={savePosition}
             view3d={state.view3d}
             onView3d={saveView3d}
+            threat={state.threat}
+            onThreatAlert={(alert) => dispatch({ type: 'threat-alert', alert })}
+            onCaught={() => dispatch({ type: 'threat-caught' })}
+            onGateHeard={() => dispatch({ type: 'threat-gate-consumed' })}
+            onRoomBeat={() => dispatch({ type: 'threat-room-beat' })}
           />
           {area === 'first' && fieldNote && !paused && (
             <aside className="field-note" role="status" aria-live="polite">
@@ -1062,6 +1072,17 @@ const App = () => {
           </div>
         </footer>
       </main>
+      {state.threat.caught && !welcome && (
+        <Overlay title="붙잡혔습니다 · 안전 지점에서 재시도">
+          <p>
+            감염자가 가까이 붙었습니다. 획득한 기록과 전원 설정은 보존되며 체력·배터리는 줄어들지
+            않습니다.
+          </p>
+          <button className="primary full" onClick={() => dispatch({ type: 'threat-retry' })}>
+            안전 체크포인트에서 재시도
+          </button>
+        </Overlay>
+      )}
       {welcome && panel !== 'reset' && (
         <Overlay title="마지막 환승 · 저장된 여정">
           <p className="intro-text">
@@ -1130,7 +1151,9 @@ const App = () => {
             <br />
             대화·휴대폰·메뉴가 열리면 탐색이 멈춥니다.
           </p>
-          <p className="muted">저장된 진행 없음 · 외부 AI 없이 플레이 가능</p>
+          <p className="muted">
+            저장된 진행 없음 · 외부 AI 없이 플레이 가능 · 대화와 메뉴를 읽는 동안 위협도 정지합니다.
+          </p>
           <p className="muted">
             진행은 이 브라우저에만 저장되며 다른 기기와 공유되지 않습니다. 브라우저 데이터
             삭제·시크릿 모드 종료 시 사라질 수 있습니다.
@@ -1142,7 +1165,11 @@ const App = () => {
               talk([
                 {
                   who: 'player',
-                  text: '간신히 몸을 일으켰다. 저쪽에 사람이 보인다. 휴대폰에는 네 사람의 메시지가 와 있다.',
+                  text: '쿵—! 막힌 시설문 아래로 그림자가 스쳤다. 여기는 임시로 막아 둔 방이다. 휴대폰에는 네 사람의 메시지가 와 있다.',
+                },
+                {
+                  who: 'oh',
+                  text: '밖에 돌아다니는 사람들, 가까이 가도 말이 안 통해요. 이 문도 계속 버티진 못해요. 난 필요한 물건부터 챙길 테니 나갈 길을 찾아봐요.',
                 },
               ])
             }}
@@ -1232,7 +1259,12 @@ const App = () => {
         </Overlay>
       )}
       {panel === 'help' && (
-        <Overlay title="탐색 조작 안내" onClose={closePanel}>
+        <Overlay title="탐색 조작 · 화면 설정" onClose={closePanel}>
+          <ComfortSettings
+            settings={comfort.settings}
+            onChange={comfort.change}
+            error={comfort.error}
+          />
           <SoundSettings
             settings={sound.settings}
             onChange={sound.setSettings}

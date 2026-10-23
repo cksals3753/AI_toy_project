@@ -2373,3 +2373,27 @@ summary {
   color: #a9b6a6;
   line-height: 1.5;
 }
+
+/* Only opacity changes: the camera is already at its stable spawn. */
+.area-settle {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: #070b0d;
+  pointer-events: none;
+  animation: area-settle 240ms linear forwards;
+}
+@keyframes area-settle {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .area-settle {
+    animation: none;
+    opacity: 0;
+  }
+}

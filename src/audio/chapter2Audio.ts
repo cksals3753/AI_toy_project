@@ -1,6 +1,7 @@
 import type { State } from '../game/engine'
 
 export type AudioCue =
+  | 'infected'
   | 'key'
   | 'switch'
   | 'restore'

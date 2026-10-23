@@ -68,6 +68,21 @@ JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에�
 
 ## 정적 플레이 테스트 배포
 
-- `npm run build:playtest`는 AI 비활성·3D 활성 값을 고정하고 `dist/`만 배포한다. Netlify 루트 배포 설정은 `netlify.toml`, SPA fallback은 `public/_redirects`이며 [절차](docs/playtest-deployment.md)를 따른다. Spring과 키는 필요 없다.
+- `npm run build:playtest`는 AI 비활성·3D 활성 값을 고정하고 `dist/`만 배포한다. 주 배포 대상은 Vercel이며 루트 `vercel.json`에 빌드·출력·SPA rewrite를 둔다. Netlify 설정은 대안으로 유지하며 [절차](docs/playtest-deployment.md)를 따른다. Spring과 키는 필요 없다.
 - `npm run test:browser:production`은 실제 dist를 Vite preview로 검증한다. Node의 소스 로더는 테스트 경로 계산용이며 배포 앱에 제작자/디버그 API를 추가하지 않는다. 직접 URL·에셋·오디오·API 요청 0회·이어하기를 확인하고 실제 외부 배포 여부와 구분한다.
 - 저장은 origin과 브라우저별로 분리된다. 배포 URL이 바뀌면 이전 저장이 공유되지 않으며 localStorage 키와 기존 저장 호환성을 유지한다.
+
+## 챕터 1~2 감염자 위협
+
+- `threat.ts`는 시야·충돌·길찾기·행동 판정, `useThreat.ts`는 공통 탐색 정지 연결, `threatVisual.ts`/`renderWorld.ts`는 표현만 담당한다. 전체 동작과 검사 명령은 [위협 구현](docs/chapter1-2-threat.md)을 따른다.
+- 적은 가려진 플레이어의 현재 좌표를 추적하지 않는다. 벤치는 이동 장애물이며 은폐물이 아니다. 전기실은 구역으로 분리된 안전 공간이고 바닥 표식에 무적 효과를 추가하지 않는다. 챕터 3 이후 위협을 활성화하지 않는다.
+- 메뉴·대화·퍼즐·포커스 이탈·탐색 복귀 대기에는 위협도 멈춘다. 활성 시간만 사용하며 일시정지 후 누적 이동을 적용하지 않는다. 붙잡힘과 체크포인트 재시도로 자원·단서·전원·일회성 사건을 되돌리거나 중복 적용하지 않는다.
+- 영구 저장에 적 경로·좌표·수색 타이머를 추가하지 않는다. 추격 저장의 안전 복귀와 과거 저장·후반 엔딩 호환성을 유지한다. 초기 배치는 로딩/장면 전환 중에만 결정하고 보이는 적을 순간이동시키지 않는다.
+
+## 화면·조작 편안함
+
+- `src/game/comfort.ts`는 설정 기본값·검증·FOV와 터치 화면비 보정을, `src/components/useComfort.ts`는 진행 저장과 분리된 설정 저장을 담당한다. `ComfortSettings.tsx`를 도움말에서 재사용한다. 설정 변경으로 장면을 재생성하거나 진행 저장을 초기화하지 않는다.
+- 카메라에 걷기 흔들림·기울기·자동 회전·관성·이동 중 FOV 변경·모션 블러를 추가하지 않는다. NPC/환경 애니메이션과 카메라를 구분한다. FOV는 세로 기준이며 극단적 화면비에서 가로 40–105°로 보정한다.
+- 회전 입력에 프레임 시간·DPR을 곱하지 않는다. 터치는 CSS 좌표와 화면 짧은 변 기준을 사용한다. 이동 배율은 플레이어와 감염자에게 함께 적용하되 감지·접촉 타이머는 그대로 유지한다. 감염자·카메라·환경 위치는 동일한 구역별 `sceneScale`을 사용한다.
+- 구역 로딩 후 240ms 페이드 중 입력과 위협을 정지한다. UI 종료·포커스 복귀의 기존 입력 초기화와 pointer lock 계약을 보존한다.
+- `FIRST_PERSON_CHECK=comfort npm run test:browser:first`는 카메라 안정성·설정·저장·터치 수치 검사이다. 실제 멀미와 실제 기기 GPU 성능 검증으로 보고하지 않는다.

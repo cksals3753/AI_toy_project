@@ -1,3 +1,5 @@
+import { defaultThreat, checkpointPoint } from './threat'
+import type { ThreatSave } from './threat'
 import { applyEntryView } from './entryView'
 import { makeView3d, normalizeView3d } from './view3d'
 import { toWorldPosition } from './firstPerson'
@@ -54,6 +56,7 @@ export type Chapter2 = {
   completed: boolean
 }
 export type State = {
+  threat: ThreatSave
   view3d: View3d | null
 
   chapter6: Chapter6
@@ -82,6 +85,11 @@ export type State = {
   sceneIndex: number
 }
 export type Action =
+  | { type: 'threat-alert'; alert: boolean }
+  | { type: 'threat-room-beat' }
+  | { type: 'threat-caught' }
+  | { type: 'threat-retry' }
+  | { type: 'threat-gate-consumed' }
   | { type: 'maintenance-start' }
   | { type: 'maintenance-configure'; door: string; mode: string; power: boolean }
   | { type: 'maintenance-commit' }
@@ -148,6 +156,7 @@ export const defaultChapter2: Chapter2 = {
   completed: false,
 }
 export const initialState: State = {
+  threat: { ...defaultThreat },
   chapter6: defaultChapter6,
   reading: { clues: [], messages: 0 },
   aiChat: defaultAiChat,
@@ -175,6 +184,53 @@ export const initialState: State = {
 }
 const scene = (lines: Message[]) => ({ scene: lines, sceneIndex: 0 })
 const reduceState = (state: State, action: Action): State => {
+  if (action.type === 'threat-alert')
+    return state.area === 'hall' && state.threat.alert !== action.alert
+      ? { ...state, threat: { ...state.threat, alert: action.alert } }
+      : state
+  if (action.type === 'threat-room-beat')
+    return state.area === 'first' &&
+      state.threat.roomBeat <
+        state.clues.filter((id) => ['map', 'panel', 'cabinet'].includes(id)).length + 1
+      ? {
+          ...state,
+          threat: {
+            ...state.threat,
+            roomBeat:
+              state.clues.filter((id) => ['map', 'panel', 'cabinet'].includes(id)).length + 1,
+          },
+        }
+      : state
+  if (action.type === 'threat-gate-consumed')
+    return state.area === 'hall' && state.chapter2.power.includes('gate') && !state.threat.gateHeard
+      ? { ...state, threat: { ...state.threat, gateHeard: true } }
+      : state
+  if (action.type === 'threat-caught')
+    return state.area === 'hall' &&
+      !state.scene.length &&
+      state.chapter2.staffEvent !== 'active' &&
+      !state.threat.caught
+      ? { ...state, threat: { ...state.threat, caught: true } }
+      : state
+  if (action.type === 'threat-retry') {
+    if (!state.threat.caught) return state
+    const area = state.threat.checkpoint === 'electrical' ? 'electrical' : 'hall'
+    const position = checkpointPoint(state.threat.checkpoint)
+    return {
+      ...state,
+      area,
+      position,
+      view3d: state.view3d ? makeView3d(area, position) : null,
+      threat: { ...state.threat, caught: false, alert: false, revision: state.threat.revision + 1 },
+      ...scene([
+        {
+          who: 'player',
+          text: '붙잡히기 직전의 안전 지점에서 다시 시작한다. 획득한 단서·소지품·전원 설정은 유지된다. 자원은 줄어들지 않았다.',
+        },
+      ]),
+    }
+  }
+  if (state.threat.caught && !['reset', 'read'].includes(action.type)) return state
   if (action.type === 'read')
     return {
       ...state,
@@ -327,6 +383,7 @@ const reduceState = (state: State, action: Action): State => {
     return {
       ...state,
       area: 'electrical',
+      threat: { ...state.threat, checkpoint: 'electrical' },
       position: worlds.electrical.spawn,
       notice: '열쇠로 전기실을 열었다. 위쪽 배전반에서 예비 전원을 조작할 수 있다.',
     }
@@ -336,7 +393,8 @@ const reduceState = (state: State, action: Action): State => {
       ...state,
       area: 'hall',
       position: { x: 215, y: 480 },
-      notice: '대합실로 돌아왔다. 전원 설정은 유지된다.',
+      notice:
+        '전기실 문 앞의 재개 지점으로 돌아왔다. 감염자는 안쪽에서 순찰을 재개한다. 전원 설정은 유지된다.',
     }
   if (
     action.type === 'staff-start' &&
@@ -346,6 +404,7 @@ const reduceState = (state: State, action: Action): State => {
     return {
       ...state,
       chapter2: { ...state.chapter2, staffEvent: 'active' },
+      threat: { ...state.threat, revision: state.threat.revision + 1 },
       notice: '삐—! 자동 방화문이 내려온다. 안전 구간에 맞춰 몸을 빼야 한다.',
     }
   }
@@ -670,11 +729,41 @@ export const loadGame = (): State => {
       chapter5,
       chapter6,
     )
+    const savedThreat = value.threat
+    const threat: ThreatSave = {
+      ...defaultThreat,
+      checkpoint:
+        savedThreat?.checkpoint === 'electrical' && value.inventory.includes('전기실 열쇠')
+          ? 'electrical'
+          : 'entry',
+      gateHeard: savedThreat?.gateHeard === true,
+      revision: 0,
+      caught: false,
+      alert: false,
+      roomBeat: Number.isInteger(savedThreat?.roomBeat)
+        ? Math.min(4, Math.max(0, savedThreat.roomBeat))
+        : 0,
+    }
+    const restoredPoint = view3d
+      ? toWorldPosition(view3d.position, restoredArea)
+      : (value.position ?? worlds.hall.spawn)
+    const restoreThreat =
+      savedThreat &&
+      restoredArea === 'hall' &&
+      !chapter3.started &&
+      chapter2.staffEvent !== 'active' &&
+      (savedThreat.alert === true ||
+        savedThreat.caught === true ||
+        Math.hypot(restoredPoint.x - 470, restoredPoint.y - 190) < 160)
+    const safeArea =
+      restoreThreat && threat.checkpoint === 'electrical' ? 'electrical' : restoredArea
+    const safePosition = checkpointPoint(threat.checkpoint)
     return {
       ...initialState,
       ...value,
-      view3d,
-      area: restoredArea,
+      threat,
+      view3d: restoreThreat ? (view3d ? makeView3d(safeArea, safePosition) : null) : view3d,
+      area: safeArea,
       chapter2,
       chapter3,
       chapter4,
@@ -685,28 +774,38 @@ export const loadGame = (): State => {
       clues: [...new Set<string>(value.clues)],
       asked: [...new Set<string>(value.asked)],
       inventory: [...new Set<string>(value.inventory)],
-      scene: savedScene,
-      sceneIndex,
-      position: view3d
-        ? toWorldPosition(view3d.position, restoredArea)
-        : value.position &&
-            Number.isFinite(value.position.x) &&
-            Number.isFinite(value.position.y) &&
-            walkable(
-              value.position,
-              getWorld(
-                restoredArea,
-                chapter3.npc,
-                chapter3.npcBoarded,
-                chapter2.power,
-                chapter3.doorOpen,
-                chapter4,
-                chapter5,
-                chapter6,
-              ),
-            )
-          ? value.position
-          : worlds[restoredArea].spawn,
+      scene: restoreThreat
+        ? [
+            {
+              who: 'player',
+              text: '대합실의 안전 체크포인트에서 탐색을 재개합니다. 접속하지 않은 동안 위협은 진행되지 않았습니다.',
+            },
+            ...savedScene.slice(sceneIndex),
+          ]
+        : savedScene,
+      sceneIndex: restoreThreat ? 0 : sceneIndex,
+      position: restoreThreat
+        ? safePosition
+        : view3d
+          ? toWorldPosition(view3d.position, restoredArea)
+          : value.position &&
+              Number.isFinite(value.position.x) &&
+              Number.isFinite(value.position.y) &&
+              walkable(
+                value.position,
+                getWorld(
+                  restoredArea,
+                  chapter3.npc,
+                  chapter3.npcBoarded,
+                  chapter2.power,
+                  chapter3.doorOpen,
+                  chapter4,
+                  chapter5,
+                  chapter6,
+                ),
+              )
+            ? value.position
+            : worlds[restoredArea].spawn,
     }
   } catch {
     return { ...initialState }

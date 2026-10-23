@@ -18,7 +18,11 @@ const chrome =
 await access(chrome)
 const artifacts = await mkdtemp(join(tmpdir(), 'last-transfer-ch5-'))
 const backendJar = 'backend/target/last-transfer-api-0.0.1-SNAPSHOT.jar'
-const frontendOnly = !!process.env.FIRST_PERSON_CHECK && !process.env.MOCK_CHAT_CHECK
+const production = process.env.PRODUCTION_CHECK === '1'
+let sourceLoader
+let networkSnapshot
+const frontendOnly =
+  production || (!!process.env.FIRST_PERSON_CHECK && !process.env.MOCK_CHAT_CHECK)
 const chatServer = frontendOnly
   ? null
   : spawn(
@@ -48,7 +52,15 @@ const chatServer = frontendOnly
     )
 const server = spawn(
   process.execPath,
-  ['node_modules/vite/bin/vite.js', '--host', '127.0.0.1', '--port', browserPort, '--strictPort'],
+  [
+    'node_modules/vite/bin/vite.js',
+    ...(production ? ['preview'] : []),
+    '--host',
+    '127.0.0.1',
+    '--port',
+    browserPort,
+    '--strictPort',
+  ],
   {
     stdio: 'ignore',
     env: {
@@ -89,17 +101,62 @@ try {
   }
   if (!frontendOnly) await ready('http://127.0.0.1:3301/api/chat/status')
   await ready(base)
-  for (const path of [
-    '/backend/src/main/resources/private/characters.json',
-    '/backend/.env.example',
-    '/backend/target/classes/private/characters.json',
-    '/docs/chapter5-author.md',
-    '/.env.example',
-  ]) {
+  for (const path of production
+    ? []
+    : [
+        '/backend/src/main/resources/private/characters.json',
+        '/backend/.env.example',
+        '/backend/target/classes/private/characters.json',
+        '/docs/chapter5-author.md',
+        '/.env.example',
+      ]) {
     // Java build output is absent in frontend-only checks; existing private files are still checked.
     if (frontendOnly && path.includes('/target/')) continue
     const response = await fetch(base + path)
     assert.equal(response.status, 403, `Private development file exposed: ${path}`)
+  }
+  if (production) {
+    const { createServer } = await import('vite')
+    // Geometry helpers run in Node for the harness only; dist exposes no source or debug API.
+    sourceLoader = await createServer({
+      configFile: false,
+      server: { middlewareMode: true, hmr: false, ws: false, watch: null },
+      appType: 'custom',
+    })
+    for (const path of ['/', '/playtest/direct']) {
+      const response = await fetch(base + path)
+      assert.equal(response.status, 200)
+      assert.match(await response.text(), /<div id="root">/)
+    }
+    for (const path of [
+      '/backend/.env.server',
+      '/backend/src/main/resources/private/characters.json',
+      '/docs/chapter6-author.md',
+      '/.env.local',
+      '/src/main.tsx',
+    ]) {
+      const response = await fetch(base + path)
+      if (response.status === 200)
+        assert.match(
+          await response.text(),
+          /<div id="root">/,
+          'Only SPA fallback may be served at private paths',
+        )
+      else assert.ok([403, 404].includes(response.status), path)
+    }
+    const { readdir } = await import('node:fs/promises')
+    const verifyAssets = async (dir) => {
+      for (const entry of await readdir(dir, { withFileTypes: true })) {
+        const file = join(dir, entry.name)
+        if (entry.isDirectory()) await verifyAssets(file)
+        else {
+          const response = await fetch(base + '/' + file.replace(/^dist\//, ''))
+          assert.equal(response.status, 200, file)
+          assert.deepEqual(Buffer.from(await response.arrayBuffer()), await readFile(file), file)
+        }
+      }
+    }
+    await verifyAssets('dist/art')
   }
   const pages = await (await ready(`${debug}/json`)).json()
   ws = new WebSocket(pages.find((p) => p.type === 'page').webSocketDebuggerUrl)
@@ -108,6 +165,8 @@ try {
   const pending = new Map(),
     errors = []
   let aiRequests = 0
+  const externalRequests = []
+  networkSnapshot = () => ({ aiRequests, externalRequests, errors, consoleErrors, assetFailures })
   const consoleErrors = [],
     assetFailures = [],
     requestUrls = new Map()
@@ -127,6 +186,13 @@ try {
     if (message.method === 'Runtime.exceptionThrown') errors.push(message.params.exceptionDetails)
     if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error')
       consoleErrors.push(message.params.args.map((x) => x.value ?? x.description).join(' '))
+    if (
+      production &&
+      message.method === 'Network.requestWillBeSent' &&
+      /^https?:/.test(message.params.request.url) &&
+      !message.params.request.url.startsWith(base + '/')
+    )
+      externalRequests.push(message.params.request.url)
     if (message.method === 'Network.requestWillBeSent')
       requestUrls.set(message.params.requestId, message.params.request.url)
     if (
@@ -155,6 +221,18 @@ try {
     })
   }
   async function evaluate(expression) {
+    if (production && expression.includes("import('/src/")) {
+      const saved = await evaluate('JSON.stringify(localStorage)')
+      const values = JSON.parse(saved)
+      const run = new Function(
+        'localStorage',
+        'loadModule',
+        'return ' + expression.replace(/import\(/g, 'loadModule('),
+      )
+      return run({ getItem: (key) => values[key] ?? null }, (path) =>
+        sourceLoader.ssrLoadModule(path),
+      )
+    }
     const r = await send('Runtime.evaluate', {
       expression,
       returnByValue: true,
@@ -912,6 +990,32 @@ try {
     assert.deepEqual(consoleErrors, [])
     assert.deepEqual(assetFailures, [])
   }
+  if (production) {
+    const beforeDirect = await state()
+    await send('Page.navigate', { url: base + '/playtest/direct' })
+    await wait(1400)
+    const afterDirect = await state()
+    assert.equal(afterDirect.area, beforeDirect.area)
+    assert.deepEqual(afterDirect.chapter6.result, beforeDirect.chapter6.result)
+    assert.equal(
+      await evaluate("!!document.querySelector('[data-draw-calls],[data-npc-model],[data-yaw]')"),
+      false,
+    )
+    assert.deepEqual(consoleErrors, [])
+    assert.deepEqual(assetFailures, [])
+    assert.deepEqual(externalRequests, [])
+    await writeFile(
+      join(artifacts, 'production-network.json'),
+      JSON.stringify(
+        { aiRequests, externalRequests, errors, consoleErrors, assetFailures },
+        null,
+        2,
+      ),
+    )
+    console.log(
+      'PASS production preview: all static art bytes, direct URL, no Spring, API/external requests=0',
+    )
+  }
   assert.deepEqual(errors, [])
   if (!process.env.MOCK_CHAT_CHECK) assert.equal(aiRequests, 0, 'AI requests must remain disabled')
   console.log(
@@ -929,6 +1033,12 @@ try {
   )
   console.log(`Screenshots: ${artifacts}`)
 } finally {
+  if (production && networkSnapshot)
+    await writeFile(
+      join(artifacts, 'production-network.json'),
+      JSON.stringify(networkSnapshot(), null, 2),
+    )
+  await sourceLoader?.close()
   ws?.close()
   browser.kill('SIGTERM')
   server.kill('SIGTERM')

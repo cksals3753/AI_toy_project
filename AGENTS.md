@@ -65,3 +65,9 @@ JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에�
 - TypeScript 함수와 React 컴포넌트는 `const` 화살표 함수로 작성한다. 호이스팅에 의존하지 말고 호출 시점과 초기화 순서를 확인한다. Java 메서드와 React 오류 경계의 클래스 메서드는 해당 언어·프레임워크 구조를 유지한다.
 - 공통 UI는 `src/components/ui/`의 `Button`, `RecordEntry`, `RecordList`를 우선 재사용한다. 챕터별 화면은 상태 판정과 표현을 분리하고, 결과 화면은 `EpisodeResult.tsx`를 사용한다.
 - 새 UI는 Tailwind CSS 4 유틸리티를 우선 사용한다. Preflight 없이 기존 base/components 레이어와 함께 동작하므로 전역 초기화나 무관한 화면 스타일 변경을 추가하지 않는다. `src/index.css`의 소스 탐색 범위는 프론트 `src/`로 제한한다.
+
+## 정적 플레이 테스트 배포
+
+- `npm run build:playtest`는 AI 비활성·3D 활성 값을 고정하고 `dist/`만 배포한다. Netlify 루트 배포 설정은 `netlify.toml`, SPA fallback은 `public/_redirects`이며 [절차](docs/playtest-deployment.md)를 따른다. Spring과 키는 필요 없다.
+- `npm run test:browser:production`은 실제 dist를 Vite preview로 검증한다. Node의 소스 로더는 테스트 경로 계산용이며 배포 앱에 제작자/디버그 API를 추가하지 않는다. 직접 URL·에셋·오디오·API 요청 0회·이어하기를 확인하고 실제 외부 배포 여부와 구분한다.
+- 저장은 origin과 브라우저별로 분리된다. 배포 URL이 바뀌면 이전 저장이 공유되지 않으며 localStorage 키와 기존 저장 호환성을 유지한다.

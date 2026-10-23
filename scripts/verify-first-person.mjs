@@ -90,22 +90,33 @@ export async function verifyFirstPerson({
   let mx = 600,
     my = 400
   async function look(yaw, pitch = 0) {
+    // Production has no debug dataset; read the game's own persisted camera instead.
+    if (process.env.PRODUCTION_CHECK) await wait(450)
     // Relative movement is produced through Chrome's real input protocol.
     for (let i = 0; i < 20; i++) {
       const a = await evaluate(
-        "({yaw:+document.querySelector('canvas').dataset.yaw,pitch:+document.querySelector('canvas').dataset.pitch})",
+        process.env.PRODUCTION_CHECK
+          ? "JSON.parse(localStorage.getItem('last-transfer-save-v1')).view3d"
+          : "({yaw:+document.querySelector('canvas').dataset.yaw,pitch:+document.querySelector('canvas').dataset.pitch})",
       )
-      const dx = Math.max(-180, Math.min(180, (a.yaw - yaw) / 0.0025))
+      const yawDelta = process.env.PRODUCTION_CHECK
+        ? Math.atan2(Math.sin(a.yaw - yaw), Math.cos(a.yaw - yaw))
+        : a.yaw - yaw
+      const dx = Math.max(-180, Math.min(180, yawDelta / 0.0025))
       const dy = Math.max(-100, Math.min(100, (a.pitch - pitch) / 0.0025))
       if (Math.abs(dx) < 2 && Math.abs(dy) < 2) return
       mx += dx
       my += dy
       await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: mx, y: my })
-      await wait(40)
+      await wait(process.env.PRODUCTION_CHECK ? 450 : 40)
     }
     throw Error(
       'Could not aim camera: ' +
-        (await evaluate("JSON.stringify(document.querySelector('canvas').dataset)")),
+        (await evaluate(
+          process.env.PRODUCTION_CHECK
+            ? "localStorage.getItem('last-transfer-save-v1')"
+            : "JSON.stringify(document.querySelector('canvas').dataset)",
+        )),
     )
   }
   async function seed(position) {
@@ -165,6 +176,7 @@ export async function verifyFirstPerson({
   assert.equal(await evaluate("!!document.querySelector('.first-person canvas')"), true)
   await screenshot('3d-01-room-desktop.png')
   await resume3d()
+  if (process.env.FIRST_PERSON_CHECK === 'static') return
   if (process.env.FIRST_PERSON_CHECK === 'audio56') {
     await verifyChapter56Audio({
       send,

@@ -1073,9 +1073,10 @@ const App = () => {
           <p className="muted">
             {state.savedAt && Number.isFinite(Date.parse(state.savedAt))
               ? `저장: ${new Date(state.savedAt).toLocaleString('ko-KR')}`
-              : '이 기기에 저장된 진행이 있습니다.'}
+              : '이 브라우저에 저장된 진행이 있습니다.'}
           </p>
           <p>{objective}</p>
+          <p className="muted">진행은 접속한 브라우저별로 저장되며 기기 간 공유되지 않습니다.</p>
           <button
             className="primary full"
             onClick={() => {
@@ -1130,6 +1131,10 @@ const App = () => {
             대화·휴대폰·메뉴가 열리면 탐색이 멈춥니다.
           </p>
           <p className="muted">저장된 진행 없음 · 외부 AI 없이 플레이 가능</p>
+          <p className="muted">
+            진행은 이 브라우저에만 저장되며 다른 기기와 공유되지 않습니다. 브라우저 데이터
+            삭제·시크릿 모드 종료 시 사라질 수 있습니다.
+          </p>
           <button
             className="primary full"
             onClick={() => {

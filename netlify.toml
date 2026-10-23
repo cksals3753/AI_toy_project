@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build:playtest"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"

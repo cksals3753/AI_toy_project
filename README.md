@@ -9,6 +9,10 @@ React 19 + TypeScript + Vite 기반 **챕터 1~6 1인칭 3D + 비주얼 노벨 �
 - 공통 버튼은 `src/components/ui/Button.tsx`, 단서와 결과 목록은 `src/components/ui/Records.tsx`를 재사용합니다. 챕터 3~6의 기본/텍스트 버튼에 적용했으며, 에피소드 결과 화면은 `EpisodeResult.tsx`로 분리했습니다.
 - 새로운 공통 UI는 Tailwind 유틸리티로 작성하고, 탐색·3D·입력·판정 코드는 표현 컴포넌트와 분리합니다. 기존 전용 CSS는 필요한 범위에서 점진적으로 이전합니다.
 
+## 지인 테스트 배포
+
+Spring·API 키 없이 `npm run build:playtest`로 정적 테스트 빌드를 생성하고 `npm run preview`로 확인합니다. AI는 빌드에서 비활성으로 고정됩니다. Netlify 설정·로그인/저장소 연결 절차·저장 제약은 [배포 안내](docs/playtest-deployment.md)를 참조하세요. 실제 외부 배포는 아직 수행하지 않았습니다. `npm run test:browser:production`은 개발 서버가 아닌 프로덕션 미리보기에서 챕터 1~6을 검증합니다.
+
 ## 실행
 
 Node.js 24 LTS를 권장합니다.

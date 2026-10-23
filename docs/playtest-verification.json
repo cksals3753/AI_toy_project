@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-23",
+  "build": "playtest / Vite preview / no Spring",
+  "browser": "local headless Chrome, SwiftShader; mobile emulation for audio",
+  "episode": {
+    "newGameToChapter6Ending": true,
+    "stateInjection": false,
+    "durationSeconds": 453,
+    "reloadAndEndingReplay": true
+  },
+  "unitTests": {
+    "files": 19,
+    "passed": 169
+  },
+  "network": {
+    "episode": {
+      "aiRequests": 0,
+      "externalRequests": [],
+      "errors": [],
+      "consoleErrors": [],
+      "assetFailures": []
+    },
+    "audio": {
+      "aiRequests": 0,
+      "externalRequests": [],
+      "errors": [],
+      "consoleErrors": [],
+      "assetFailures": []
+    },
+    "static": {
+      "aiRequests": 0,
+      "externalRequests": [],
+      "errors": [],
+      "consoleErrors": [],
+      "assetFailures": []
+    }
+  },
+  "checks": [
+    "all public art HTTP bytes match dist",
+    "root and direct URL fallback",
+    "private paths expose no files",
+    "production debug datasets absent",
+    "real Web Audio samples, mute/volume/focus recovery and persistence",
+    "conflicting AI/renderer environment values overridden by playtest build",
+    "static artifact and tracked-file credential-pattern audit"
+  ],
+  "unverified": [
+    "actual Netlify deployment and response headers",
+    "real mobile hardware, GPU and speakers",
+    "production replay of every optional branch"
+  ],
+  "observedLimitation": "One parallel headless first-room model-readiness failure; rerun passed. Cause not confirmed. Existing loading deadline is 8 seconds."
+}

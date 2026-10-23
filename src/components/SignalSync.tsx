@@ -32,7 +32,11 @@ export const SignalSync = ({ chapter, onHit, onAssist, onClose }: Props) => {
     return () => cancelAnimationFrame(frame)
   }, [cycle, chapter.failures])
   return (
-    <Overlay title="정차 요청 · 신호 동기화" onClose={onClose}>
+    <Overlay
+      title="정차 요청 · 신호 동기화"
+      onClose={onClose}
+      closeLabel="중단하고 패널로 돌아가기"
+    >
       <p className="intro-text">움직이는 표시가 양쪽 경계선 사이에 들어오면 한 번 누르세요.</p>
       <p className="muted">
         목표: 28–72%. 터치·클릭 또는 버튼에 초점을 두고 Enter·Space. 시간제한이나 자원 소모는
@@ -69,9 +73,6 @@ export const SignalSync = ({ chapter, onHit, onAssist, onClose }: Props) => {
           {chapter.assisted ? '느린 신호 보조 켜짐 · 끄기' : '느린 신호 보조 켜기'}
         </button>
       )}
-      <button className="text-button" onClick={onClose}>
-        중단하고 패널로 돌아가기
-      </button>
     </Overlay>
   )
 }

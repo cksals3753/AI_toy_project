@@ -1,3 +1,4 @@
+import { DismissButton } from './ui/TouchActionButton'
 import { Button } from './ui/Button'
 import { useState } from 'react'
 import type { Dispatch, ReactNode } from 'react'
@@ -101,6 +102,7 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
     return (
       <Overlay
         title={`${moonStation} · 정비 통로 이동 확인`}
+        footerClose={false}
         onClose={() => dispatch({ type: 'moon-finish', confirm: false })}
       >
         <p className="intro-text">D-02 정비 통로가 열렸습니다. 다음 구역으로 이동할까요?</p>
@@ -110,9 +112,12 @@ export const Chapter5Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
         <Button full onClick={() => dispatch({ type: 'moon-finish', confirm: true })}>
           정비 통로 이동 승인 · 챕터 5 완료
         </Button>
-        <Button variant="text" onClick={() => dispatch({ type: 'moon-finish', confirm: false })}>
+        <DismissButton
+          variant="text"
+          onDismiss={() => dispatch({ type: 'moon-finish', confirm: false })}
+        >
           승강장에서 더 확인하기
-        </Button>
+        </DismissButton>
       </Overlay>
     )
   if (panel === 'moon-response')

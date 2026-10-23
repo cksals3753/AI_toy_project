@@ -1,3 +1,4 @@
+import { verifyControls } from './verify-controls.mjs'
 import { verifyComfort } from './verify-comfort.mjs'
 import { verifyThreat } from './verify-threat.mjs'
 import { verifyChapter56Audio } from './verify-chapter56-audio.mjs'
@@ -230,6 +231,23 @@ export async function verifyFirstPerson({
       hold,
       state,
       screenshot,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'controls') {
+    await verifyControls({
+      approach,
+      pressE,
+      look,
+      send,
+      evaluate,
+      state,
+      wait,
+      advanceAll,
+      resume3d,
+      trustedClick,
+      screenshot,
+      hold,
     })
     return
   }
@@ -602,7 +620,7 @@ export async function verifyFirstPerson({
   if (await evaluate("!!document.querySelector('.exploration-resume')"))
     await trustedClick('.exploration-resume')
   const b = await evaluate(
-    "(()=>{const r=document.querySelector('.joystick').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
+    "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
   )
   const touch = async (type, points) =>
     send('Input.dispatchTouchEvent', { type, touchPoints: points })

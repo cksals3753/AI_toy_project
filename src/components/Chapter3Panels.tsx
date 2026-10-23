@@ -1,3 +1,4 @@
+import { DismissButton } from './ui/TouchActionButton'
 import { Button } from './ui/Button'
 import { useState } from 'react'
 import type { Dispatch, ReactNode } from 'react'
@@ -195,7 +196,7 @@ export const Chapter3Panels = ({
     const together = ['helped', 'invited'].includes(c.npc),
       ready = c.approved && c.signal === 'green' && c.doorOpen
     return (
-      <Overlay title="B-04 선두 차량 · 출발 확인" onClose={onClose}>
+      <Overlay title="B-04 선두 차량 · 출발 확인" onClose={onClose} footerClose={false}>
         <p className="intro-text">탑승하면 신도림역 탐색을 종료합니다. 출발할까요?</p>
         <div className="departure-checks">
           <p>
@@ -229,9 +230,9 @@ export const Chapter3Panels = ({
         {!ready && (
           <p className="muted">비상 부스 승인 → 녹색 신호 → B-04 외부 비상 호출을 확인하세요.</p>
         )}
-        <Button variant="text" onClick={onClose}>
+        <DismissButton variant="text" onDismiss={onClose}>
           아직 출발하지 않는다
-        </Button>
+        </DismissButton>
       </Overlay>
     )
   }

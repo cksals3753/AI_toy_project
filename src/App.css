@@ -2397,3 +2397,38 @@ summary {
     opacity: 0;
   }
 }
+
+.dynamic-move-zone {
+  display: none;
+  position: absolute;
+  left: env(safe-area-inset-left, 0px);
+  right: 50%;
+  top: 50%;
+  bottom: env(safe-area-inset-bottom, 0px);
+  z-index: 2;
+  touch-action: none;
+  user-select: none;
+}
+.dynamic-joystick {
+  display: block;
+  position: absolute;
+  width: 104px;
+  height: 104px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.dynamic-joystick .joystick-knob {
+  left: 30px;
+  top: 30px;
+}
+.world-controls {
+  z-index: 3;
+}
+.world-controls .interaction {
+  margin-left: auto;
+}
+@media (pointer: coarse), (max-width: 740px) {
+  .dynamic-move-zone {
+    display: block;
+  }
+}

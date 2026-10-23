@@ -164,10 +164,14 @@ export const verifyThreat = async ({
   assert.notEqual((await state()).view3d.yaw, initialYaw)
   const start = (await state()).position
   const p = await evaluate(
-    "(()=>{const r=document.querySelector('.joystick').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
+    "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
   )
   await send('Input.dispatchTouchEvent', {
     type: 'touchStart',
+    touchPoints: [{ x: p.x, y: p.y, id: 1 }],
+  })
+  await send('Input.dispatchTouchEvent', {
+    type: 'touchMove',
     touchPoints: [{ x: p.x + 28, y: p.y + 28, id: 1 }],
   })
   await wait(800)
@@ -184,10 +188,14 @@ export const verifyThreat = async ({
   assert.equal(await evaluate("!!document.querySelector('canvas[aria-label*=탑다운]')"), true)
   const flatBefore = (await state()).position
   const flat = await evaluate(
-    "(()=>{const r=document.querySelector('.joystick').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
+    "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
   )
   await send('Input.dispatchTouchEvent', {
     type: 'touchStart',
+    touchPoints: [{ x: flat.x, y: flat.y, id: 1 }],
+  })
+  await send('Input.dispatchTouchEvent', {
+    type: 'touchMove',
     touchPoints: [{ x: flat.x - 26, y: flat.y, id: 1 }],
   })
   await wait(500)

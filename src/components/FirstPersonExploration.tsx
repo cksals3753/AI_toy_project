@@ -1,3 +1,4 @@
+import { DynamicJoystick } from './DynamicJoystick'
 import { cameraFov, defaultComfort, touchLookScale } from '../game/comfort'
 import { useThreat } from './useThreat'
 import { ThreatStatus } from './ThreatStatus'
@@ -5,7 +6,6 @@ import { createThreatVisual } from '../game/threatVisual'
 import { firstRoomAudio } from '../audio/firstRoomAudio'
 import { trackRendererLookup } from '../game/rendererResources'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import type { PointerEvent } from 'react'
 import * as T from 'three'
 import type { ExplorationProps } from './Exploration'
 import { Exploration } from './Exploration'
@@ -58,7 +58,6 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
   const position = useRef(initialPoint)
   const latest = useRef(props)
   const stick = useRef<Point>({ x: 0, y: 0 })
-  const joystickPointer = useRef<number | null>(null)
   const lookPointer = useRef<{ id: number; x: number; y: number } | null>(null)
   const angles = useRef({
     yaw: savedView?.yaw ?? (area === 'platform' ? -1.45 : 0),
@@ -74,7 +73,6 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
   })
   const [active, setActive] = useState(false)
   const [near, setNear] = useState<Entity | null>(null)
-  const [knob, setKnob] = useState<Point>({ x: 0, y: 0 })
   const [fallback, setFallback] = useState(false)
   const [lockError, setLockError] = useState('')
   const [assetError, setAssetError] = useState(false)
@@ -169,10 +167,8 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     const resetInputs = () => {
       keys.clear()
       stick.current = { x: 0, y: 0 }
-      joystickPointer.current = null
       lookPointer.current = null
       skipLook = true
-      setKnob({ x: 0, y: 0 })
       persistRef.current()
     }
     const clear = () => {
@@ -517,24 +513,6 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       renderer.dispose()
     }
   }, [fallback, revision, area, SCALE, advanceThreat])
-  const dragStick = (event: PointerEvent<HTMLDivElement>) => {
-    if (joystickPointer.current !== event.pointerId || props.paused || !runtime.current.active)
-      return
-    const bounds = event.currentTarget.getBoundingClientRect()
-    const dx = event.clientX - bounds.left - bounds.width / 2,
-      dy = event.clientY - bounds.top - bounds.height / 2
-    const length = Math.hypot(dx, dy),
-      limit = 33
-    const point = { x: dx / Math.max(limit, length), y: dy / Math.max(limit, length) }
-    stick.current = length < 5 ? { x: 0, y: 0 } : point
-    setKnob({ x: point.x * limit, y: point.y * limit })
-  }
-  const releaseStick = () => {
-    joystickPointer.current = null
-    stick.current = { x: 0, y: 0 }
-    setKnob({ x: 0, y: 0 })
-    persistRef.current()
-  }
   if (fallback)
     return (
       <>
@@ -653,32 +631,19 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
           </button>
         </span>
       )}
+      {active && !loading && !settling && !props.paused && (
+        <DynamicJoystick
+          onStop={() => persistRef.current()}
+          onMove={(point) => {
+            stick.current = point
+          }}
+          onStart={() => canvas.current?.focus({ preventScroll: true })}
+        />
+      )}
       <div
         className="world-controls"
         style={{ visibility: active && !loading ? undefined : 'hidden' }}
       >
-        <div
-          className="joystick"
-          role="group"
-          aria-label="이동 조이스틱"
-          onPointerDown={(event) => {
-            if (props.paused || !active || joystickPointer.current !== null) return
-            joystickPointer.current = event.pointerId
-            event.currentTarget.setPointerCapture(event.pointerId)
-            dragStick(event)
-          }}
-          onPointerMove={dragStick}
-          onPointerUp={releaseStick}
-          onPointerCancel={releaseStick}
-          onLostPointerCapture={releaseStick}
-        >
-          <span className="joystick-ring" />
-          <span
-            className="joystick-knob"
-            style={{ transform: `translate(${knob.x}px, ${knob.y}px)` }}
-          />
-          <small>이동</small>
-        </div>
         <div className="interaction">
           <span aria-live="polite">
             {near

@@ -1,3 +1,4 @@
+import { DismissButton } from './ui/TouchActionButton'
 import { Button } from './ui/Button'
 import type { Dispatch, ReactNode } from 'react'
 import type { Action, State } from '../game/engine'
@@ -30,6 +31,7 @@ export const Chapter4Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
     return (
       <Overlay
         title={`${c.destination} · 역 진입 확인`}
+        footerClose={false}
         onClose={() => dispatch({ type: 'train-entry', confirm: false })}
       >
         <p className="intro-text">
@@ -42,9 +44,12 @@ export const Chapter4Panels = ({ state, panel, dispatch, onClose, notebook }: Pr
         <Button full onClick={() => dispatch({ type: 'train-entry', confirm: true })}>
           진입 승인 · 챕터 4 완료
         </Button>
-        <Button variant="text" onClick={() => dispatch({ type: 'train-entry', confirm: false })}>
+        <DismissButton
+          variant="text"
+          onDismiss={() => dispatch({ type: 'train-entry', confirm: false })}
+        >
           문 앞에서 더 생각하기
-        </Button>
+        </DismissButton>
       </Overlay>
     )
   if (panel === 'train-links')

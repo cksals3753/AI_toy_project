@@ -183,6 +183,12 @@ export async function verifyShortcuts({
   await key('KeyI', 'ㅑ')
   assert.equal(await panel(), null)
   assert.equal((await state()).scene.length, dialogue)
+  await advanceAll()
+  await resume3d()
+  await key('Tab')
+  await evaluate("document.querySelector('[data-overlay-dismiss]').focus()")
+  await key('Tab')
+  assert.equal(await panel(), null, 'Tab at the new footer still closes the shortcut menu')
   // Mobile UI/touch regression is covered by FIRST_PERSON_CHECK=1; no external AI is enabled.
   console.log(
     'PASS shortcuts: locked opening/toggling, Korean I, menu switch without lock requests, repeat latch, editable/native Tab, page focus, Escape/fallback, consumed click, E, puzzle guard',

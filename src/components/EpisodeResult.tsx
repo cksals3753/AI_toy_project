@@ -1,6 +1,6 @@
+import { DismissButton } from './ui/TouchActionButton'
 import type { State } from '../game/engine'
 import { RecordEntry, RecordList } from './ui/Records'
-import { Button } from './ui/Button'
 import { Overlay } from './Overlay'
 import { finalObjects } from '../game/chapter6'
 import { objects } from '../game/data'
@@ -25,7 +25,7 @@ export const EpisodeResult = ({
   onClose: () => void
 }) => {
   return (
-    <Overlay title="에피소드 1 완료 · 지상 대피소 도착" onClose={onClose} wide>
+    <Overlay title="에피소드 1 완료 · 지상 대피소 도착" onClose={onClose} footerClose={false} wide>
       <div className="episode-arrival" aria-hidden="true">
         지상 · 새벽빛이 창 안으로 들어온다.
       </div>
@@ -84,9 +84,9 @@ export const EpisodeResult = ({
       <p className="muted">
         이 회차의 탈출 목표는 해결되었습니다. 전체 재난의 진실은 아직 확인되지 않았습니다.
       </p>
-      <Button full onClick={onClose}>
+      <DismissButton full onDismiss={onClose}>
         결과 저장 · 대피소 보기
-      </Button>
+      </DismissButton>
     </Overlay>
   )
 }

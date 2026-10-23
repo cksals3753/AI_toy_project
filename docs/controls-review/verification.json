@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-23",
+  "scope": {
+    "A": "implemented",
+    "B": "proposal only; no flood/shutter/brightness behavior changed"
+  },
+  "baseline": {
+    "ordinarySignalSyncCancel": "worked",
+    "heldMoveFingerPlusSecondaryFooterTap": "dialog remained; Escape closed"
+  },
+  "checks": {
+    "unit": {
+      "files": 22,
+      "passed": 199
+    },
+    "lint": "passed",
+    "typeAndStaticBuild": "passed",
+    "browser": "headless Chrome / SwiftShader",
+    "productionControls": {
+      "stateFixtures": true,
+      "chapterModals": [1, 2, 3, 4, 5, 6],
+      "nestedConfirmationDoesNotCommit": true,
+      "simultaneousMoveLook": true,
+      "quarterRestrictionAndEdgeClamping": true,
+      "secondaryFingerMenuAndDismiss": true,
+      "cancelOutsideAndFocusReset": true,
+      "saveReloadAnd2DFallback": true,
+      "network": {
+        "aiRequests": 0,
+        "externalRequests": [],
+        "errors": [],
+        "consoleErrors": [],
+        "assetFailures": []
+      }
+    },
+    "resume": "passed; first-room inspection, NPC, puzzle success/cancel, pointer lock fallback, repeated E",
+    "shortcuts": "passed; Tab, Korean KeyI, Escape, editable/repeat/focus guards; includes footer focus Tab",
+    "finalProductionTouchRetest": {
+      "aiRequests": 0,
+      "externalRequests": [],
+      "errors": [],
+      "consoleErrors": [],
+      "assetFailures": []
+    }
+  },
+  "limitations": [
+    "physical mobile devices unverified",
+    "other browser implementations unverified",
+    "new-player usability unverified",
+    "not a fresh full episode replay for every story branch",
+    "existing large Three.js chunk warning remains"
+  ],
+  "proposal": "../chapter2-restructure-proposal.md",
+  "infrastructureNote": "A final browser startup attempt stopped with Node setTypeOfService EINVAL; the identical production touch check passed on rerun. No game changes were made for this error."
+}

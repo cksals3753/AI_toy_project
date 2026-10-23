@@ -238,7 +238,7 @@ export const verifyChapter2Three = async ({
     await trustedClick('.exploration-resume')
   const p = (await state()).position
   const j = await evaluate(
-    "(()=>{const r=document.querySelector('.joystick').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
+    "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
   )
   await send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ ...j, id: 1 }] })
   await send('Input.dispatchTouchEvent', {

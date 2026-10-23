@@ -261,9 +261,13 @@ export const verifyFirstRoomAudio = async ({
   assert.equal(await evaluate('window.__soundProbe.contexts[0].state'), 'running')
   const mobileSources = await evaluate('window.__soundProbe.sources.length')
   const j = await evaluate(
-    "(()=>{const r=document.querySelector('.joystick').getBoundingClientRect();return {x:r.x+r.width/2+25,y:r.y+r.height/2}})()",
+    "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return {x:r.x+r.width/2+25,y:r.y+r.height/2}})()",
   )
   await send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ ...j, id: 1 }] })
+  await send('Input.dispatchTouchEvent', {
+    type: 'touchMove',
+    touchPoints: [{ x: j.x + 25, y: j.y, id: 1 }],
+  })
   await wait(550)
   await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
   await wait(100)

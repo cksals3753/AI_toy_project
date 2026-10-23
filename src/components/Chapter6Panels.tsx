@@ -1,3 +1,4 @@
+import { DismissButton } from './ui/TouchActionButton'
 import { EpisodeResult } from './EpisodeResult'
 import { RecordEntry } from './ui/Records'
 import { Button } from './ui/Button'
@@ -42,7 +43,7 @@ export const Chapter6Panels = ({
   )
   if (confirm && c.settings)
     return (
-      <Overlay title="경로 이동 최종 확인" onClose={() => setConfirm(false)}>
+      <Overlay title="경로 이동 최종 확인" onClose={() => setConfirm(false)} footerClose={false}>
         <p className="intro-text">
           선택한 문: {c.settings.door} ·{' '}
           {c.settings.mode === 'local' ? '현장 수동 승인' : '외부 자동 승인'} · 전원 유지
@@ -79,20 +80,25 @@ export const Chapter6Panels = ({
         >
           이 경로로 이동 확정
         </Button>
-        <Button variant="text" onClick={() => setConfirm(false)}>
+        <DismissButton variant="text" onDismiss={() => setConfirm(false)}>
           설정으로 돌아가기
-        </Button>
-        <Button
+        </DismissButton>
+        <DismissButton
           variant="text"
-          onClick={() => {
+          onDismiss={() => {
             setConfirm(false)
             onClose()
           }}
         >
           이동 보류 · 현장 더 조사
-        </Button>
+        </DismissButton>
       </Overlay>
     )
+  const settingsMatch =
+    !!c.settings &&
+    c.settings.door === door &&
+    c.settings.mode === mode &&
+    c.settings.power === power
   return (
     <Overlay title="정비 통로 · 경로 제어반" onClose={onClose}>
       <p>설정은 자유롭게 바꿀 수 있습니다. 이동은 별도로 확정합니다.</p>
@@ -116,18 +122,15 @@ export const Chapter6Panels = ({
       <p className="notice" role="status">
         {state.notice}
       </p>
-      <Button
-        full
-        disabled={
-          !c.settings ||
-          c.settings.door !== door ||
-          c.settings.mode !== mode ||
-          c.settings.power !== power
-        }
-        onClick={() => setConfirm(true)}
-      >
+      <Button full disabled={!settingsMatch} onClick={() => setConfirm(true)}>
         이동 전 근거 확인 →
       </Button>
+      {!settingsMatch && (
+        <p className="muted">
+          현재 설정을 먼저 대조·저장해야 이동 전 확인을 열 수 있습니다. 설정 오류는 위 안내를 보고
+          수정하세요.
+        </p>
+      )}
       <details>
         <summary>확보한 현장 노트</summary>
         {notebook}

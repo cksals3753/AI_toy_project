@@ -1,3 +1,4 @@
+import { DismissButton, MenuButton } from './components/ui/TouchActionButton'
 import { ComfortSettings } from './components/ComfortSettings'
 import { useComfort } from './components/useComfort'
 import { useFirstRoomAudio } from './audio/useFirstRoomAudio'
@@ -935,9 +936,9 @@ const App = () => {
             </aside>
           )}
           <div className="world-toolbar">
-            <button
+            <MenuButton
               disabled={paused}
-              onClick={() => openPanel('phone')}
+              onActivate={() => openPanel('phone')}
               aria-label={`휴대폰 단톡방 · 새 메시지 ${unreadMessages}개`}
               title="휴대폰 [Tab]"
             >
@@ -953,10 +954,10 @@ const App = () => {
                   {unreadMessages ? `✦ ${unreadMessages}` : '✓'}
                 </span>
               </small>
-            </button>
-            <button
+            </MenuButton>
+            <MenuButton
               disabled={paused}
-              onClick={() => openPanel('bag')}
+              onActivate={() => openPanel('bag')}
               aria-label={`소지품·단서 · 새 단서 ${unreadClues}개`}
               title="소지품·단서 [I]"
             >
@@ -972,7 +973,7 @@ const App = () => {
                   {unreadClues ? `✦ ${unreadClues}` : '✓'}
                 </span>
               </small>
-            </button>
+            </MenuButton>
           </div>
           {area === 'trainB' && chapter3.ending === 'departing' && sceneIndex >= 1 && (
             <div className="departure-window" aria-label="열차 창밖으로 멀어지는 신도림역 표지판">
@@ -1146,7 +1147,7 @@ const App = () => {
               PC: WASD / 방향키 · Tab 휴대폰 · I 소지품·단서 · Esc 닫기
             </span>
             <span className="touch-input-help">
-              모바일: 왼쪽 조이스틱 · 오른쪽 드래그 시점 · 휴대폰·소지품 버튼
+              모바일: 좌하단 1/4 터치·끌기 이동 · 오른쪽 드래그 시점 · 휴대폰·소지품 버튼
             </span>
             <br />
             대화·휴대폰·메뉴가 열리면 탐색이 멈춥니다.
@@ -1279,7 +1280,10 @@ const App = () => {
             </p>
           </div>
           <div className="touch-input-help">
-            <p>왼쪽 조이스틱으로 이동하고 오른쪽 화면을 드래그해 둘러보세요.</p>
+            <p>
+              화면 좌하단 1/4에서 터치한 뒤 끌어 이동하고, 오른쪽 화면을 드래그해 둘러보세요. 손을
+              떼면 이동을 멈춥니다.
+            </p>
             <p>조사 버튼 · 휴대폰 · 소지품 버튼을 사용하세요.</p>
           </div>
           <p>짧은 조사는 탐색을 유지합니다. 대화·퍼즐·메뉴에서는 탐색을 멈춥니다.</p>
@@ -1331,6 +1335,7 @@ const App = () => {
             <br />
             닫힌 문 너머에서 바람이 스민다.
           </p>
+          <p className="muted">숫자 네 자리를 입력하면 잠금 해제 버튼이 활성화됩니다.</p>
           <form
             className="lock-form"
             onSubmit={(event) => {
@@ -1412,7 +1417,7 @@ const App = () => {
       )}
       {hazard && !welcome && <DodgeGame onFinish={finishDodge} />}
       {panel === 'power' && (
-        <Overlay title="예비 전원 · 회로 분배" onClose={closePanel}>
+        <Overlay footerClose={false} title="예비 전원 · 회로 분배" onClose={closePanel}>
           <div className="power-capacity">
             <span>
               {chapter2.power.length} <small>/ 2 회로 연결</small>
@@ -1450,13 +1455,13 @@ const App = () => {
             <br />
             방송 기록은 전원을 꺼도 현장 노트에 남습니다.
           </p>
-          <button className="primary full" onClick={closePanel}>
+          <DismissButton full onDismiss={closePanel}>
             설정 유지하고 탐색 계속 →
-          </button>
+          </DismissButton>
         </Overlay>
       )}
       {showCompletion && !welcome && panel !== 'reset' && (
-        <Overlay title="챕터 2 · 불 꺼진 대합실 완료" onClose={closeCompletion}>
+        <Overlay footerClose={false} title="챕터 2 · 불 꺼진 대합실 완료" onClose={closeCompletion}>
           <span className="overline">CHAPTER 02 CLEAR · SAVED</span>
           <p className="intro-text">
             개찰구 너머, 계단 앞에 도착했습니다.
@@ -1479,9 +1484,9 @@ const App = () => {
           >
             챕터 3 · 승강장으로 이동 →
           </button>
-          <button className="text-button" onClick={closeCompletion}>
+          <DismissButton variant="text" onDismiss={closeCompletion}>
             완료 기록 저장 · 현장으로 →
-          </button>
+          </DismissButton>
           <button className="text-button" onClick={() => setPanel('reset')}>
             처음부터 다시 플레이
           </button>
@@ -1524,7 +1529,7 @@ const App = () => {
         />
       )}
       {showEscape && !welcome && panel !== 'reset' && (
-        <Overlay title="신도림역 탈출 완료" onClose={closeEscape}>
+        <Overlay footerClose={false} title="신도림역 탈출 완료" onClose={closeEscape}>
           <span className="overline">CHAPTER 03 CLEAR · NEXT STATION UNKNOWN</span>
           <p className="intro-text">
             차창 밖의 신도림역 표지판이 멀어졌습니다.
@@ -1538,9 +1543,9 @@ const App = () => {
             <h3>“지금 객실에 몇 명 있어요?”</h3>
             <p>챕터 4 · 정차하지 않는 열차에서 객실의 통신 흔적을 확인하세요.</p>
           </div>
-          <button className="primary full" onClick={closeEscape}>
+          <DismissButton full onDismiss={closeEscape}>
             탈출 기록 저장 · 객실 둘러보기 →
-          </button>
+          </DismissButton>
           <button
             className="primary full"
             onClick={() => {
@@ -1556,14 +1561,14 @@ const App = () => {
         </Overlay>
       )}
       {panel === 'reset' && (
-        <Overlay title="처음부터 다시 시작할까요?" onClose={closePanel}>
+        <Overlay footerClose={false} title="처음부터 다시 시작할까요?" onClose={closePanel}>
           <p className="intro-text">현재 회차의 위치, 단서, 대화와 저장 기록이 초기화됩니다.</p>
           <button className="primary full" onClick={reset}>
             초기화하고 시작 ↻
           </button>
-          <button className="text-button" onClick={closePanel}>
+          <DismissButton variant="text" onDismiss={closePanel}>
             계속 플레이
-          </button>
+          </DismissButton>
         </Overlay>
       )}
     </div>

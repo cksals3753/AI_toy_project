@@ -1,3 +1,4 @@
+import { MenuButton } from './ui/TouchActionButton'
 import { useState } from 'react'
 export const ExplorationHud = ({
   chapter,
@@ -60,9 +61,14 @@ export const ExplorationHud = ({
         )}
       </div>
       <div className="hud-utilities world-toolbar">
-        <button onClick={onHelp} disabled={paused} aria-label="조작 도움말" title="조작 도움말">
+        <MenuButton
+          onActivate={onHelp}
+          disabled={paused}
+          aria-label="조작 도움말"
+          title="조작 도움말"
+        >
           ?
-        </button>
+        </MenuButton>
         {document.fullscreenEnabled && (
           <button
             onClick={onFullscreen}

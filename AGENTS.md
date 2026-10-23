@@ -86,3 +86,11 @@ JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에�
 - 회전 입력에 프레임 시간·DPR을 곱하지 않는다. 터치는 CSS 좌표와 화면 짧은 변 기준을 사용한다. 이동 배율은 플레이어와 감염자에게 함께 적용하되 감지·접촉 타이머는 그대로 유지한다. 감염자·카메라·환경 위치는 동일한 구역별 `sceneScale`을 사용한다.
 - 구역 로딩 후 240ms 페이드 중 입력과 위협을 정지한다. UI 종료·포커스 복귀의 기존 입력 초기화와 pointer lock 계약을 보존한다.
 - `FIRST_PERSON_CHECK=comfort npm run test:browser:first`는 카메라 안정성·설정·저장·터치 수치 검사이다. 실제 멀미와 실제 기기 GPU 성능 검증으로 보고하지 않는다.
+
+## 동적 조이스틱·모달
+
+- `DynamicJoystick.tsx`와 `game/joystick.ts`를 3D/2D에서 공유한다. 시작 영역은 탐색 화면 좌하단 1/4이며 좌상단으로 확대하지 않는다. 시작 터치의 pointerId를 유지하고 다른 손가락의 해제/취소로 이동을 종료하지 않는다. 표시 중심의 가장자리 보정과 입력 원점을 구분해 첫 터치의 이동을 방지한다. UI/blur/cancel/resize/unmount 시 입력을 비운다.
+- `Overlay.tsx`의 하단 닫기·상단 닫기·Esc는 같은 onClose를 사용한다. 기존 하단 취소 버튼이 있으면 footerClose=false로 중복을 피한다. onClose가 없는 필수 화면에 임의 닫기를 추가하지 않는다. 닫기를 정답 제출·이동 확정과 합치지 않는다.
+- `ui/TouchActionButton.tsx`의 DismissButton/MenuButton은 보조 손가락의 pointerup을 처리하며 버튼 밖 해제·취소와 지연 click 중복을 차단한다. 원래 진행 행동은 별도 핸들러로 유지한다. 닫기 콜백의 참조 변경만으로 모달 포커스를 매번 초기화하지 않는다.
+- `FIRST_PERSON_CHECK=controls npm run test:browser:first`는 저장 fixture를 사용한 챕터별 닫기/Esc·중첩 UI와 동적 멀티터치 검증이다. 프로덕션은 빌드 후 `PRODUCTION_CHECK=1 FIRST_PERSON_CHECK=controls node scripts/verify-browser.mjs`로 검사한다. 실제 모바일 기기 검사와 구분한다.
+- 챕터 2 침수/셔터 재구성은 [제안서](docs/chapter2-restructure-proposal.md) 단계이며 이번 조작 수정으로 구현됐다고 안내하지 않는다.

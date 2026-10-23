@@ -124,19 +124,22 @@ export const verifyEpisodeControls = async ({
   if (await evaluate("!!document.querySelector('.exploration-resume')"))
     await trustedClick('.exploration-resume')
   const rect = await evaluate(
-    "(()=>{const r=document.querySelector('.joystick').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
+    "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
   )
   const before = await state(),
     yaw = await evaluate("+document.querySelector('canvas').dataset.yaw")
   const touches = [
-    { x: rect.x + 25, y: rect.y, id: 1 },
+    { x: rect.x, y: rect.y, id: 1 },
     { x: 290, y: 400, id: 2 },
   ]
   await send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: touches })
   await wait(80)
   await send('Input.dispatchTouchEvent', {
     type: 'touchMove',
-    touchPoints: [touches[0], { x: 330, y: 420, id: 2 }],
+    touchPoints: [
+      { ...touches[0], x: rect.x + 25 },
+      { x: 330, y: 420, id: 2 },
+    ],
   })
   await wait(350)
   await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })

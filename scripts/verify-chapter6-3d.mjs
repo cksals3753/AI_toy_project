@@ -239,10 +239,14 @@ export const verifyChapter6Three = async ({
   await restore({ ...recovery, view3d: null })
   const before = (await state()).position
   const p = await evaluate(
-    "(()=>{const r=document.querySelector('.joystick').getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
+    "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()",
   )
   await send('Input.dispatchTouchEvent', {
     type: 'touchStart',
+    touchPoints: [{ x: p.x, y: p.y, id: 1 }],
+  })
+  await send('Input.dispatchTouchEvent', {
+    type: 'touchMove',
     touchPoints: [{ x: p.x + 28, y: p.y, id: 1 }],
   })
   await wait(300)

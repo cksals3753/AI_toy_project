@@ -1,3 +1,4 @@
+import { DynamicJoystick } from './DynamicJoystick'
 import { defaultComfort } from '../game/comfort'
 import type { ComfortSettings } from '../game/comfort'
 import { useThreat } from './useThreat'
@@ -9,7 +10,7 @@ import { gameKey, editingText } from '../game/explorationInput'
 import type { Chapter6 } from '../game/chapter6'
 import type { Chapter5 } from '../game/chapter5'
 import { useEffect, useRef, useState } from 'react'
-import type { RefObject, PointerEvent } from 'react'
+import type { RefObject } from 'react'
 import {
   movePlayer,
   nearestEntity,
@@ -98,11 +99,9 @@ export const Exploration = ({
     onRoomBeat,
   })
   const animation = useRef({ clock: 0, facing: 'down' as Facing, moving: false })
-  const pointer = useRef<number | null>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
   const position = useRef(initialPosition)
   const stick = useRef<Point>({ x: 0, y: 0 })
-  const [knob, setKnob] = useState<Point>({ x: 0, y: 0 })
   const [near, setNear] = useState<Entity | null>(null)
   const activate = useRef(() => {})
   useEffect(() => {
@@ -149,7 +148,6 @@ export const Exploration = ({
     const clear = () => {
       keys.clear()
       stick.current = { x: 0, y: 0 }
-      setKnob({ x: 0, y: 0 })
       onPosition(position.current)
     }
     const keyboard = (event: KeyboardEvent) => {
@@ -266,8 +264,6 @@ export const Exploration = ({
       resize.disconnect()
       keys.clear()
       stick.current = { x: 0, y: 0 }
-      pointer.current = null
-      setKnob({ x: 0, y: 0 })
       window.removeEventListener('keydown', keyboard)
       window.removeEventListener('keyup', keyup)
       window.removeEventListener('blur', clear)
@@ -290,23 +286,6 @@ export const Exploration = ({
     enemyRuntime,
     comfort,
   ])
-  const drag = (event: PointerEvent<HTMLDivElement>) => {
-    if (pointer.current !== event.pointerId || paused) return
-    const bounds = event.currentTarget.getBoundingClientRect()
-    const dx = event.clientX - bounds.left - bounds.width / 2,
-      dy = event.clientY - bounds.top - bounds.height / 2
-    const length = Math.hypot(dx, dy),
-      limit = 33
-    const point = { x: dx / Math.max(limit, length), y: dy / Math.max(limit, length) }
-    stick.current = length < 5 ? { x: 0, y: 0 } : point
-    setKnob({ x: point.x * limit, y: point.y * limit })
-  }
-  const release = () => {
-    pointer.current = null
-    stick.current = { x: 0, y: 0 }
-    setKnob({ x: 0, y: 0 })
-    onPosition(position.current)
-  }
   return (
     <div className={`exploration ${paused ? 'is-paused' : ''}`}>
       <ThreatStatus area={area} mode={threatMode} paused={paused} />
@@ -365,29 +344,16 @@ export const Exploration = ({
                           ? '다음 역: 미확인'
                           : '← 정비문 · 위쪽 벽의 사물을 조사하세요'}
       </div>
-      <div className="world-controls">
-        <div
-          className="joystick"
-          role="group"
-          aria-label="이동 조이스틱"
-          onPointerDown={(event) => {
-            if (paused || pointer.current !== null) return
-            pointer.current = event.pointerId
-            event.currentTarget.setPointerCapture(event.pointerId)
-            drag(event)
+      {!paused && (
+        <DynamicJoystick
+          onStop={() => onPosition(position.current)}
+          onMove={(point) => {
+            stick.current = point
           }}
-          onPointerMove={drag}
-          onPointerUp={release}
-          onPointerCancel={release}
-          onLostPointerCapture={release}
-        >
-          <span className="joystick-ring" />
-          <span
-            className="joystick-knob"
-            style={{ transform: `translate(${paused ? 0 : knob.x}px, ${paused ? 0 : knob.y}px)` }}
-          />
-          <small>이동</small>
-        </div>
+          onStart={() => canvas.current?.focus({ preventScroll: true })}
+        />
+      )}
+      <div className="world-controls">
         <div className="interaction">
           <span aria-live="polite">
             {paused

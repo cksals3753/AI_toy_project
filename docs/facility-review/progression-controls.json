@@ -1,0 +1,12 @@
+{
+  "staffSuccessAndFailure": true,
+  "waterLegibilityCheckpoints": true,
+  "midOperationSave": true,
+  "blurCancel": true,
+  "explanationPauses": true,
+  "multiTouch": true,
+  "touchBothStages": true,
+  "brightness": [0.85, 1.25],
+  "brightnessDoesNotPowerGate": true,
+  "fallback2D": false
+}

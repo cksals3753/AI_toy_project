@@ -1,3 +1,5 @@
+import { facilityLabel, addFacilityModel, addDoorHardware } from './facilityVisuals'
+import { facilityProfiles } from './facilityProfiles'
 import { raisedTrim } from './sceneFixtures'
 import * as T from 'three'
 import { getWorld } from './world'
@@ -7,7 +9,7 @@ import { departureTrain } from './chapter3'
 import type { Chapter5 } from './chapter5'
 import { maintenanceRule, moonBroadcast, moonStation } from './chapter5'
 import { sceneScale } from './firstPerson'
-import { createSceneTarget, disposeSceneObject } from './sceneInteraction'
+import { createSceneTarget, disposeSceneObject, registerFacilityTarget } from './sceneInteraction'
 import { loadOhModel } from './ohModel'
 
 export const moonSceneNames = {
@@ -55,37 +57,7 @@ export const createMoonScene = (
     width: number,
     rotation = 0,
   ) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 1024
-    canvas.height = 384
-    const c = canvas.getContext('2d')!,
-      texture = new T.CanvasTexture(canvas)
-    texture.colorSpace = T.SRGBColorSpace
-    const mesh = new T.Mesh(
-      new T.PlaneGeometry(width, (width * 384) / 1024),
-      new T.MeshBasicMaterial({ map: texture, side: T.DoubleSide }),
-    )
-    mesh.position.set((x - 480) / scale, height, (y - 310) / scale)
-    mesh.rotation.y = rotation
-    scene.add(mesh)
-    let last = ''
-    const text = (value: string) => {
-      if (last === value) return
-      last = value
-      c.fillStyle = '#182b32'
-      c.fillRect(0, 0, 1024, 384)
-      c.strokeStyle = '#a1b4a0'
-      c.lineWidth = 8
-      c.strokeRect(4, 4, 1016, 376)
-      c.fillStyle = '#e1dfc6'
-      c.textAlign = 'center'
-      c.font = 'bold 43px sans-serif'
-      const lines = value.split('\n')
-      lines.forEach((line, i) => c.fillText(line, 512, 195 - (lines.length - 1) * 31 + i * 62, 990))
-      texture.needsUpdate = true
-    }
-    text(initial)
-    return Object.assign(text, { mesh })
+    return facilityLabel(scene, scale, initial, x, y, height, width, rotation)
   }
   let layout = getWorld(area, 'helped', companion, [], false, undefined, initial)
   box({ x: 54, y: 70, w: 852, h: 480 }, 0.12, stone, -0.12)
@@ -138,13 +110,14 @@ export const createMoonScene = (
     const x = e.x + e.w / 2,
       y = e.y + e.h / 2
     const shoes = e.id === 'moon-shoes'
-    const proxy = box(
+    registerFacilityTarget(
+      scene,
+      scale,
       e,
       shoes ? 0.45 : e.kind === 'npc' ? 1.75 : 2.4,
-      new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }),
+      interactables,
+      blockers,
     )
-    proxy.userData.entityId = e.id
-    interactables.push(proxy)
     if (e.id === 'survivor') {
       npc = loadOhModel(
         scene,
@@ -184,6 +157,7 @@ export const createMoonScene = (
       box({ ...e, x: e.x + e.w - 5, w: 5 }, 2.5, metal, 0, true).userData.entityId = e.id
       const slab = box(e, 2.5, metal)
       doors.set(e.id, slab)
+      if (e.id === 'moon-maintenance') addDoorHardware(scene, scale, e, slab, warm)
       const text =
         e.id === 'moon-maintenance'
           ? `${maintenanceRule.door} · 정비 통로`
@@ -192,7 +166,7 @@ export const createMoonScene = (
             : e.id === 'moon-holding-door'
               ? '확인 대기 구역'
               : '승강장으로'
-      label(text, x, e.y + (e.y > 500 ? -1 : e.h + 1), 2.8, 1.9, e.y > 500 ? Math.PI : 0)
+      label(text, x, e.y + (e.y > 500 ? -1 : e.h + 1), 2.8, 1.35, e.y > 500 ? Math.PI : 0)
       // A short door-side plate never covers the opening.
       labels.set(
         e.id,
@@ -216,7 +190,7 @@ export const createMoonScene = (
       ).userData.entityId = e.id
       for (let i = 0; i < 3; i++)
         box({ x: e.x + 18 + i * 20, y: e.y + e.h + 2, w: 2, h: 1 }, 0.65, metal, 1.05)
-      label('확인 구역 점검창\n대기 의자 / 내부 해제 표식', x, e.y + e.h + 3, 1.4, 1.3)
+      label('확인 구역 점검창\n대기 의자 / 내부 해제 표식', x, e.y + e.h + 3, 0.78, 1.0)
       // No interior interaction proxies exist here. E can only inspect this public window record.
     } else if (e.id === 'moon-warning') {
       box(e, 0.65, dark, 1.75)
@@ -226,11 +200,12 @@ export const createMoonScene = (
       box({ x: e.x + 25, y: e.y + e.h + 1, w: 30, h: 1 }, 0.3, metal, 1.35)
       label('안내방송 / 승강장 스피커', x, e.y + e.h + 2, 1.0, 1.5)
     } else if (e.id === 'moon-sensor') {
-      box(e, 1.2, metal)
-      box({ x: e.x + 30, y: e.y + e.h + 2, w: 20, h: 2 }, 0.12, glow, 0.95)
-      label('MIC-03\n확인 구역 응답 감지', x, e.y + e.h + 4, 0.8, 1.5)
+      addFacilityModel(scene, scale, e, 'sensor', { metal, dark, warm })
+      label('MIC-03 / 응답 감지', x, e.y + e.h + 2, 0.9, 0.85)
     } else {
-      box(e, 1.35, e.id === 'moon-route' ? dark : metal)
+      const kind = facilityProfiles[e.id]?.kind
+      if (kind) addFacilityModel(scene, scale, e, kind, { metal, dark, warm })
+      else box(e, 1.35, metal)
       const texts: Record<string, string> = {
         'moon-route': `${maintenanceRule.mark} / ${maintenanceRule.door}\n지역 수동 승인`,
         'moon-playback': '방송 재생 기록 / PLAYBACK',
@@ -241,11 +216,20 @@ export const createMoonScene = (
         'moon-cancel-note': '내부 해제 안내\n활성 등록 확인 → 내부 취소',
         'moon-cancel-device': '내부 취소 장치 / LOCAL',
       }
-      labels.set(e.id, label(texts[e.id] ?? e.label, x, e.y + e.h + 1, 0.95, 1.55))
+      labels.set(
+        e.id,
+        label(
+          texts[e.id] ?? e.label,
+          x,
+          e.y + e.h + 1,
+          e.id === 'moon-cancel-device' ? 0.92 : 1.25,
+          e.id === 'moon-cancel-device' ? 0.85 : 1.1,
+        ),
+      )
     }
   }
   if (area === 'moonPlatform') {
-    label(`${moonStation} / MULLAE\n안내 부스 →  /  정비 통로 ←`, 480, 72, 2.95, 3)
+    label(`${moonStation} / MULLAE\n안내 부스 →  /  정비 통로 ←`, 480, 72, 2.95, 2.0)
     // Reuse the departing train's stone/metal palette and central door alignment behind the arrival spawn.
     box({ x: 350, y: 544, w: 80, h: 5 }, 2.65, metal, 0, true)
     box({ x: 510, y: 544, w: 190, h: 5 }, 2.65, metal, 0, true)
@@ -257,7 +241,7 @@ export const createMoonScene = (
       480,
       72,
       2.95,
-      3,
+      2.0,
     )
   let target = createSceneTarget(layout, scale, interactables, blockers),
     last = ''

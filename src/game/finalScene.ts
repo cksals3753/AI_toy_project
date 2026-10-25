@@ -1,10 +1,12 @@
+import { facilityLabel, addFacilityModel, addDoorHardware } from './facilityVisuals'
+import { facilityProfiles } from './facilityProfiles'
 import { addNpcChair } from './sceneFixtures'
 import * as T from 'three'
 import { getWorld } from './world'
 import type { Rect } from './world'
 import type { Chapter6 } from './chapter6'
 import { sceneScale } from './firstPerson'
-import { createSceneTarget, disposeSceneObject } from './sceneInteraction'
+import { createSceneTarget, disposeSceneObject, registerFacilityTarget } from './sceneInteraction'
 import { loadOhModel } from './ohModel'
 
 export const finalSceneNames = {
@@ -53,37 +55,7 @@ export const createFinalScene = (
     width: number,
     rotation = 0,
   ) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 1024
-    canvas.height = 384
-    const c = canvas.getContext('2d')!,
-      texture = new T.CanvasTexture(canvas)
-    texture.colorSpace = T.SRGBColorSpace
-    const mesh = new T.Mesh(
-      new T.PlaneGeometry(width, (width * 384) / 1024),
-      new T.MeshBasicMaterial({ map: texture, side: T.DoubleSide }),
-    )
-    mesh.position.set((x - 480) / scale, height, (y - 310) / scale)
-    mesh.rotation.y = rotation
-    scene.add(mesh)
-    let last = ''
-    const text = (value: string) => {
-      if (value === last) return
-      last = value
-      c.fillStyle = '#182b32'
-      c.fillRect(0, 0, 1024, 384)
-      c.strokeStyle = '#a1b4a0'
-      c.lineWidth = 8
-      c.strokeRect(4, 4, 1016, 376)
-      c.fillStyle = '#e1dfc6'
-      c.textAlign = 'center'
-      c.font = 'bold 43px sans-serif'
-      const lines = value.split('\n')
-      lines.forEach((line, i) => c.fillText(line, 512, 195 - (lines.length - 1) * 31 + i * 62, 990))
-      texture.needsUpdate = true
-    }
-    text(initial)
-    return text
+    return facilityLabel(scene, scale, initial, x, y, height, width, rotation)
   }
   const layoutFor = (c: Chapter6) =>
     getWorld(area, 'helped', companion, [], false, undefined, undefined, c)
@@ -142,6 +114,7 @@ export const createFinalScene = (
       box({ ...r, h: 7 }, 0.42, metal, 0.48, true)
     }
   }
+  const models = new Map<string, ReturnType<typeof addFacilityModel>>()
   const labels = new Map<string, ReturnType<typeof label>>(),
     doors = new Map<string, T.Mesh>()
   let npc: ReturnType<typeof loadOhModel> | null = null,
@@ -150,13 +123,14 @@ export const createFinalScene = (
   for (const e of layout.entities) {
     const x = e.x + e.w / 2,
       y = e.y + e.h / 2
-    const proxy = box(
+    const proxy = registerFacilityTarget(
+      scene,
+      scale,
       e,
       e.kind === 'npc' ? 1.75 : 2.4,
-      new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }),
+      interactables,
+      blockers,
     )
-    proxy.userData.entityId = e.id
-    interactables.push(proxy)
     if (e.id === 'survivor') {
       npcProxy = proxy
       const seated = shelter || (area === 'recovery' && !initial.boltOpen)
@@ -172,7 +146,9 @@ export const createFinalScene = (
     } else if (e.kind === 'door') {
       box({ ...e, w: 5 }, 2.5, metal, 0, true).userData.entityId = e.id
       box({ ...e, x: e.x + e.w - 5, w: 5 }, 2.5, metal, 0, true).userData.entityId = e.id
-      doors.set(e.id, box(e, 2.5, metal))
+      const slab = box(e, 2.5, metal)
+      doors.set(e.id, slab)
+      addDoorHardware(scene, scale, e, slab, warm, e.id === 'recovery-hatch')
       const title =
         e.id === 'final-s01'
           ? 'S-01 / 지상 대피소 정문'
@@ -181,7 +157,7 @@ export const createFinalScene = (
             : e.id === 'recovery-hatch'
               ? 'S-02 / 지상 비상 해치'
               : 'G-01 / 진입 차단문'
-      label(title, x, e.y + (e.y > 500 ? -1 : e.h + 1), 2.8, 1.9, e.y > 500 ? Math.PI : 0)
+      label(title, x, e.y + (e.y > 500 ? -1 : e.h + 1), 2.8, 1.35, e.y > 500 ? Math.PI : 0)
       labels.set(
         e.id,
         label(
@@ -197,11 +173,8 @@ export const createFinalScene = (
         for (let i = 0; i < 5; i++)
           box({ x: e.x + 12, y: e.y + e.h - 3, w: e.w - 24, h: 3 }, 0.025, metal, 0.25 + i * 0.35)
     } else if (e.id === 'recovery-valve') {
-      box(e, 1.2, metal)
-      const wheel = new T.Mesh(new T.TorusGeometry(0.22, 0.035, 6, 16), warm)
-      wheel.position.set((x - 480) / scale, 1.3, (e.y + e.h + 1 - 310) / scale)
-      scene.add(wheel)
-      labels.set(e.id, label('배수 밸브', x, e.y + e.h + 2, 0.7, 1.5))
+      models.set(e.id, addFacilityModel(scene, scale, e, 'valve', { metal, dark, warm }))
+      labels.set(e.id, label('배수 밸브', x, e.y + e.h + 2, 0.65, 0.8))
     } else if (e.id === 'final-window') {
       box(e, 2.2, metal)
       box(
@@ -211,9 +184,11 @@ export const createFinalScene = (
         1.05,
         true,
       ).userData.entityId = e.id
-      label('G-01 점검창\n등록 확인 / 진입 뒤 차단', x, e.y + e.h + 2, 1.4, 1.4)
+      label('G-01 점검창\n등록 확인 / 진입 뒤 차단', x, e.y + e.h + 2, 0.78, 1.05)
     } else {
-      box(e, e.id === 'shelter-sign' ? 1.9 : 1.35, e.id === 'final-map' ? dark : metal)
+      const kind = facilityProfiles[e.id]?.kind
+      if (kind) models.set(e.id, addFacilityModel(scene, scale, e, kind, { metal, dark, warm }))
+      else box(e, 1.35, metal)
       const texts: Record<string, string> = {
         'final-map': '현행 대피도\nS-01 → 지상 / G-01 → 등록 확인\nD-02 → 문래역',
         'final-manual': '지역 설비 운용\n전원 유지 / 현장 표식 대조',
@@ -231,8 +206,14 @@ export const createFinalScene = (
           texts[e.id] ?? e.label,
           x,
           e.y + e.h + 1,
-          e.id === 'shelter-sign' ? 1.55 : 0.95,
-          1.55,
+          e.id === 'recovery-bolt'
+            ? 0.75
+            : e.id === 'recovery-water'
+              ? 0.7
+              : e.id === 'shelter-arrival'
+                ? 1.25
+                : 1.3,
+          e.id === 'recovery-bolt' ? 0.85 : 1.15,
         ),
       )
     }
@@ -293,6 +274,19 @@ export const createFinalScene = (
           ? '도착 확인 완료\n에피소드 1 결과 저장'
           : '내부 도착 확인대\n내부 표식 확인 필요',
       )
+      models.get('recovery-valve')?.update({ active: c.drained })
+      models.get('recovery-bolt')?.update({ open: c.boltOpen })
+      const control = models.get('final-control')
+      if (control)
+        control.levers.forEach((mesh, i) => {
+          const on =
+            i === 0
+              ? c.settings?.door === 'S-01'
+              : i === 1
+                ? c.settings?.mode === 'local'
+                : c.settings?.power
+          mesh.rotation.x = c.settings ? (on ? -0.35 : 0.35) : 0
+        })
       if (water) {
         water.position.y = c.drained ? 0.015 : 0.13
         ;(water.material as T.MeshStandardMaterial).opacity = c.drained ? 0.12 : 0.48

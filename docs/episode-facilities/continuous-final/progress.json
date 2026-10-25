@@ -1,0 +1,531 @@
+[
+  {
+    "name": "01-first",
+    "elapsedSeconds": 0,
+    "area": "first",
+    "position": {
+      "x": 480,
+      "y": 460
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": 0,
+        "z": 3
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 100,
+    "battery": 64,
+    "clues": 0,
+    "inventory": [],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 4,
+      "JSEventListeners": 244,
+      "Nodes": 481,
+      "JSHeapUsedSize": 13213828
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "02-hall",
+    "elapsedSeconds": 25,
+    "area": "hall",
+    "position": {
+      "x": 470,
+      "y": 460
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -0.25,
+        "z": 3.75
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 100,
+    "battery": 51,
+    "clues": 3,
+    "inventory": [
+      "절연 장갑"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 251,
+      "Nodes": 490,
+      "JSHeapUsedSize": 34275636
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "03-repeat-0",
+    "elapsedSeconds": 103,
+    "area": "hall",
+    "position": {
+      "x": 200,
+      "y": 478
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -7,
+        "z": 4.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 189,
+      "Nodes": 491,
+      "JSHeapUsedSize": 37618748
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "03-repeat-1",
+    "elapsedSeconds": 108,
+    "area": "hall",
+    "position": {
+      "x": 200,
+      "y": 478
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -7,
+        "z": 4.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 188,
+      "Nodes": 490,
+      "JSHeapUsedSize": 38137544
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "03-repeat-2",
+    "elapsedSeconds": 114,
+    "area": "hall",
+    "position": {
+      "x": 200,
+      "y": 478
+    },
+    "view3d": {
+      "version": 1,
+      "area": "hall",
+      "position": {
+        "x": -7,
+        "z": 4.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 189,
+      "Nodes": 491,
+      "JSHeapUsedSize": 40427716
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "04-stairs",
+    "elapsedSeconds": 124,
+    "area": "stairs",
+    "position": {
+      "x": 480,
+      "y": 440
+    },
+    "view3d": {
+      "version": 1,
+      "area": "stairs",
+      "position": {
+        "x": 0,
+        "z": 2.888888888888889
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 574,
+      "Nodes": 610,
+      "JSHeapUsedSize": 48420780
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "05-platform",
+    "elapsedSeconds": 130,
+    "area": "platform",
+    "position": {
+      "x": 140,
+      "y": 240
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": -6.8,
+        "z": -1.4
+      },
+      "yaw": -1.45,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 7,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 3,
+      "JSEventListeners": 211,
+      "Nodes": 559,
+      "JSHeapUsedSize": 33547520
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "06-train",
+    "elapsedSeconds": 189,
+    "area": "trainB",
+    "position": {
+      "x": 450,
+      "y": 420
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainB",
+      "position": {
+        "x": -0.6,
+        "z": 2.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 12,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 298,
+      "Nodes": 502,
+      "JSHeapUsedSize": 39193256
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "07-mullae",
+    "elapsedSeconds": 251,
+    "area": "moonPlatform",
+    "position": {
+      "x": 450,
+      "y": 420
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonPlatform",
+      "position": {
+        "x": -0.6,
+        "z": 2.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 18,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 240,
+      "Nodes": 466,
+      "JSHeapUsedSize": 22624328
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "08-maintenance",
+    "elapsedSeconds": 320,
+    "area": "maintenance",
+    "position": {
+      "x": 450,
+      "y": 450
+    },
+    "view3d": {
+      "version": 1,
+      "area": "maintenance",
+      "position": {
+        "x": -0.6,
+        "z": 2.8
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 27,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 224,
+      "Nodes": 411,
+      "JSHeapUsedSize": 28167944
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "09-shelter",
+    "elapsedSeconds": 338,
+    "area": "shelter",
+    "position": {
+      "x": 450,
+      "y": 450
+    },
+    "view3d": {
+      "version": 1,
+      "area": "shelter",
+      "position": {
+        "x": -0.6,
+        "z": 2.8
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 29,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 216,
+      "Nodes": 399,
+      "JSHeapUsedSize": 20455708
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "10-complete",
+    "elapsedSeconds": 351,
+    "area": "shelter",
+    "position": {
+      "x": 659.0088000000004,
+      "y": 179.4000000000012
+    },
+    "view3d": {
+      "version": 1,
+      "area": "shelter",
+      "position": {
+        "x": 3.5801760000000082,
+        "z": -2.611999999999976
+      },
+      "yaw": -0.7590000000000003,
+      "pitch": -0.309
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 30,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 294,
+      "Nodes": 824,
+      "JSHeapUsedSize": 12363060
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  },
+  {
+    "name": "11-replayed",
+    "elapsedSeconds": 355,
+    "area": "shelter",
+    "position": {
+      "x": 659.0088000000004,
+      "y": 179.4000000000012
+    },
+    "view3d": {
+      "version": 1,
+      "area": "shelter",
+      "position": {
+        "x": 3.5801760000000082,
+        "z": -2.611999999999976
+      },
+      "yaw": -0.7575000000000003,
+      "pitch": -0.3105
+    },
+    "health": 80,
+    "battery": 51,
+    "clues": 30,
+    "inventory": [
+      "절연 장갑",
+      "전기실 열쇠"
+    ],
+    "listeners": {
+      "keydown": 2,
+      "keyup": 2,
+      "mousemove": 1,
+      "blur": 5
+    },
+    "metrics": {
+      "Documents": 2,
+      "JSEventListeners": 320,
+      "Nodes": 1343,
+      "JSHeapUsedSize": 13608200
+    },
+    "renderer": {
+      "engine": "three.js r186"
+    }
+  }
+]

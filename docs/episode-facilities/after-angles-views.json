@@ -1,0 +1,342 @@
+[
+  {
+    "area": "first",
+    "id": "map",
+    "angle": "near",
+    "position": {
+      "x": 480,
+      "y": 141
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": 0,
+        "z": -3.38
+      },
+      "yaw": -0.04542327942157698,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 찢어진 안내도E 찢어진 안내도 조사",
+    "enabled": true,
+    "input": "PC E",
+    "investigated": true
+  },
+  {
+    "area": "first",
+    "id": "map",
+    "angle": "oblique",
+    "position": {
+      "x": 540,
+      "y": 176
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": 1.2,
+        "z": -2.68
+      },
+      "yaw": 0.6332973812993306,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 찢어진 안내도E 찢어진 안내도 조사",
+    "enabled": true,
+    "input": "PC E",
+    "investigated": true
+  },
+  {
+    "area": "first",
+    "id": "map",
+    "angle": "outside",
+    "position": {
+      "x": 480,
+      "y": 261
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": 0,
+        "z": -0.98
+      },
+      "yaw": -0.012194517448252284,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false,
+    "outsideRejected": true
+  },
+  {
+    "area": "platform",
+    "id": "approval",
+    "angle": "near",
+    "position": {
+      "x": 805,
+      "y": 330
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": 6.5,
+        "z": 0.4
+      },
+      "yaw": -0.05549850524571731,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 비상 운행 승인 장치E 비상 운행 승인 장치 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "platform",
+    "id": "approval",
+    "angle": "oblique",
+    "position": {
+      "x": 860,
+      "y": 355
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": 7.6,
+        "z": 0.9
+      },
+      "yaw": 0.6435011087932843,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 비상 운행 승인 장치E 비상 운행 승인 장치 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "platform",
+    "id": "approval",
+    "angle": "outside",
+    "position": {
+      "x": 835,
+      "y": 435
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": 7.1,
+        "z": 2.5
+      },
+      "yaw": 0.18131977440149072,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false,
+    "outsideRejected": true
+  },
+  {
+    "area": "trainRear",
+    "id": "train-devices",
+    "angle": "near",
+    "position": {
+      "x": 690,
+      "y": 160
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainRear",
+      "position": {
+        "x": 4.2,
+        "z": -3
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 통신 장치함 R / X / PE 통신 장치함 R / X / P 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "trainRear",
+    "id": "train-devices",
+    "angle": "oblique",
+    "position": {
+      "x": 745,
+      "y": 190
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainRear",
+      "position": {
+        "x": 5.3,
+        "z": -2.4
+      },
+      "yaw": 0.6489955589965,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 통신 장치함 R / X / PE 통신 장치함 R / X / P 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "trainRear",
+    "id": "train-devices",
+    "angle": "outside",
+    "position": {
+      "x": 690,
+      "y": 270
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainRear",
+      "position": {
+        "x": 4.2,
+        "z": -0.8
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false,
+    "outsideRejected": true
+  },
+  {
+    "area": "moonBooth",
+    "id": "moon-terminal",
+    "angle": "near",
+    "position": {
+      "x": 740,
+      "y": 420
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonBooth",
+      "position": {
+        "x": 5.2,
+        "z": 2.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 등록 대조·보류 단말E 등록 대조·보류 단말 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "moonBooth",
+    "id": "moon-terminal",
+    "angle": "oblique",
+    "position": {
+      "x": 790,
+      "y": 445
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonBooth",
+      "position": {
+        "x": 6.2,
+        "z": 2.7
+      },
+      "yaw": 0.6375487981386918,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 등록 대조·보류 단말E 등록 대조·보류 단말 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "moonBooth",
+    "id": "moon-terminal",
+    "angle": "outside",
+    "position": {
+      "x": 740,
+      "y": 520
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonBooth",
+      "position": {
+        "x": 5.2,
+        "z": 4.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false,
+    "outsideRejected": true
+  },
+  {
+    "area": "maintenance",
+    "id": "final-control",
+    "angle": "near",
+    "position": {
+      "x": 780,
+      "y": 400
+    },
+    "view3d": {
+      "version": 1,
+      "area": "maintenance",
+      "position": {
+        "x": 6,
+        "z": 1.8
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 문·승인·전원 제어반E 문·승인·전원 제어반 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "maintenance",
+    "id": "final-control",
+    "angle": "oblique",
+    "position": {
+      "x": 835,
+      "y": 430
+    },
+    "view3d": {
+      "version": 1,
+      "area": "maintenance",
+      "position": {
+        "x": 7.1,
+        "z": 2.4
+      },
+      "yaw": 0.6489955589965,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 문·승인·전원 제어반E 문·승인·전원 제어반 조사",
+    "enabled": true,
+    "input": "mobile touch, 390×844",
+    "investigated": true
+  },
+  {
+    "area": "maintenance",
+    "id": "final-control",
+    "angle": "outside",
+    "position": {
+      "x": 765,
+      "y": 510
+    },
+    "view3d": {
+      "version": 1,
+      "area": "maintenance",
+      "position": {
+        "x": 5.7,
+        "z": 4
+      },
+      "yaw": -0.0980452772938385,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false,
+    "outsideRejected": true
+  }
+]

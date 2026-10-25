@@ -1,3 +1,5 @@
+import { initialHallEnvironment, outsideRisingWater, shutterReachable } from './hallEnvironment'
+import type { HallEnvironment } from './hallEnvironment'
 import { defaultThreat, checkpointPoint } from './threat'
 import type { ThreatSave } from './threat'
 import { applyEntryView } from './entryView'
@@ -49,7 +51,7 @@ import { dialogue } from './dialogue'
 import type { Message } from './dialogue'
 
 export type Stage = 'intro' | 'explore' | 'lock' | 'result'
-export type Chapter2 = {
+export type Chapter2 = HallEnvironment & {
   staffEvent: 'unseen' | 'active' | 'success' | 'failed'
   power: PowerDevice[]
   ending: 'none' | 'question' | 'echo' | 'complete'
@@ -85,6 +87,8 @@ export type State = {
   sceneIndex: number
 }
 export type Action =
+  | { type: 'hall-leak'; enemy: Point }
+  | { type: 'hall-shutter'; expected: HallEnvironment['shutter'] }
   | { type: 'threat-alert'; alert: boolean }
   | { type: 'threat-room-beat' }
   | { type: 'threat-caught' }
@@ -150,6 +154,7 @@ export type Action =
   | { type: 'talk'; lines: Message[] }
   | { type: 'advance' }
 export const defaultChapter2: Chapter2 = {
+  ...initialHallEnvironment,
   staffEvent: 'unseen',
   power: [],
   ending: 'none',
@@ -184,6 +189,24 @@ export const initialState: State = {
 }
 const scene = (lines: Message[]) => ({ scene: lines, sceneIndex: 0 })
 const reduceState = (state: State, action: Action): State => {
+  if (action.type === 'hall-leak') {
+    if (
+      !['hall', 'electrical'].includes(state.area) ||
+      !state.chapter2.visited ||
+      state.chapter2.water === 1 ||
+      state.scene.length ||
+      state.threat.caught ||
+      state.chapter2.staffEvent === 'active' ||
+      !outsideRisingWater(action.enemy) ||
+      (state.area === 'hall' && !outsideRisingWater(state.position))
+    )
+      return state
+    return {
+      ...state,
+      chapter2: { ...state.chapter2, water: 1, leakShown: true },
+      notice: '배관 누수 증가 · 동측 연결 침수. 서측·상단 건조 우회로는 유지됩니다.',
+    }
+  }
   if (action.type === 'threat-alert')
     return state.area === 'hall' && state.threat.alert !== action.alert
       ? { ...state, threat: { ...state.threat, alert: action.alert } }
@@ -251,6 +274,7 @@ const reduceState = (state: State, action: Action): State => {
       state.chapter4,
       state.chapter5,
       state.chapter6,
+      state.chapter2,
     )
     if (!view || (state.chapter2.staffEvent === 'active' && state.view3d?.area === state.area))
       return state
@@ -287,6 +311,7 @@ const reduceState = (state: State, action: Action): State => {
           state.chapter4,
           state.chapter5,
           state.chapter6,
+          state.chapter2,
         ),
       ) ||
       (state.position.x === action.position.x && state.position.y === action.position.y)
@@ -372,6 +397,25 @@ const reduceState = (state: State, action: Action): State => {
       notice: '뒤쪽 차단문이 내려왔다. 대합실에서 새 경로를 찾아야 한다.',
     }
   }
+  if (action.type === 'hall-shutter') {
+    if (
+      state.area !== 'hall' ||
+      state.threat.caught ||
+      state.chapter2.shutter !== action.expected ||
+      action.expected === 'open' ||
+      !shutterReachable(state.position)
+    )
+      return state
+    const shutter = action.expected === 'locked' ? 'unlatched' : 'open'
+    return {
+      ...state,
+      chapter2: { ...state.chapter2, shutter },
+      notice:
+        shutter === 'open'
+          ? 'IS-02 올림·걸쇠 고정 완료. E-01 전기실 문에 기존 열쇠를 사용하세요.'
+          : 'IS-02 빗장 해제 완료. 다음 조작으로 셔터를 올리고 걸쇠를 고정하세요.',
+    }
+  }
   if (action.type === 'enter-electrical' && state.area === 'hall') {
     if (!state.inventory.includes('전기실 열쇠'))
       return {
@@ -380,9 +424,12 @@ const reduceState = (state: State, action: Action): State => {
           { who: 'player', text: '문이 잠겨 있다. 문패에 “열쇠 보관: 안내 데스크”라고 적혀 있다.' },
         ]),
       }
+    if (state.chapter2.shutter !== 'open')
+      return { ...state, notice: 'E-01 앞 IS-02 수동 격리 셔터를 먼저 개방하세요.' }
     return {
       ...state,
       area: 'electrical',
+      chapter2: { ...state.chapter2, visited: true },
       threat: { ...state.threat, checkpoint: 'electrical' },
       position: worlds.electrical.spawn,
       notice: '열쇠로 전기실을 열었다. 위쪽 배전반에서 예비 전원을 조작할 수 있다.',
@@ -394,7 +441,7 @@ const reduceState = (state: State, action: Action): State => {
       area: 'hall',
       position: { x: 215, y: 480 },
       notice:
-        '전기실 문 앞의 재개 지점으로 돌아왔다. 감염자는 안쪽에서 순찰을 재개한다. 전원 설정은 유지된다.',
+        '전기실 문 앞의 재개 지점으로 돌아왔다. 감염자는 멈춰 있던 위치에서 움직임을 재개한다. 전원 설정은 유지된다.',
     }
   if (
     action.type === 'staff-start' &&
@@ -670,7 +717,22 @@ export const loadGame = (): State => {
           ),
         ].slice(0, 2)
       : []
+    const advanced =
+      area === 'electrical' ||
+      !['first', 'hall'].includes(area) ||
+      power.length > 0 ||
+      c.completed === true ||
+      value.threat?.checkpoint === 'electrical'
+    const legacy = !['locked', 'unlatched', 'open'].includes(c.shutter)
     const chapter2: Chapter2 = {
+      water: c.water === 1 || c.leakShown === true || (legacy && advanced) ? 1 : 0,
+      visited: c.visited === true || advanced,
+      leakShown: c.leakShown === true || c.water === 1 || (legacy && advanced),
+      shutter: advanced
+        ? 'open'
+        : ['locked', 'unlatched', 'open'].includes(c.shutter)
+          ? c.shutter
+          : 'locked',
       staffEvent: ['unseen', 'active', 'success', 'failed'].includes(c.staffEvent)
         ? c.staffEvent
         : 'unseen',
@@ -728,6 +790,7 @@ export const loadGame = (): State => {
       chapter4,
       chapter5,
       chapter6,
+      chapter2,
     )
     const savedThreat = value.threat
     const threat: ThreatSave = {
@@ -770,6 +833,24 @@ export const loadGame = (): State => {
       chapter5,
       chapter6,
       aiChat: normalizeAiChat(value.aiChat),
+      notice:
+        restoredArea === 'hall' &&
+        !walkable(
+          restoredPoint,
+          getWorld(
+            'hall',
+            chapter3.npc,
+            chapter3.npcBoarded,
+            chapter2.power,
+            chapter3.doorOpen,
+            chapter4,
+            chapter5,
+            chapter6,
+            chapter2,
+          ),
+        )
+          ? '저장 위치가 침수·시설 경계와 겹쳐 건조한 안전 위치로 복구했습니다.'
+          : value.notice,
       reading: normalizeReading(value.reading, value.clues, value.messages.length),
       clues: [...new Set<string>(value.clues)],
       asked: [...new Set<string>(value.asked)],
@@ -802,6 +883,7 @@ export const loadGame = (): State => {
                   chapter4,
                   chapter5,
                   chapter6,
+                  chapter2,
                 ),
               )
             ? value.position

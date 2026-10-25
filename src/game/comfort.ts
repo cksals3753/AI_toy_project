@@ -1,4 +1,5 @@
 export type ComfortSettings = {
+  brightness: number
   mouseSensitivity: number
   touchSensitivity: number
   fov: number
@@ -6,6 +7,7 @@ export type ComfortSettings = {
 }
 export const COMFORT_KEY = 'last-transfer-comfort-v1'
 export const defaultComfort: ComfortSettings = {
+  brightness: 1,
   mouseSensitivity: 0.0015,
   touchSensitivity: 0.003,
   fov: 64,
@@ -16,6 +18,7 @@ const bounded = (v: unknown, fallback: number, min: number, max: number) =>
 export const normalizeComfort = (value: unknown): ComfortSettings => {
   const v = value && typeof value === 'object' ? (value as Partial<ComfortSettings>) : {}
   return {
+    brightness: bounded(v.brightness, defaultComfort.brightness, 0.85, 1.25),
     mouseSensitivity: bounded(v.mouseSensitivity, defaultComfort.mouseSensitivity, 0.0005, 0.004),
     touchSensitivity: bounded(v.touchSensitivity, defaultComfort.touchSensitivity, 0.001, 0.008),
     fov: bounded(v.fov, defaultComfort.fov, 55, 80),

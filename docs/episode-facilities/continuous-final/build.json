@@ -1,0 +1,27 @@
+{
+  "mode": "playtest",
+  "command": "npm run build:playtest",
+  "aiEnabled": false,
+  "assets": [
+    {
+      "path": "dist/index.html",
+      "bytes": 750,
+      "sha256": "a83d0642458ba9c4378f2e3d08c9678998b8d1ccb7363eab502e25e78f92c4b8"
+    },
+    {
+      "path": "dist/assets/FirstPersonRoom-Ohb1SlZ3.js",
+      "bytes": 765751,
+      "sha256": "cb77fad7d31b9d54dd97e1688807065940f06be5f51fc95f8495a19942faa8ed"
+    },
+    {
+      "path": "dist/assets/index-BVX55hCU.css",
+      "bytes": 45348,
+      "sha256": "988d423f02285d9a64afadf26e1ca7ec25c8ffca0f46368ad7c8bd4404cafe96"
+    },
+    {
+      "path": "dist/assets/index-BYJGJdnT.js",
+      "bytes": 447249,
+      "sha256": "483c1632929547e15ed5a300a8e1393d9b7ef50514f1891cc074bc96452e6cc8"
+    }
+  ]
+}

@@ -1,4 +1,6 @@
+import { facilityProfiles } from './facilityProfiles'
 import * as T from 'three'
+import { interactionReach, interactionBounds, interactionSurface } from './interaction'
 import type { Entity, World } from './world'
 
 export const createSceneTarget = (
@@ -27,27 +29,25 @@ export const createSceneTarget = (
       ray.setFromCamera(point.set(offset.x / aspect, offset.y), camera)
       // Every assist ray uses the same solid blockers as the exact center ray.
       const hit = ray.intersectObjects(solids, false)[0]
-      if (!hit || hit.distance > Math.max(2.1, 65 / scale) || !hit.object.userData.entityId)
-        continue
+      if (!hit || !hit.object.userData.entityId) continue
       const entity = layout.entities.find((e) => e.id === hit.object.userData.entityId)
       if (!entity) continue
-      const px = camera.position.x * scale + 480,
-        py = camera.position.z * scale + 310
-      const distance = Math.hypot(
-        px - Math.max(entity.x, Math.min(px, entity.x + entity.w)),
-        py - Math.max(entity.y, Math.min(py, entity.y + entity.h)),
-      )
-      if (distance >= 60) continue
-      hit.object.getWorldPosition(projected).project(camera)
-      const score = Math.hypot(projected.x * aspect, projected.y) / 0.075 + (distance / 60) * 0.15
+      const reach = interactionReach(entity.id)
+      // Ray hit, not model/pivot center: wide panels remain usable at their edge.
+      const distance =
+        Math.hypot(hit.point.x - camera.position.x, hit.point.z - camera.position.z) * scale
+      if (distance >= reach || hit.distance > Math.hypot(reach / scale, 2.7)) continue
+      projected.copy(hit.point).project(camera)
+      const score =
+        Math.hypot(projected.x * aspect, projected.y) / 0.075 + (distance / reach) * 0.15
       if (score < (candidates.get(entity.id)?.score ?? Infinity))
         candidates.set(entity.id, { entity, score })
     }
     const ranked = [...candidates.values()].sort(
       (a, b) =>
         a.score -
-          (a.entity.id === previous ? 0.2 : 0) -
-          (b.score - (b.entity.id === previous ? 0.2 : 0)) ||
+          (a.entity.id === previous ? 0.4 : 0) -
+          (b.score - (b.entity.id === previous ? 0.4 : 0)) ||
         a.entity.id.localeCompare(b.entity.id),
     )
     previous = ranked[0]?.entity.id ?? null
@@ -65,4 +65,44 @@ export const disposeSceneObject = (root: T.Object3D) => {
       })
     }
   })
+}
+
+// A thin working face must not make the rest of a cabinet transparent to
+// selection. Keep a slightly recessed body as an invisible occluder.
+export const registerFacilityTarget = (
+  scene: T.Scene,
+  scale: number,
+  e: Entity,
+  top: number,
+  interactables: T.Object3D[],
+  blockers: T.Object3D[],
+) => {
+  const bounds = interactionBounds(e.id, top),
+    r = interactionSurface(e)
+  const make = (rect: { x: number; y: number; w: number; h: number }, material: T.Material) => {
+    const mesh = new T.Mesh(
+      new T.BoxGeometry(rect.w / scale, bounds.height, rect.h / scale),
+      material,
+    )
+    mesh.position.set(
+      (rect.x + rect.w / 2 - 480) / scale,
+      bounds.bottom + bounds.height / 2,
+      (rect.y + rect.h / 2 - 310) / scale,
+    )
+    scene.add(mesh)
+    return mesh
+  }
+  const proxy = make(r, new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }))
+  proxy.userData.entityId = e.id
+  interactables.push(proxy)
+  if (facilityProfiles[e.id] && e.id !== 'train-phone') {
+    const north = facilityProfiles[e.id].north
+    const body = make(
+      { ...e, y: e.y + (north ? 0.5 : 0), h: e.h - 0.5 },
+      new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }),
+    )
+    body.name = `facility-body-occluder-${e.id}`
+    blockers.push(body)
+  }
+  return proxy
 }

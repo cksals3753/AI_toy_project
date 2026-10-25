@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict'
 import { mkdir, writeFile } from 'node:fs/promises'
+const chapter3Dir = process.env.FACILITY_REGRESSION_ROOT
+  ? `${process.env.FACILITY_REGRESSION_ROOT}/chapter3`
+  : 'docs/chapter3-3d'
 export const verifyChapter3Three = async ({
   send,
   evaluate,
@@ -14,10 +17,10 @@ export const verifyChapter3Three = async ({
   look,
   hold,
 }) => {
-  await mkdir('docs/chapter3-3d', { recursive: true })
+  await mkdir(chapter3Dir, { recursive: true })
   const shot = async (name) => {
     const { data } = await send('Page.captureScreenshot')
-    await writeFile(`docs/chapter3-3d/${name}.png`, Buffer.from(data, 'base64'))
+    await writeFile(`${chapter3Dir}/${name}.png`, Buffer.from(data, 'base64'))
   }
   const restore = async (checkpoint) => {
     const script = await send('Page.addScriptToEvaluateOnNewDocument', {
@@ -169,7 +172,11 @@ export const verifyChapter3Three = async ({
   )
   await send('Input.dispatchTouchEvent', {
     type: 'touchStart',
-    touchPoints: [{ x: p.x, y: p.y + 28, id: 1 }],
+    touchPoints: [{ x: p.x, y: p.y, id: 1 }],
+  })
+  await send('Input.dispatchTouchEvent', {
+    type: 'touchMove',
+    touchPoints: [{ x: p.x + 28, y: p.y, id: 1 }],
   })
   await wait(350)
   await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })

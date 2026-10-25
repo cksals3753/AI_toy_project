@@ -1,3 +1,8 @@
+import { verifyEpisodeFacilities } from './verify-episode-facilities.mjs'
+import { verifyFacilityReview, verifyFacilityFallback } from './verify-facility-review.mjs'
+import { verifyHallVisual } from './verify-hall-visual.mjs'
+import { verifyHallControls } from './verify-hall-controls.mjs'
+import { verifyHallRestructure } from './verify-hall-restructure.mjs'
 import { verifyControls } from './verify-controls.mjs'
 import { verifyComfort } from './verify-comfort.mjs'
 import { verifyThreat } from './verify-threat.mjs'
@@ -108,12 +113,33 @@ export async function verifyFirstPerson({
       const sensitivity = await evaluate(
         "JSON.parse(localStorage.getItem('last-transfer-comfort-v1') ?? 'null')?.mouseSensitivity ?? 0.0015",
       )
-      const dx = Math.max(-180, Math.min(180, yawDelta / sensitivity))
-      const dy = Math.max(-100, Math.min(100, (a.pitch - pitch) / sensitivity))
+      // Production feedback is sampled every 450ms. Slow synthetic turns can
+      // spend several seconds exposed to the infected; use a normal fast mouse
+      // turn for this real-time play route instead of changing the game threat.
+      const fast =
+        !!process.env.PRODUCTION_CHECK ||
+        [
+          'facility-progress',
+          'facility-review',
+          'episode',
+          'facilities',
+          'facility-branches',
+        ].includes(process.env.FIRST_PERSON_CHECK)
+      const dx = fast
+        ? yawDelta / sensitivity
+        : Math.max(-180, Math.min(180, yawDelta / sensitivity))
+      const dy = fast
+        ? (a.pitch - pitch) / sensitivity
+        : Math.max(-100, Math.min(100, (a.pitch - pitch) / sensitivity))
       if (Math.abs(dx) < 2 && Math.abs(dy) < 2) return
-      mx += dx
-      my += dy
-      await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: mx, y: my })
+      // Keep individual events below the game's 500px OS-warp guard.
+      const steps = fast ? Math.max(1, Math.ceil(Math.max(Math.abs(dx), Math.abs(dy)) / 450)) : 1
+      for (let step = 0; step < steps; step++) {
+        mx += dx / steps
+        my += dy / steps
+        await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: mx, y: my })
+        if (fast) await wait(16)
+      }
       await wait(process.env.PRODUCTION_CHECK ? 450 : 40)
     }
     throw Error(
@@ -140,22 +166,65 @@ export async function verifyFirstPerson({
     await resume3d()
   }
   async function approachOnce(id) {
+    // Older chapter routes now encounter the same mandatory physical shutter.
+    // Use real navigation/input; never inject an unlocked state.
+    if (id === 'electrical' && (await state()).area === 'hall') {
+      for (let step = 0; step < 2 && (await state()).chapter2.shutter !== 'open'; step++) {
+        await approach('hall-shutter')
+        assert.ok(
+          (await evaluate("document.querySelector('.interaction').textContent")).includes('IS-02'),
+          JSON.stringify({
+            s: await state(),
+            hud: await evaluate("document.querySelector('.interaction').textContent"),
+          }),
+        )
+        const before = (await state()).chapter2.shutter
+        await pressE()
+        for (
+          let i = 0;
+          i < 60 && (await state()).chapter2.shutter === before && !(await state()).threat?.caught;
+          i++
+        )
+          await wait(100)
+        if ((await state()).threat?.caught) throw Error('Capture during physical shutter action')
+        assert.notEqual(
+          (await state()).chapter2.shutter,
+          before,
+          'physical action: ' +
+            (await evaluate("document.querySelector('.first-person').textContent")),
+        )
+      }
+      assert.equal((await state()).chapter2.shutter, 'open')
+    }
     await resume3d()
     await look(0)
     await walkTo(id)
     const p = (await state()).position
     const entity = await evaluate(
-      `(async()=>{const {getWorld}=await import('/src/game/world.ts');const s=JSON.parse(localStorage.getItem('last-transfer-save-v1'));return getWorld(s.area,s.chapter3.npc,s.chapter3.npcBoarded,s.chapter2.power,s.chapter3.doorOpen,s.chapter4,s.chapter5,s.chapter6).entities.find(e=>e.id===${JSON.stringify(id)})})()`,
+      `(async()=>{const {getWorld}=await import('/src/game/world.ts');const s=JSON.parse(localStorage.getItem('last-transfer-save-v1'));const e=getWorld(s.area,s.chapter3.npc,s.chapter3.npcBoarded,s.chapter2.power,s.chapter3.doorOpen,s.chapter4,s.chapter5,s.chapter6,s.chapter2).entities.find(e=>e.id===${JSON.stringify(id)});const {interactionSurface,interactionAim}=await import('/src/game/interaction.ts');const {facilityProfiles}=await import('/src/game/facilityProfiles.ts');return {...e,...interactionSurface(e),aim:interactionAim(e.id),surfaceFace:!!facilityProfiles[e.id]||['hall-desk','hall-shutter','hall-map','hall-window','hall-gate-note','powerboard','moon-shoes'].includes(e.id)}})()`,
     )
-    const tx = entity.id === 'train-phone' ? entity.x + 26.5 : entity.x + entity.w / 2
-    const ty = entity.id === 'train-phone' ? entity.y + 17 : entity.y + entity.h / 2
+    const tx = entity.surfaceFace
+      ? Math.max(entity.x + 2, Math.min(p.x, entity.x + entity.w - 2))
+      : entity.x + entity.w / 2
+    const ty =
+      entity.id === 'moon-shoes'
+        ? Math.max(entity.y + 2, Math.min(p.y, entity.y + entity.h - 2))
+        : entity.id === 'hall-desk'
+          ? entity.y + entity.h
+          : entity.y + entity.h / 2
     await look(
       Math.atan2(p.x - tx, p.y - ty),
       ['train-phone', 'moon-shoes'].includes(entity.id)
         ? -Math.atan2(entity.id === 'train-phone' ? 1.3 : 1.15, Math.hypot(p.x - tx, p.y - ty) / 50)
         : entity.id === 'hall-desk'
-          ? -0.6
-          : 0,
+          ? -Math.atan2(0.65, Math.hypot(p.x - tx, p.y - ty) / 40)
+          : -Math.atan2(
+              1.5 - entity.aim,
+              Math.hypot(p.x - tx, p.y - ty) /
+                (await evaluate(
+                  `(async()=>{const {sceneScale}=await import('/src/game/firstPerson.ts');return sceneScale('${(await state()).area}')})()`,
+                )),
+            ),
     )
     await wait(80)
   }
@@ -202,6 +271,63 @@ export async function verifyFirstPerson({
   assert.equal(await evaluate("!!document.querySelector('.first-person canvas')"), true)
   await screenshot('3d-01-room-desktop.png')
   await resume3d()
+  if (['facilities', 'facilities-2d'].includes(process.env.FIRST_PERSON_CHECK)) {
+    const both = process.env.FACILITY_ANGLES === 'both'
+    if (both) delete process.env.FACILITY_ANGLES
+    const helpers = {
+      send,
+      evaluate,
+      state,
+      wait,
+      resume3d,
+      pressE,
+      advanceAll,
+      close,
+      trustedClick,
+      look,
+    }
+    await verifyEpisodeFacilities(helpers)
+    if (both) {
+      process.env.FACILITY_ANGLES = '1'
+      await verifyEpisodeFacilities(helpers)
+      delete process.env.FACILITY_ANGLES
+    }
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'facility-branches') {
+    const helpers = {
+      look,
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      approach,
+      pressE,
+      resume3d,
+      trustedClick,
+      inputCode,
+    }
+    for (const check of [
+      verifyChapter3Three,
+      verifyChapter4Three,
+      verifyChapter5Three,
+      verifyChapter6Three,
+    ].slice(Number(process.env.FACILITY_BRANCH_START ?? 3) - 3)) {
+      await send('Emulation.setTouchEmulationEnabled', { enabled: false })
+      await send('Emulation.setDeviceMetricsOverride', {
+        width: 1280,
+        height: 1000,
+        deviceScaleFactor: 1,
+        mobile: false,
+      })
+      await check(helpers)
+    }
+    return
+  }
   if (process.env.FIRST_PERSON_CHECK === 'threat') {
     await verifyThreat({
       send,
@@ -232,6 +358,94 @@ export async function verifyFirstPerson({
       state,
       screenshot,
     })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'facility-fallback') {
+    await verifyFacilityFallback({ send, evaluate, state, wait, pressE, trustedClick })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'facility-review') {
+    await verifyFacilityReview({
+      send,
+      evaluate,
+      state,
+      wait,
+      resume3d,
+      pressE,
+      advanceAll,
+      look,
+      trustedClick,
+      close,
+      hold,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'restructure-visual') {
+    await verifyHallVisual({ send, evaluate, state, wait, resume3d })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'restructure-controls') {
+    await verifyHallControls({
+      approach,
+      click,
+      advanceAll,
+      send,
+      evaluate,
+      state,
+      wait,
+      resume3d,
+      pressE,
+      hold,
+      close,
+      trustedClick,
+    })
+    return
+  }
+  if (['restructure', 'facility-progress'].includes(process.env.FIRST_PERSON_CHECK)) {
+    await verifyHallRestructure({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      hold,
+      wait,
+      resume3d,
+      trustedClick,
+      approach,
+      pressE,
+      advanceAll,
+      look,
+    })
+    if (process.env.PRODUCTION_CHECK)
+      await verifyHallControls({
+        send,
+        evaluate,
+        state,
+        wait,
+        resume3d,
+        pressE,
+        hold,
+        close,
+        trustedClick,
+        approach,
+        click,
+        advanceAll,
+      })
+    if (process.env.FIRST_PERSON_CHECK === 'facility-progress')
+      await verifyFacilityReview({
+        send,
+        evaluate,
+        state,
+        wait,
+        resume3d,
+        pressE,
+        advanceAll,
+        look,
+        trustedClick,
+        close,
+        hold,
+      })
     return
   }
   if (process.env.FIRST_PERSON_CHECK === 'controls') {

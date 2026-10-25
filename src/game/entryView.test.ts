@@ -16,7 +16,7 @@ describe('door entry versus saved view', () => {
     expect(reducer(s, { type: 'reset' })).toEqual(initialState)
   })
   it.each([
-    ['electrical', 'hall', 215, 478, 0],
+    ['electrical', 'hall', 200, 478, 0],
     ['hall', 'electrical', 480, 478, 0],
     ['platform', 'trainA', 480, 474, 0],
     ['trainB', 'trainRear', 470, 462, 0],

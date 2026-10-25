@@ -1,4 +1,4 @@
-import { createSceneTarget } from './sceneInteraction'
+import { createSceneTarget, registerFacilityTarget } from './sceneInteraction'
 import * as T from 'three'
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
 import { addFacilityFace } from './firstRoomFacilities'
@@ -183,14 +183,20 @@ export const createFirstRoomScene = (onAssetError: () => void) => {
     scene.add(mesh)
     return mesh
   }
-  sign('신도림 · SINDORIM\n정비 대기실 / B2', { x: 480, y: 72, w: 180, h: 65 }, 2.45)
+  sign('신도림 · SINDORIM\n정비 대기실 / B2', { x: 480, y: 72, w: 110, h: 35 }, 2.45)
   for (const entity of room.entities) {
     const rect =
       entity.kind === 'door' ? { ...entity, x: entity.id === 'west' ? 54 : 896, w: 10 } : entity
     const height = entity.kind === 'door' ? 2.5 : entity.kind === 'npc' ? 1.75 : 1.65
-    const proxy = box(rect, height, new T.MeshBasicMaterial({ visible: false }))
-    proxy.userData.entityId = entity.id
-    interactables.push(proxy)
+    const proxy = registerFacilityTarget(
+      scene,
+      SCALE,
+      { ...entity, ...rect },
+      height,
+      interactables,
+      blockers,
+    )
+    void proxy
     if (entity.kind === 'door') {
       model(
         firstRoomAssets.door,
@@ -224,10 +230,26 @@ export const createFirstRoomScene = (onAssetError: () => void) => {
         onAssetError,
       )
     } else {
-      box(rect, height, entity.id === 'panel' ? steel : dark)
+      if (entity.id === 'map') {
+        box(rect, 0.06, dark)
+        box({ ...rect, y: rect.y + rect.h - 3, h: 3 }, 1.16, steel, 0.55)
+        for (const x of [rect.x + 4, rect.x + rect.w - 7])
+          box({ x, y: rect.y + rect.h - 5, w: 3, h: 5 }, 0.55, steel)
+      } else {
+        box(rect, height, steel)
+        for (const x of [rect.x + 12, rect.x + rect.w - 22])
+          box({ x, y: rect.y + rect.h - 4, w: 10, h: 4 }, 0.12, steel, 1.72)
+        for (let i = 0; i < 4; i++)
+          box({ x: rect.x + 10 + i * 12, y: rect.y + rect.h + 1, w: 5, h: 1 }, 0.15, dark, 0.2)
+      }
       addFacilityFace(scene, entity, resources)
       if (entity.id === 'panel')
-        box({ x: entity.x + 8, y: entity.y + entity.h + 1, w: 8, h: 2 }, 0.08, lamp, 1.55)
+        box(
+          { x: entity.x + entity.w / 2 - 4, y: entity.y + entity.h + 1, w: 8, h: 2 },
+          0.08,
+          lamp,
+          1.78,
+        )
     }
     const ring = new T.Mesh(
       new T.RingGeometry(0.33, 0.38, 24),

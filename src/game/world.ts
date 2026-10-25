@@ -1,3 +1,11 @@
+import {
+  interactionReach,
+  interactionSurface,
+  surfaceDistance,
+  workingFaceVisible,
+} from './interaction'
+import { initialHallEnvironment, hallPartitions, shutterRect, waterRects } from './hallEnvironment'
+import type { HallEnvironment } from './hallEnvironment'
 import type { Chapter6 } from './chapter6'
 import type { Chapter5 } from './chapter5'
 import type { Chapter4 } from './chapter4'
@@ -92,7 +100,7 @@ export const room = {
     },
   ] satisfies Entity[],
 }
-export type World = typeof room
+export type World = typeof room & { waterZones?: Rect[]; occluders?: Rect[] }
 export const hall: World = {
   ...room,
   spawn: { x: 470, y: 460 },
@@ -110,7 +118,7 @@ export const hall: World = {
       x: 440,
       y: 78,
       w: 80,
-      h: 38,
+      h: 8,
       color: '#bccd98',
     },
     {
@@ -138,9 +146,9 @@ export const hall: World = {
       label: '비상 개방 안내문',
       kind: 'object',
       x: 790,
-      y: 150,
+      y: 183,
       w: 48,
-      h: 40,
+      h: 7,
       color: '#d6cd98',
     },
     {
@@ -167,9 +175,9 @@ export const hall: World = {
       id: 'electrical',
       label: '전기실',
       kind: 'door',
-      x: 170,
+      x: 160,
       y: 526,
-      w: 90,
+      w: 80,
       h: 24,
       color: '#becb94',
     },
@@ -198,9 +206,9 @@ export const electrical: World = {
       id: 'powerboard',
       label: '예비 전원 배전반',
       kind: 'object',
-      x: 390,
+      x: 435,
       y: 130,
-      w: 180,
+      w: 90,
       h: 55,
       color: '#bccea0',
     },
@@ -521,6 +529,7 @@ export const getWorld = (
   chapter4?: Pick<Chapter4, 'started' | 'arrived'>,
   chapter5?: Pick<Chapter5, 'routeOpen' | 'registration'>,
   chapter6?: Pick<Chapter6, 'settings' | 'route' | 'drained' | 'boltOpen'>,
+  environment: HallEnvironment = initialHallEnvironment,
 ): World => {
   if (chapter6 && ['maintenance', 'recovery', 'shelter'].includes(area)) {
     const base = worlds[area]
@@ -613,16 +622,43 @@ export const getWorld = (
       ],
     }
   }
-  if (area === 'hall' && power.includes('gate'))
+  if (area === 'hall') {
+    const waterZones = waterRects(environment.water)
     return {
       ...hall,
-      entities: hall.entities.map((e) => (e.id === 'gate' ? { ...e, passable: true } : e)),
+      waterZones,
+      occluders: hallPartitions,
       obstacles: [
         ...hall.obstacles,
-        { x: 856, y: 255, w: 48, h: 12 },
-        { x: 856, y: 338, w: 48, h: 12 },
+        ...waterZones,
+        ...hallPartitions,
+        ...(power.includes('gate')
+          ? [
+              { x: 856, y: 255, w: 48, h: 12 },
+              { x: 856, y: 338, w: 48, h: 12 },
+            ]
+          : []),
+      ],
+      entities: [
+        ...hall.entities.map((e) =>
+          e.id === 'gate' && power.includes('gate') ? { ...e, passable: true } : e,
+        ),
+        {
+          ...shutterRect,
+          id: 'hall-shutter',
+          label:
+            environment.shutter === 'open'
+              ? 'IS-02 · 걸쇠 고정 / 개방'
+              : environment.shutter === 'unlatched'
+                ? 'IS-02 · 셔터 올리고 고정'
+                : 'IS-02 · 빗장 해제',
+          kind: 'door',
+          color: '#b7aa75',
+          passable: environment.shutter === 'open',
+        },
       ],
     }
+  }
   if (area === 'platform')
     return {
       ...platform,
@@ -739,16 +775,54 @@ export const movePlayer = (
   }
   return p
 }
+const interactionClear = (p: Point, e: Entity, w: World) => {
+  if (!workingFaceVisible(p, e)) return false
+  const r = interactionSurface(e)
+  const q = {
+    x: Math.max(r.x, Math.min(p.x, r.x + r.w)),
+    y: Math.max(r.y, Math.min(p.y, r.y + r.h)),
+  }
+  return ![
+    ...w.obstacles.filter(
+      (r) =>
+        !w.waterZones?.some((z) => z.x === r.x && z.y === r.y && z.w === r.w && z.h === r.h) &&
+        !(e.kind === 'npc' && r.x === e.x && r.y === e.y && r.w === e.w && r.h === e.h),
+    ),
+    ...w.entities.filter(
+      (other) =>
+        other.id !== e.id && other.kind !== 'npc' && !('passable' in other && other.passable),
+    ),
+  ].some((r) => {
+    let start = 0,
+      end = 1
+    for (const axis of ['x', 'y'] as const) {
+      const d = q[axis] - p[axis],
+        min = r[axis],
+        max = min + (axis === 'x' ? r.w : r.h)
+      if (Math.abs(d) < 1e-9) {
+        if (p[axis] < min || p[axis] > max) return false
+      } else {
+        const a = (min - p[axis]) / d,
+          b = (max - p[axis]) / d
+        start = Math.max(start, Math.min(a, b))
+        end = Math.min(end, Math.max(a, b))
+        if (start > end) return false
+      }
+    }
+    return true
+  })
+}
 export const nearestEntity = (p: Point, world: World = room): Entity | null => {
   const candidates = world.entities
     .map((entity) => ({
       entity,
-      distance: Math.hypot(
-        p.x - Math.max(entity.x, Math.min(p.x, entity.x + entity.w)),
-        p.y - Math.max(entity.y, Math.min(p.y, entity.y + entity.h)),
-      ),
+      distance: surfaceDistance(p, entity),
     }))
-    .filter((candidate) => candidate.distance < 60)
+    .filter(
+      (candidate) =>
+        candidate.distance < interactionReach(candidate.entity.id) &&
+        interactionClear(p, candidate.entity, world),
+    )
     .sort((a, b) => a.distance - b.distance)
   return candidates[0]?.entity ?? null
 }

@@ -1,0 +1,97 @@
+{
+  "method": "Chrome CDP, real renderer and input, checkpoint-based branch regressions; not a fresh-game continuous run",
+  "chapter3": {
+    "passed": true,
+    "coverage": [
+      "stairs entry",
+      "survivor help/direction/invitation/wait",
+      "train A return",
+      "approval wrong/correct",
+      "call and train B boarding",
+      "legacy and 3D saves",
+      "PC menus",
+      "mobile dynamic joystick"
+    ]
+  },
+  "chapter4": {
+    "passed": true,
+    "coverage": [
+      "chapter3 boarding",
+      "company/solo",
+      "all car areas",
+      "standing phone inspection",
+      "power and relay recovery",
+      "one-time suspicion",
+      "sync failure/retry/assist",
+      "Mullae exit confirmation",
+      "chapter5 start",
+      "legacy and 3D saves",
+      "mobile input"
+    ]
+  },
+  "chapter5": {
+    "passed": true,
+    "combinations": [
+      {
+        "response": "silent",
+        "companion": false
+      },
+      {
+        "response": "answered",
+        "companion": false
+      },
+      {
+        "response": "silent",
+        "companion": true
+      },
+      {
+        "response": "answered",
+        "companion": true
+      }
+    ],
+    "coverage": [
+      "warning before explicit response",
+      "no accidental response on inspection",
+      "closed holding gate",
+      "wrong/correct cancellation and return",
+      "wrong/correct registration match",
+      "separate local route proof",
+      "chapter6 transition",
+      "legacy and 3D saves",
+      "PC menus and mobile movement"
+    ]
+  },
+  "chapter6": {
+    "passed": true,
+    "combinations": [
+      {
+        "route": "manual",
+        "companion": false
+      },
+      {
+        "route": "automatic",
+        "companion": false
+      },
+      {
+        "route": "manual",
+        "companion": true
+      },
+      {
+        "route": "automatic",
+        "companion": true
+      }
+    ],
+    "coverage": [
+      "chapter5 silent/answered completed saves",
+      "health1 battery0 empty inventory missing optional clues",
+      "control confirmation",
+      "drain then bolt then hatch",
+      "wrong order and retry",
+      "front/side shelter arrival",
+      "separate interior sign and arrival confirmation",
+      "frozen result and re-reading",
+      "legacy and 3D saves",
+      "PC menus and mobile input"
+    ]
+  }
+}

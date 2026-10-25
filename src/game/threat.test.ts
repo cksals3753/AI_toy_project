@@ -137,7 +137,12 @@ describe('capture recovery and save compatibility', () => {
     asked: ['hall-path'],
     health: 1,
     battery: 0,
-    chapter2: { ...initialState.chapter2, power: ['lights', 'gate'] as ('lights' | 'gate')[] },
+    chapter2: {
+      ...initialState.chapter2,
+      shutter: 'open',
+      visited: true,
+      power: ['lights', 'gate'] as ('lights' | 'gate')[],
+    },
   })
   const reload = (s: unknown) => {
     Object.defineProperty(globalThis, 'localStorage', {

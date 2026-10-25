@@ -93,4 +93,11 @@ JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에�
 - `Overlay.tsx`의 하단 닫기·상단 닫기·Esc는 같은 onClose를 사용한다. 기존 하단 취소 버튼이 있으면 footerClose=false로 중복을 피한다. onClose가 없는 필수 화면에 임의 닫기를 추가하지 않는다. 닫기를 정답 제출·이동 확정과 합치지 않는다.
 - `ui/TouchActionButton.tsx`의 DismissButton/MenuButton은 보조 손가락의 pointerup을 처리하며 버튼 밖 해제·취소와 지연 click 중복을 차단한다. 원래 진행 행동은 별도 핸들러로 유지한다. 닫기 콜백의 참조 변경만으로 모달 포커스를 매번 초기화하지 않는다.
 - `FIRST_PERSON_CHECK=controls npm run test:browser:first`는 저장 fixture를 사용한 챕터별 닫기/Esc·중첩 UI와 동적 멀티터치 검증이다. 프로덕션은 빌드 후 `PRODUCTION_CHECK=1 FIRST_PERSON_CHECK=controls node scripts/verify-browser.mjs`로 검사한다. 실제 모바일 기기 검사와 구분한다.
-- 챕터 2 침수/셔터 재구성은 [제안서](docs/chapter2-restructure-proposal.md) 단계이며 이번 조작 수정으로 구현됐다고 안내하지 않는다.
+- 챕터 2 침수/IS-02 셔터 재구성은 사용자 승인 후 구현했다. [원래 제안서](docs/chapter2-restructure-proposal.md)는 당시 미구현 기준의 설계 기록이며, 현재 판정·호환성·실행 결과는 [구현 기록](docs/chapter2-restructure/README.md)을 따른다. 수위는 단계·배우 안전 조건으로만 갱신하고, 임시 조작 진행률과 적 좌표는 저장하지 않는다.
+
+## 조사 표면과 시설 식별
+
+- `interaction.ts`의 대상별 거리·조사 표면을 3D 선택, 2D 접근, 셔터 현장 조작에서 공유한다. 다른 챕터의 기본 거리를 일괄 늘리지 않는다. 선택 점수는 피벗 대신 광선 충돌점으로 계산하며, 가림 검사·작은 대상 선택 유지·E/클릭/터치 통일을 보존한다.
+- 챕터 2 시설은 `chapter2Facilities.ts`에서 자체 형상으로 구분하고 간판은 벽/출입구 위에 배치한다. 긴 내용은 기존 조사 기록에 남긴다. [전후 캡처·거리·검증](docs/facility-review/README.md)을 따른다.
+
+- 챕터 1·3–6의 개별 시설은 `facilityProfiles.ts`/`facilityVisuals.ts`의 용도별 표면·높이·형상을 공유한다. 미기재 대상은 60 거리이며 챕터 2 확인 수치를 일괄 복사하지 않는다. [에피소드 시설 점검](docs/episode-facilities/README.md)을 따른다.

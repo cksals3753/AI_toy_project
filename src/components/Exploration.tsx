@@ -3,7 +3,7 @@ import { defaultComfort } from '../game/comfort'
 import type { ComfortSettings } from '../game/comfort'
 import { useThreat } from './useThreat'
 import { ThreatStatus } from './ThreatStatus'
-import type { ThreatSave } from '../game/threat'
+import type { ThreatRuntime, ThreatSave } from '../game/threat'
 import { firstRoomAudio } from '../audio/firstRoomAudio'
 import type { View3d } from '../game/firstPerson'
 import { gameKey, editingText } from '../game/explorationInput'
@@ -28,6 +28,9 @@ import { renderWorld } from '../game/renderWorld'
 
 export type ExplorationControls = { resumeAfterUi: () => void }
 export type ExplorationProps = {
+  threatSession?: { runtime: RefObject<ThreatRuntime>; identity: RefObject<string> }
+  chapter2: Chapter2
+  onFieldFrame?: (dt: number, player: Point, enemy: Point, active: boolean) => void
   comfort?: ComfortSettings
   threat?: ThreatSave
   onThreatAlert?: (alert: boolean) => void
@@ -53,6 +56,9 @@ export type ExplorationProps = {
   onPosition: (position: Point) => void
 }
 export const Exploration = ({
+  threatSession,
+  chapter2,
+  onFieldFrame,
   comfort,
   threat,
   onThreatAlert,
@@ -78,6 +84,9 @@ export const Exploration = ({
     advance: advanceThreat,
     mode: threatMode,
   } = useThreat({
+    threatSession,
+    chapter2,
+    onFieldFrame,
     comfort,
     area,
     chapter3,
@@ -117,6 +126,7 @@ export const Exploration = ({
       chapter4,
       chapter5,
       chapter6,
+      chapter2,
     )
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const element = canvas.current!
@@ -248,6 +258,7 @@ export const Exploration = ({
         chapter4,
         chapter5,
         chapter6,
+        chapter2,
         threat: enemyRuntime.current,
         ...animation.current,
         moving: !paused && animation.current.moving,
@@ -275,6 +286,7 @@ export const Exploration = ({
     chapter4,
     chapter5,
     chapter6,
+    chapter2,
     power,
     staffEvent,
     paused,
@@ -284,12 +296,14 @@ export const Exploration = ({
     onPosition,
     advanceThreat,
     enemyRuntime,
+    onFieldFrame,
     comfort,
   ])
   return (
     <div className={`exploration ${paused ? 'is-paused' : ''}`}>
       <ThreatStatus area={area} mode={threatMode} paused={paused} />
       <canvas
+        style={{ filter: `brightness(${comfort?.brightness ?? 1})` }}
         ref={canvas}
         tabIndex={0}
         onPointerDown={(event) => event.currentTarget.focus()}

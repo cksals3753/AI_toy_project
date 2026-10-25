@@ -29,6 +29,8 @@ export const verifyChapter2Three = async ({
     await wait(1000)
     await send('Page.removeScriptToEvaluateOnNewDocument', { identifier: injected.identifier })
     await state()
+    // An alerted save resumes with the existing checkpoint explanation.
+    await advanceAll()
     await wait(200)
   }
   const resume = async () => {

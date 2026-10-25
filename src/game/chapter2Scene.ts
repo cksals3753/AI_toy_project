@@ -1,3 +1,7 @@
+import { interactionSurface } from './interaction'
+import { addChapter2Facility } from './chapter2Facilities'
+import { hallPartitions, waterRects, initialHallEnvironment } from './hallEnvironment'
+import type { HallEnvironment } from './hallEnvironment'
 import { addMaintenanceDetails } from './firstRoomDetails'
 import * as T from 'three'
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
@@ -17,15 +21,35 @@ export const chapter2AreaNames = {
 export const createChapter2Scene = (
   area: Extract<ImmersiveArea, 'hall' | 'electrical' | 'stairs'>,
   onError: () => void,
+  initial: HallEnvironment = initialHallEnvironment,
 ) => {
   const scale = sceneScale(area),
-    layout = getWorld(area)
+    initialLayout = getWorld(
+      area,
+      undefined,
+      false,
+      [],
+      false,
+      undefined,
+      undefined,
+      undefined,
+      initial,
+    )
+  let layout = initialLayout
   const scene = new T.Scene()
   scene.background = new T.Color('#101a20')
   scene.fog = new T.FogExp2('#101a20', 0.022)
   const interactables: T.Object3D[] = [],
     blockers: T.Object3D[] = [],
     rings = new Map<string, T.Mesh>()
+  let shutter: T.Mesh | null = null,
+    bolt: T.Mesh | null = null,
+    catchPin: T.Mesh | null = null
+  const shutterHandles: T.Mesh[] = []
+  const shutterRibs: T.Mesh[] = [],
+    floodMarkers: { mesh: T.Mesh; stage: number }[] = []
+  const circuitSwitches: T.Mesh[] = [],
+    keyMeshes: T.Mesh[] = []
   const retired: T.BufferGeometry[] = []
   let disposed = false
   const material = (color: string, metalness = 0) =>
@@ -57,21 +81,26 @@ export const createChapter2Scene = (
     color = '#becbb3',
     kind = 'label',
   ) => {
+    const lines = text.split('\n')
     const canvas = document.createElement('canvas')
     canvas.width = 768
-    canvas.height = 384
+    canvas.height = kind === 'map' ? 384 : Math.max(128, lines.length * 80)
     const c = canvas.getContext('2d')!
     c.fillStyle = kind === 'map' ? '#b4bba7' : '#16282e'
-    c.fillRect(0, 0, 768, 384)
+    c.fillRect(0, 0, 768, canvas.height)
     c.strokeStyle = color
     c.lineWidth = 7
-    c.strokeRect(6, 6, 756, 372)
+    c.strokeRect(6, 6, 756, canvas.height - 12)
     c.fillStyle = kind === 'map' ? '#2e493b' : color
     c.textAlign = 'center'
-    c.font = 'bold 36px sans-serif'
-    const lines = text.split('\n')
+    c.font = kind === 'map' ? 'bold 36px sans-serif' : 'bold 56px sans-serif'
     lines.forEach((line, i) =>
-      c.fillText(line, 384, (kind === 'map' ? 64 : 192 - (lines.length - 1) * 27) + i * 53),
+      c.fillText(
+        line,
+        384,
+        kind === 'map' ? 64 + i * 53 : canvas.height / 2 + 20 + (i - (lines.length - 1) / 2) * 72,
+        700,
+      ),
     )
     if (kind === 'map') {
       c.strokeStyle = '#3f7254'
@@ -96,7 +125,7 @@ export const createChapter2Scene = (
     texture.colorSpace = T.SRGBColorSpace
     const mesh = new T.Mesh(
       new T.PlaneGeometry(r.w / scale, r.h / scale),
-      new T.MeshBasicMaterial({ map: texture, side: T.DoubleSide }),
+      new T.MeshBasicMaterial({ map: texture, side: T.FrontSide }),
     )
     mesh.position.set((r.x - 480) / scale, height, (r.y - 310) / scale)
     mesh.rotation.y = rotation
@@ -153,10 +182,13 @@ export const createChapter2Scene = (
   const strips: T.Mesh[] = []
   for (const x of [230, 480, 740])
     strips.push(box({ x: x - 32, y: 220, w: 64, h: 9 }, 0.045, emissive, height - 0.3))
-  for (const obstacle of layout.obstacles)
+  for (const [index, obstacle] of (area === 'hall'
+    ? layout.obstacles.slice(0, 4)
+    : layout.obstacles
+  ).entries())
     box(
       obstacle,
-      area === 'stairs' ? 1.8 : area === 'electrical' ? 2.2 : 0.85,
+      area === 'stairs' ? 1.8 : area === 'electrical' ? 2.2 : index >= 2 ? 2.65 : 0.85,
       area === 'hall' ? dark : metal,
       0,
       true,
@@ -211,7 +243,22 @@ export const createChapter2Scene = (
     staff: T.Mesh | null = null
   for (const e of layout.entities) {
     const h = e.kind === 'door' ? 2.5 : e.kind === 'npc' ? 1.75 : e.id === 'hall-desk' ? 1.05 : 1.8
-    const proxy = box(e, h, new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }))
+    const bounds =
+      e.id === 'hall-map'
+        ? [0.95, 1.35]
+        : e.id === 'hall-window'
+          ? [0.35, 1.65]
+          : e.id === 'powerboard'
+            ? [0.25, 1.9]
+            : e.id === 'hall-gate-note'
+              ? [0.65, 0.95]
+              : [0, h]
+    const proxy = box(
+      interactionSurface(e),
+      bounds[1],
+      new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }),
+      bounds[0],
+    )
     proxy.userData.entityId = e.id
     interactables.push(proxy)
     if (e.kind === 'npc')
@@ -224,7 +271,7 @@ export const createChapter2Scene = (
       for (const y of [e.y, e.y + e.h - 12]) box({ x: e.x, y, w: e.w, h: 12 }, 1.05, metal)
       gate = box({ x: e.x + e.w / 2 - 2, y: e.y + 12, w: 4, h: e.h - 24 }, 0.9, amber, 0.3)
       gate.userData.merge = false
-      label('승강장 →\n예비 전원 개방', { x: 895, y: 302, w: 95, h: 38 }, 2.7, -Math.PI / 2)
+      label('승강장 →\n예비 전원 개방', { x: 904, y: 302, w: 60, h: 20 }, 2.7, -Math.PI / 2)
     } else if (e.id === 'next-chapter') {
       // The collision rectangle is the closed landing rail. E opens it through the existing transition.
       for (const x of [e.x, e.x + e.w - 6]) box({ x, y: e.y, w: 6, h: e.h }, 1.15, metal)
@@ -237,6 +284,27 @@ export const createChapter2Scene = (
           -(step + 1) * 0.16,
         )
       label('승강장 계단\n↓ PLATFORM', { x: e.x + e.w / 2, y: e.y + e.h + 1, w: 105, h: 34 }, 2.35)
+    } else if (e.id === 'hall-shutter') {
+      shutter = box(e, 2.35, metal)
+      shutter.userData.merge = false
+      bolt = box({ x: e.x + 28, y: e.y - 3, w: 80, h: 5 }, 0.09, amber, 1.1)
+      bolt.userData.merge = false
+      catchPin = box({ x: e.x + e.w - 12, y: e.y - 4, w: 8, h: 6 }, 0.22, amber, 2.35)
+      catchPin.userData.merge = false
+      for (let i = 0; i < 9; i++) {
+        const rib = box({ x: e.x, y: e.y - 1, w: e.w, h: 2 }, 0.025, dark, 0.12 + i * 0.25)
+        rib.userData.merge = false
+        shutterRibs.push(rib)
+      }
+      for (const x of [e.x - 3, e.x + e.w]) box({ x, y: e.y, w: 3, h: e.h }, 2.65, dark)
+      shutterHandles.push(box({ x: e.x + 40, y: e.y - 4, w: 26, h: 4 }, 0.06, dark, 1.3))
+      for (const x of [e.x + 40, e.x + 62])
+        shutterHandles.push(box({ x, y: e.y - 5, w: 4, h: 4 }, 0.16, amber, 1.18))
+      shutterHandles.forEach((mesh) => {
+        mesh.userData.merge = false
+        mesh.userData.restY = mesh.position.y
+      })
+      label('IS-02 · 수동 격리', { x: 197, y: 429, w: 76, h: 14 }, 2.75, Math.PI)
     } else if (e.kind === 'door') {
       const door = box(e, 2.5, e.id === 'staff' ? blue : metal)
       if (e.id === 'staff') {
@@ -259,40 +327,17 @@ export const createChapter2Scene = (
               : e.id === 'next-chapter'
                 ? '승강장 계단\n↓ PLATFORM'
                 : '대합실\nHALL'
-      label(text, r, 2.8, side)
+      label(text, { ...r, w: 68, h: 22 }, 2.8, side)
     } else {
-      box(e, h, e.id === 'hall-map' ? dark : e.id === 'hall-window' ? blue : metal)
-      const text =
-        e.id === 'hall-map'
-          ? 'B2 구역 안내\n직원 · 설비  ←  대합실  →  승강장\n전기실 ↓  /  개찰구 →'
-          : e.id === 'hall-window'
-            ? '환풍 설비 V-02\n전압 불안정\n자동 폐쇄 경고'
-            : e.id === 'hall-desk'
-              ? '안내 · INFORMATION\n열쇠 보관 / 인수인계'
-              : e.id === 'hall-gate-note'
-                ? '비상 개방 안내\n예비 전원 필요\n최대 두 회로 / 조명 필요'
-                : '예비 전원 / AUX\n조명 · 개찰구 · 방송\n최대 2회로'
-      label(
-        text,
-        { x: e.x + e.w / 2, y: e.y + e.h + 1, w: e.w - 5, h: e.id === 'hall-desk' ? 18 : 48 },
-        e.id === 'hall-desk' ? 0.8 : 1.2,
-        0,
-        e.color,
-        e.id === 'hall-map' ? 'map' : 'label',
-      )
-      if (e.id === 'hall-window') {
-        box({ x: e.x + 7, y: e.y + e.h + 2, w: e.w - 14, h: 1 }, 0.24, dark, 0.4)
-        for (let n = 0; n < 4; n++)
-          box({ x: e.x + 12 + n * 13, y: e.y + e.h + 3, w: 3, h: 1 }, 0.24, metal, 0.4)
-      }
+      addChapter2Facility(e, box, label, { metal, dark, amber, blue }, circuitSwitches, keyMeshes)
     }
     const ring = new T.Mesh(
-      new T.RingGeometry(0.3, 0.35, 24),
+      new T.RingGeometry(0.18, 0.21, 24),
       new T.MeshBasicMaterial({
         color: '#d4eaa9',
         side: T.DoubleSide,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.45,
       }),
     )
     ring.rotation.x = -Math.PI / 2
@@ -308,7 +353,7 @@ export const createChapter2Scene = (
         : area === 'electrical'
           ? '설비 구역 · E-01\n비상 회로'
           : '승강장 연결\nPLATFORM ↓',
-      { x: 480, y: 72, w: 180, h: 55 },
+      { x: 480, y: 72, w: 110, h: 25 },
       2.55,
     )
   strips.forEach((mesh) => {
@@ -340,16 +385,132 @@ export const createChapter2Scene = (
     }
     gs.forEach((g) => g.dispose())
   }
-  const target = createSceneTarget(layout, scale, interactables, blockers)
+  const floodMeshes: T.Mesh[] = []
+  const waterEdges: { mesh: T.Mesh; stage: number }[] = []
+  if (area === 'hall') {
+    const taskLight = new T.PointLight('#ecd3a2', 12, 5, 2)
+    taskLight.position.set((215 - 480) / scale, 2.05, (400 - 310) / scale)
+    scene.add(taskLight)
+    box({ x: 142, y: 420, w: 12, h: 6 }, 0.06, emissive, 2.15)
+    for (const r of hallPartitions) box(r, 2.05, dark, 0, true)
+    const waterMaterial = new T.MeshStandardMaterial({
+      color: '#264c58',
+      roughness: 0.72,
+      metalness: 0.1,
+      transparent: true,
+      opacity: 0.86,
+    })
+    for (const [i, r] of waterRects(1).entries()) {
+      const mesh = box(r, 0.035, waterMaterial, 0.02)
+      mesh.userData.merge = false
+      mesh.visible = i === 0 || initial.water === 1
+      floodMeshes.push(mesh)
+      for (const edge of [
+        { x: r.x, y: r.y, w: r.w, h: 2 },
+        { x: r.x, y: r.y + r.h - 2, w: r.w, h: 2 },
+        { x: r.x, y: r.y, w: 2, h: r.h },
+        { x: r.x + r.w - 2, y: r.y, w: 2, h: r.h },
+      ]) {
+        const stripe = box(edge, 0.012, emissive, 0.06)
+        stripe.userData.merge = false
+        stripe.visible = i === 0 || initial.water === 1
+        waterEdges.push({ mesh: stripe, stage: i })
+      }
+
+      // Boundary markings have the same footprint as movement collision, not an approximate pool.
+      for (let x = r.x + 15; x < r.x + r.w; x += 65) {
+        const pole = box({ x, y: r.y + r.h - 3, w: 4, h: 4 }, 0.52, emissive)
+        pole.userData.merge = false
+        floodMarkers.push({ mesh: pole, stage: i })
+      }
+    }
+    label('침수 / 서측 우회 ←', { x: 460, y: 423, w: 95, h: 14 }, 0.35)
+    label('동측 수위  /  Ⅰ—Ⅱ', { x: 689, y: 400, w: 40, h: 20 }, 0.65, -Math.PI / 2)
+    label('대합실 → 승강장', { x: 750, y: 74, w: 90, h: 16 }, 2.6)
+    label('E-01 · 직원 설비 ↓', { x: 215, y: 309, w: 65, h: 14 }, 2.35)
+  }
+  let target = createSceneTarget(layout, scale, interactables, blockers)
+  let environmentKey = '',
+    previousWater = initial.water,
+    leakTime = 0
+  const drips: T.Mesh[] = []
+  if (area === 'hall') {
+    box({ x: 895, y: 375, w: 9, h: 45 }, 0.12, metal, 2.1)
+    for (let i = 0; i < 5; i++) {
+      const drip = box({ x: 887 + i * 2, y: 398, w: 2, h: 2 }, 0.045, blue, 1.6)
+      drip.visible = false
+      drips.push(drip)
+    }
+  }
+
   return {
     ready: npc?.ready ?? Promise.resolve(),
     scene,
-    target,
+    target: (camera: T.Camera) => target(camera),
     highlight: (id: string | null) =>
       rings.forEach((ring, key) => {
         ring.visible = key === id
       }),
-    update: (power: readonly string[], event: string, dt: number, reduced: boolean) => {
+    updateHall: (
+      power: readonly string[],
+      event: string,
+      dt: number,
+      reduced: boolean,
+      environment: HallEnvironment = initial,
+      clues: readonly string[] = [],
+    ) => {
+      const key = JSON.stringify([power, environment.water, environment.shutter])
+      if (key !== environmentKey) {
+        environmentKey = key
+        layout = getWorld(
+          area,
+          undefined,
+          false,
+          power,
+          false,
+          undefined,
+          undefined,
+          undefined,
+          environment,
+        )
+        target = createSceneTarget(layout, scale, interactables, blockers)
+      }
+      if (shutter) shutter.position.y = environment.shutter === 'open' ? 3.6 : 1.175
+      shutterRibs.forEach((rib, i) => {
+        rib.position.y = (environment.shutter === 'open' ? 2.5 : 0) + 0.12 + i * 0.25 + 0.0125
+      })
+      shutterHandles.forEach((mesh) => {
+        mesh.position.y = mesh.userData.restY + (environment.shutter === 'open' ? 2.5 : 0)
+      })
+      if (bolt) bolt.visible = environment.shutter === 'locked'
+      if (catchPin) catchPin.rotation.z = environment.shutter === 'open' ? 0 : Math.PI / 2
+      if (previousWater !== environment.water && environment.water === 1) leakTime = 2
+      previousWater = environment.water
+      leakTime = Math.max(0, leakTime - Math.min(0.05, dt))
+      drips.forEach((drip, i) => {
+        drip.visible = leakTime > 0 && !reduced
+        drip.position.y = 0.12 + ((leakTime + i * 0.19) % 1) * 1.9
+      })
+      floodMeshes.forEach((m, i) => {
+        m.position.y = environment.water === 1 ? 0.1 : 0.0375
+        m.visible = i === 0 || environment.water === 1
+      })
+      waterEdges.forEach(({ mesh, stage }) => {
+        mesh.visible = stage === 0 || environment.water === 1
+        mesh.position.y = environment.water === 1 ? 0.13 : 0.07
+      })
+      floodMarkers.forEach(({ mesh, stage }) => {
+        mesh.visible = stage === 0 || environment.water === 1
+      })
+      scene.userData.waterStage = environment.water
+      scene.userData.shutter = environment.shutter
+
+      keyMeshes.forEach((mesh) => {
+        mesh.visible = !clues.includes('hall-desk')
+      })
+      circuitSwitches.forEach((mesh, i) => {
+        mesh.rotation.x = power.includes(['lights', 'gate', 'broadcast'][i]) ? -0.45 : 0.45
+      })
       const on = power.includes('lights')
       main.intensity = on ? 56 : 0
       strips.forEach((mesh) => {

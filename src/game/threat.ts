@@ -48,8 +48,8 @@ export const checkpointPoint = (checkpoint: ThreatSave['checkpoint']): Point =>
   checkpoint === 'electrical' ? { x: 480, y: 455 } : { x: 470, y: 480 }
 export const patrolPoints: Point[] = [
   { x: 470, y: 190 },
-  { x: 750, y: 350 },
-  { x: 470, y: 350 },
+  { x: 820, y: 230 },
+  { x: 470, y: 230 },
   { x: 210, y: 210 },
 ]
 export const createThreat = (): ThreatRuntime => ({
@@ -97,6 +97,7 @@ export const sightClear = (a: Point, b: Point, w: World = hall) => {
   const blockers = [
     ...w.obstacles.filter(
       (r) =>
+        !w.waterZones?.some((z) => z.x === r.x && z.y === r.y && z.w === r.w && z.h === r.h) &&
         !hall.obstacles
           .slice(0, 2)
           .some(
@@ -228,7 +229,9 @@ export const stepThreat = (
   const goal =
     n.mode === 'chase' || n.mode === 'search' || n.mode === 'suspect'
       ? n.lastSeen
-      : patrolPoints[n.patrol]
+      : threatWalkable(patrolPoints[n.patrol], w)
+        ? patrolPoints[n.patrol]
+        : { x: 820, y: 230 }
   if (n.mode === 'suspect') {
     n.heading = Math.atan2(goal.y - n.position.y, goal.x - n.position.x)
     return n

@@ -12,6 +12,7 @@ import type { Chapter3 } from './chapter3'
 import type { Chapter2 } from './engine'
 export type Facing = 'down' | 'up' | 'left' | 'right'
 export type RenderOptions = {
+  chapter2?: Chapter2
   threat?: ThreatRuntime
   area: Area
   chapter3: Chapter3
@@ -91,6 +92,7 @@ export const renderWorld = (
       options.chapter4,
       options.chapter5,
       options.chapter6,
+      options.chapter2,
     ),
     lit =
       finalAreaLabels[options.area] || isChapter5Area(options.area)
@@ -126,6 +128,18 @@ export const renderWorld = (
   for (let x = 54; x < 906; x += 64)
     for (let y = 70; y < 550; y += 64) tile(ctx, 0, { x, y, w: 64, h: 64 })
   ctx.restore()
+  if (options.area === 'hall') {
+    for (const r of world.waterZones ?? []) {
+      ctx.fillStyle = '#285160'
+      ctx.fillRect(r.x, r.y, r.w, r.h)
+      ctx.strokeStyle = '#d6b777'
+      ctx.setLineDash([10, 7])
+      ctx.strokeRect(r.x, r.y, r.w, r.h)
+      ctx.setLineDash([])
+      ctx.fillStyle = '#e1d8b4'
+      ctx.fillText('침수 / 건조 동선으로 우회', r.x + r.w / 2, r.y + r.h / 2)
+    }
+  }
   ctx.fillStyle = '#15291e'
   ctx.fillRect(30, 45, 900, 25)
   ctx.fillRect(30, 550, 900, 20)
@@ -259,6 +273,8 @@ export const renderWorld = (
   }
   drawMoonEnvironment(ctx, options.area, options.chapter5)
   for (const r of world.obstacles) {
+    if (world.waterZones?.some((z) => z.x === r.x && z.y === r.y && z.w === r.w && z.h === r.h))
+      continue
     if (options.area === 'platform' && r.w >= 300) continue
     ctx.fillStyle = '#020b0788'
     ctx.fillRect(r.x + 8, r.y + 9, r.w, r.h)
@@ -266,6 +282,7 @@ export const renderWorld = (
   }
   for (const e of world.entities.filter((e) => e.kind !== 'npc')) {
     const opened =
+      (e.id === 'hall-shutter' && options.chapter2?.shutter === 'open') ||
       (e.id === 'recovery-hatch' && options.chapter6?.boltOpen) ||
       (e.id === 'moon-maintenance' && options.chapter5?.routeOpen) ||
       (e.id === 'moon-platform-door' &&

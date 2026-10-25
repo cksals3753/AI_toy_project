@@ -1,0 +1,14 @@
+{
+  "fixedViewpoints": true,
+  "production": true,
+  "comfortableReach": true,
+  "oblique": true,
+  "wallAndClosedDoor": true,
+  "signSidepass": true,
+  "brightness": [
+    0.85,
+    1.25
+  ],
+  "mobileTouch": true,
+  "firstRoomRegression": true
+}

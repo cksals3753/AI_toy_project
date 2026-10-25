@@ -301,6 +301,15 @@ try {
   }
   // Follow collision-valid waypoints with actual key input, using persisted coordinates as feedback.
   async function walkTo(id) {
+    // Preserve legacy 2D route checks with the new mandatory on-site action.
+    if (!process.env.FIRST_PERSON_CHECK && id === 'electrical' && (await state()).area === 'hall') {
+      for (let step = 0; step < 2 && (await state()).chapter2.shutter !== 'open'; step++) {
+        await walkTo('hall-shutter')
+        await interact()
+        await wait(1100)
+      }
+      assert.equal((await state()).chapter2.shutter, 'open')
+    }
     const speed = await evaluate(
       "JSON.parse(localStorage.getItem('last-transfer-comfort-v1') ?? 'null')?.moveSpeed ?? 0.8",
     )
@@ -308,12 +317,12 @@ try {
     for (let attempt = 0; attempt < 12; attempt++) {
       if ((await state())?.threat?.caught) throw Error('Threat capture during navigation')
       const route = await evaluate(`(async()=>{
-        const m=await import('/src/game/world.ts'),s=JSON.parse(localStorage.getItem('last-transfer-save-v1')),w=m.getWorld(s.area,s.chapter3?.npc,s.chapter3?.npcBoarded,s.chapter2?.power,s.chapter3?.doorOpen,s.chapter4,s.chapter5,s.chapter6),p=s.position;
+        const m=await import('/src/game/world.ts'),ip=await import('/src/game/interaction.ts'),s=JSON.parse(localStorage.getItem('last-transfer-save-v1')),w=m.getWorld(s.area,s.chapter3?.npc,s.chapter3?.npcBoarded,s.chapter2?.power,s.chapter3?.doorOpen,s.chapter4,s.chapter5,s.chapter6,s.chapter2),p=s.position;
         if(m.nearestEntity(p,w)?.id===${JSON.stringify(id)}&&(${JSON.stringify(id)}!=='train-phone'||Math.hypot(p.x-w.entities.find(e=>e.id==='train-phone').x-26.5,p.y-w.entities.find(e=>e.id==='train-phone').y-17)<60))return [];
         const start={x:Math.round(p.x/10)*10,y:Math.round(p.y/10)*10};
         const queue=[start],seen=new Set(),parents=new Map();let goal;
         for(let i=0;i<queue.length;i++){const q=queue[i],k=q.x+','+q.y;if(seen.has(k))continue;seen.add(k);
-          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=Math.hypot(q.x-Math.max(entity.x,Math.min(q.x,entity.x+entity.w)),q.y-Math.max(entity.y,Math.min(q.y,entity.y+entity.h)));if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&distance<40&&[{x:4,y:0},{x:-4,y:0},{x:0,y:4},{x:0,y:-4}].every(d=>m.nearestEntity({x:q.x+d.x,y:q.y+d.y},w)?.id===entity.id)&&(entity.id!=='train-phone'||Math.hypot(q.x-entity.x-26.5,q.y-entity.y-17)<58)){goal=q;break}
+          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=ip.surfaceDistance(q,entity);if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&distance<Math.max(28,Math.min(110,ip.interactionReach(entity.id)-18))&&[{x:4,y:0},{x:-4,y:0},{x:0,y:4},{x:0,y:-4}].every(d=>m.nearestEntity({x:q.x+d.x,y:q.y+d.y},w)?.id===entity.id)&&(entity.id!=='train-phone'||Math.hypot(q.x-entity.x-26.5,q.y-entity.y-17)<58)){goal=q;break}
           for(const d of [{x:10,y:0},{x:-10,y:0},{x:0,y:10},{x:0,y:-10}]){const v={x:q.x+d.x,y:q.y+d.y},vk=v.x+','+v.y;if(m.walkable(v,w)&&!seen.has(vk)&&!parents.has(vk)){parents.set(vk,q);queue.push(v)}}}
         if(!goal)throw Error('No route to '+${JSON.stringify(id)});
         const path=[goal];while(path.at(-1).x!==start.x||path.at(-1).y!==start.y){path.push(parents.get(path.at(-1).x+','+path.at(-1).y));if(path.length>2000)throw Error('Invalid path')}
@@ -989,7 +998,7 @@ try {
   }
   if (process.env.FIRST_PERSON_CHECK === 'episode') {
     await writeFile(
-      'docs/episode1-3d-integration/network.json',
+      `${process.env.EPISODE_ARTIFACTS ?? 'docs/episode1-3d-integration'}/network.json`,
       JSON.stringify({ aiRequests, errors, consoleErrors, assetFailures }, null, 2),
     )
     assert.deepEqual(consoleErrors, [])

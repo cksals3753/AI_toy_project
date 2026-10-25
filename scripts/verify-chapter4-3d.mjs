@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict'
 import { mkdir, writeFile } from 'node:fs/promises'
+const chapter4Dir = process.env.FACILITY_REGRESSION_ROOT
+  ? `${process.env.FACILITY_REGRESSION_ROOT}/chapter4`
+  : 'docs/chapter4-3d'
 
 export const verifyChapter4Three = async ({
   send,
@@ -15,10 +18,10 @@ export const verifyChapter4Three = async ({
   resume3d,
   trustedClick,
 }) => {
-  await mkdir('docs/chapter4-3d', { recursive: true })
+  await mkdir(chapter4Dir, { recursive: true })
   const shot = async (name) => {
     const { data } = await send('Page.captureScreenshot')
-    await writeFile(`docs/chapter4-3d/${name}.png`, Buffer.from(data, 'base64'))
+    await writeFile(`${chapter4Dir}/${name}.png`, Buffer.from(data, 'base64'))
   }
   const restore = async (checkpoint) => {
     const script = await send('Page.addScriptToEvaluateOnNewDocument', {

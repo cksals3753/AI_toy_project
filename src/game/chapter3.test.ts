@@ -3,7 +3,21 @@ import { initialState, loadGame, reducer } from './engine'
 import type { Action, State } from './engine'
 import { approvalClues, defaultChapter3, platformOpening, platformQuestions } from './chapter3'
 import { getWorld, nearestEntity, walkable, worlds } from './world'
-const apply = (state: State, ...actions: Action[]) => actions.reduce(reducer, state)
+// Existing story/power regression helpers now perform both confirmed physical steps.
+const apply = (state: State, ...actions: Action[]) =>
+  actions.reduce((s, a) => {
+    if (
+      a.type === 'enter-electrical' &&
+      s.inventory.includes('전기실 열쇠') &&
+      s.chapter2.shutter !== 'open'
+    ) {
+      s = { ...s, position: { x: 215, y: 390 }, view3d: null }
+      if (s.chapter2.shutter === 'locked')
+        s = reducer(s, { type: 'hall-shutter', expected: 'locked' })
+      s = reducer(s, { type: 'hall-shutter', expected: 'unlatched' })
+    }
+    return reducer(s, a)
+  }, state)
 const finish = (state: State) => {
   let next = state
   while (next.scene.length) next = reducer(next, { type: 'advance' })

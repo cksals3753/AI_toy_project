@@ -1,3 +1,4 @@
+import { facilityLabel, addFacilityModel } from './facilityVisuals'
 import { addNpcChair } from './sceneFixtures'
 import * as T from 'three'
 import { getWorld } from './world'
@@ -7,7 +8,7 @@ import { departureTrain } from './chapter3'
 import type { Chapter4 } from './chapter4'
 import { trainLinks, trainPanelStatus } from './chapter4'
 import { sceneScale } from './firstPerson'
-import { createSceneTarget, disposeSceneObject } from './sceneInteraction'
+import { createSceneTarget, disposeSceneObject, registerFacilityTarget } from './sceneInteraction'
 import { loadOhModel } from './ohModel'
 
 export const trainAreaNames = {
@@ -57,39 +58,7 @@ export const createTrainScene = (
     width = 2,
     rotation = 0,
   ) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 1024
-    canvas.height = 384
-    const context = canvas.getContext('2d')!
-    const texture = new T.CanvasTexture(canvas)
-    texture.colorSpace = T.SRGBColorSpace
-    const mesh = new T.Mesh(
-      new T.PlaneGeometry(width, (width * 384) / 1024),
-      new T.MeshBasicMaterial({ map: texture, side: T.DoubleSide }),
-    )
-    mesh.position.set((x - 480) / scale, height, (y - 310) / scale)
-    mesh.rotation.y = rotation
-    scene.add(mesh)
-    let previous = ''
-    const text = (value: string) => {
-      if (value === previous) return
-      previous = value
-      context.fillStyle = '#182b32'
-      context.fillRect(0, 0, 1024, 384)
-      context.strokeStyle = '#a1b4a0'
-      context.lineWidth = 8
-      context.strokeRect(4, 4, 1016, 376)
-      context.fillStyle = '#e1dfc6'
-      context.textAlign = 'center'
-      context.font = 'bold 45px sans-serif'
-      const lines = value.split('\n')
-      lines.forEach((line, i) =>
-        context.fillText(line, 512, 195 - (lines.length - 1) * 32 + i * 64, 990),
-      )
-      texture.needsUpdate = true
-    }
-    text(initial)
-    return text
+    return facilityLabel(scene, scale, initial, x, y, height, width, rotation)
   }
   const layoutFor = (c3: Chapter3, c4: Chapter4) => {
     const world = getWorld(area, c3.npc, c3.npcBoarded, [], c3.doorOpen, c4)
@@ -175,6 +144,7 @@ export const createTrainScene = (
   let npcArrived = initial4.arrived
   let exit: T.Mesh | null = null
   const stateLabels = new Map<string, ReturnType<typeof label>>()
+  let stopFixture: ReturnType<typeof addFacilityModel> | null = null
   const equipment = new Map<string, T.Mesh>()
   // Chapter 3 uses the same fixtures but leaves chapter 4 investigation unavailable until its opening.
   const fixtures = getWorld(area, initial3.npc, initial3.npcBoarded, [], initial3.doorOpen, {
@@ -184,13 +154,14 @@ export const createTrainScene = (
   for (const e of fixtures.entities) {
     const x = e.x + e.w / 2,
       y = e.y + e.h / 2
-    const proxy = box(
-      e.id === 'train-phone' ? { ...e, x: e.x + 17, y: e.y + 3, w: 19, h: 28 } : e,
-      e.id === 'train-phone' ? 0.3 : e.kind === 'npc' ? 1.75 : 2.4,
-      new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }),
+    const proxy = registerFacilityTarget(
+      scene,
+      scale,
+      e,
+      e.kind === 'npc' ? 1.75 : 2.4,
+      interactables,
+      blockers,
     )
-    proxy.userData.entityId = e.id
-    interactables.push(proxy)
     if (e.id === 'survivor') {
       npcProxy = proxy
       // A single actor lives in the central car; other car layouts never contain a companion.
@@ -213,24 +184,16 @@ export const createTrainScene = (
       box(e, 0.65, dark, 1.75)
       stateLabels.set(e.id, label('', x, e.y + e.h + 1, 2.05, 1.55))
     } else if (e.id === 'train-devices') {
-      box(e, 1.8, metal)
-      trainLinks.forEach((link, i) => {
-        const tile = box(
-          { x: e.x + 4 + i * 25, y: e.y + e.h + 2, w: 20, h: 2 },
-          0.18,
-          mat('#91bba0', true),
-          1.3,
-        )
-        equipment.set(link.id, tile)
-      })
-      stateLabels.set(e.id, label('', x, e.y + e.h + 5, 1.0, 1.55))
+      const rack = addFacilityModel(scene, scale, e, 'links', { metal, dark, warm })
+      trainLinks.forEach((link, i) => equipment.set(link.id, rack.plugs[i]))
+      stateLabels.set(e.id, label('', x, e.y + e.h + 5, 0.9, 1.35))
     } else if (e.id === 'train-stop') {
-      box(e, 1.6, metal)
-      stateLabels.set(e.id, label('', x, e.y + e.h + 1, 1.2, 1.55))
+      stopFixture = addFacilityModel(scene, scale, e, 'console', { metal, dark, warm })
+      stateLabels.set(e.id, label('', x, e.y + e.h + 1, 1.3, 1.2))
     } else if (e.id === 'train-manual') {
       box(e, 0.95, dark)
       box({ x: e.x + 14, y: e.y + 8, w: 42, h: 24 }, 0.04, warm, 0.95)
-      label('비상 운행 설명서\nR-01 / P-02 / X-09', x, e.y + e.h + 1, 0.8, 2)
+      label('비상 운행 설명서\nR-01 / P-02 / X-09', x, e.y + e.h + 1, 0.65, 1.05)
     } else {
       const external = e.id === 'train-exit'
       const slab = box(e, 2.5, metal)
@@ -245,7 +208,7 @@ export const createTrainScene = (
               : e.id === 'train-cab'
                 ? '운전실 · 잠김 / 진입 불가'
                 : '중앙 출입문'
-      label(title, x, e.y + (e.y > 500 ? -1 : e.h + 1), 2.8, 2.4, e.y > 500 ? Math.PI : 0)
+      label(title, x, e.y + (e.y > 500 ? -1 : e.h + 1), 2.8, 1.45, e.y > 500 ? Math.PI : 0)
       if (external) stateLabels.set(e.id, label('', e.x + e.w + 18, e.y - 1, 1.5, 0.65, Math.PI))
     }
   }
@@ -299,6 +262,7 @@ export const createTrainScene = (
       }
       target = createSceneTarget(layout, scale, interactables, blockers)
       lastState = key
+      stopFixture?.update({ active: c4.sync === 'accepted' })
       const on = !c4.started || c4.links.power
       ambient.intensity = on ? 1.9 : 0.7
       lights.forEach((light) => {
@@ -328,7 +292,9 @@ export const createTrainScene = (
       equipment.forEach((mesh, id) => {
         const m = mesh.material as T.MeshStandardMaterial
         m.color.set(c4.links[id as keyof typeof c4.links] ? '#91bba0' : '#b49063')
-        m.emissive.copy(m.color)
+        if (m instanceof T.MeshStandardMaterial) m.emissive.copy(m.color)
+        mesh.position.z =
+          mesh.userData.connectedZ + (c4.links[id as keyof typeof c4.links] ? 0 : 0.12)
       })
       if (exit) {
         exit.visible = !c4.arrived

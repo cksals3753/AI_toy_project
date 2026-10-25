@@ -39,6 +39,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     props.chapter4,
     props.chapter5,
     props.chapter6,
+    props.chapter2,
   )
   const initialPoint = savedView
     ? toWorldPosition(savedView.position, area)
@@ -53,6 +54,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
           props.chapter4,
           props.chapter5,
           props.chapter6,
+          props.chapter2,
         ).spawn
   const canvas = useRef<HTMLCanvasElement>(null)
   const position = useRef(initialPoint)
@@ -131,7 +133,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       area === 'first'
         ? createFirstRoomScene(() => setAssetError(true))
         : area === 'hall' || area === 'electrical' || area === 'stairs'
-          ? createChapter2Scene(area, () => setAssetError(true))
+          ? createChapter2Scene(area, () => setAssetError(true), latest.current.chapter2)
           : area === 'platform' || area === 'trainA'
             ? createChapter3Scene(area, latest.current.chapter3, () => setAssetError(true))
             : area === 'trainB' || area === 'trainRear' || area === 'trainFront'
@@ -161,7 +163,8 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       last = 0,
       lastSave = 0,
       target: Entity | null = null
-    let targetId: string | null = null,
+    let targetId: string | null = null
+    let targetLabel = '',
       skipLook = true
     const controls = runtime.current
     const resetInputs = () => {
@@ -350,6 +353,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
             latest.current.chapter4,
             latest.current.chapter5,
             latest.current.chapter6,
+            latest.current.chapter2,
           ),
           (latest.current.comfort ?? defaultComfort).moveSpeed,
         )
@@ -389,6 +393,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         latest.current.chapter4,
         latest.current.chapter5,
         latest.current.chapter6,
+        latest.current.chapter2,
       )
       const threatActive =
         ready &&
@@ -416,6 +421,8 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         (position.current.y - 310) / SCALE,
       )
       camera.rotation.set(angles.current.pitch, angles.current.yaw, 0, 'YXZ')
+      renderer.toneMappingExposure =
+        1.35 * ((latest.current.comfort ?? defaultComfort).brightness ?? 1)
       const nextFov = cameraFov((latest.current.comfort ?? defaultComfort).fov, camera.aspect)
       if (camera.fov !== nextFov) {
         camera.fov = nextFov
@@ -428,19 +435,27 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         element!.dataset.pitch = String(angles.current.pitch)
       }
       target = world.target(camera)
-      if ((target?.id ?? null) !== targetId) {
+      if ((target?.id ?? null) !== targetId || (target?.label ?? '') !== targetLabel) {
+        targetLabel = target?.label ?? ''
         targetId = target?.id ?? null
         setNear(target)
       }
       world.highlight(targetId)
-      if ('updateFinal' in world) world.updateFinal(latest.current.chapter6, dt, reducedMotion)
+      if ('updateHall' in world)
+        world.updateHall(
+          latest.current.power,
+          latest.current.staffEvent,
+          dt,
+          reducedMotion,
+          latest.current.chapter2,
+          latest.current.clues,
+        )
+      else if ('updateFinal' in world) world.updateFinal(latest.current.chapter6, dt, reducedMotion)
       else if ('updateMoon' in world) world.updateMoon(latest.current.chapter5, dt, reducedMotion)
       else if ('updateTrain' in world)
         world.updateTrain(latest.current.chapter3, latest.current.chapter4, dt, reducedMotion)
       else if ('updateChapter3' in world)
         world.updateChapter3(latest.current.chapter3, dt, reducedMotion)
-      else if ('update' in world)
-        world.update(latest.current.power, latest.current.staffEvent, dt, reducedMotion)
       else
         world.animate(
           latest.current.outcome === 'escaped' || latest.current.outcome === 'injured',

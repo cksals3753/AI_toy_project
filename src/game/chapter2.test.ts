@@ -4,7 +4,21 @@ import type { Action, State } from './engine'
 import { chapter2Intro, hallOpening } from './chapter2'
 import { nearestEntity, walkable, worlds } from './world'
 
-const apply = (state: State, ...actions: Action[]) => actions.reduce(reducer, state)
+// Existing story/power regression helpers now perform both confirmed physical steps.
+const apply = (state: State, ...actions: Action[]) =>
+  actions.reduce((s, a) => {
+    if (
+      a.type === 'enter-electrical' &&
+      s.inventory.includes('전기실 열쇠') &&
+      s.chapter2.shutter !== 'open'
+    ) {
+      s = { ...s, position: { x: 215, y: 390 }, view3d: null }
+      if (s.chapter2.shutter === 'locked')
+        s = reducer(s, { type: 'hall-shutter', expected: 'locked' })
+      s = reducer(s, { type: 'hall-shutter', expected: 'unlatched' })
+    }
+    return reducer(s, a)
+  }, state)
 const finishDialogue = (state: State): State => {
   let next = state
   while (next.scene.length) next = reducer(next, { type: 'advance' })
@@ -76,7 +90,7 @@ describe('evidence, keys and questions', () => {
     const state = reload(withKey())
     expect(reducer(state, { type: 'inspect', id: 'hall-desk' })).toBe(state)
     expect(state.inventory.filter((i) => i === '전기실 열쇠')).toHaveLength(1)
-    expect(reducer(state, { type: 'enter-electrical' }).area).toBe('electrical')
+    expect(apply(state, { type: 'enter-electrical' }).area).toBe('electrical')
   })
 })
 describe('one-time staff passage event', () => {

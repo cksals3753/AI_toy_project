@@ -1,3 +1,5 @@
+import { facilityLabel, addFacilityModel } from './facilityVisuals'
+import { facilityProfiles } from './facilityProfiles'
 import { raisedTrim, trainWindow } from './sceneFixtures'
 import * as T from 'three'
 import { getWorld } from './world'
@@ -5,7 +7,7 @@ import type { Rect } from './world'
 import { trains } from './chapter3'
 import type { Chapter3 } from './chapter3'
 import { sceneScale } from './firstPerson'
-import { createSceneTarget, disposeSceneObject } from './sceneInteraction'
+import { createSceneTarget, disposeSceneObject, registerFacilityTarget } from './sceneInteraction'
 import { loadOhModel } from './ohModel'
 
 export const chapter3AreaNames = {
@@ -48,30 +50,7 @@ export const createChapter3Scene = (
     return mesh
   }
   const sign = (text: string, x: number, y: number, height = 1.7, width = 2.1, rotation = 0) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 768
-    canvas.height = 256
-    const c = canvas.getContext('2d')!
-    c.fillStyle = '#182b32'
-    c.fillRect(0, 0, 768, 256)
-    c.strokeStyle = '#9fac9f'
-    c.lineWidth = 6
-    c.strokeRect(4, 4, 760, 248)
-    c.fillStyle = '#e1dfc6'
-    c.textAlign = 'center'
-    c.font = 'bold 37px sans-serif'
-    const lines = text.split('\n')
-    lines.forEach((line, i) => c.fillText(line, 384, 125 - (lines.length - 1) * 27 + i * 55, 740))
-    const texture = new T.CanvasTexture(canvas)
-    texture.colorSpace = T.SRGBColorSpace
-    const mesh = new T.Mesh(
-      new T.PlaneGeometry(width, width / 3),
-      new T.MeshBasicMaterial({ map: texture, side: T.DoubleSide }),
-    )
-    mesh.position.set((x - 480) / scale, height, (y - 310) / scale)
-    mesh.rotation.y = rotation
-    scene.add(mesh)
-    return mesh
+    return facilityLabel(scene, scale, text, x, y, height, width, rotation).mesh
   }
   box({ x: 54, y: 70, w: 852, h: 480 }, 0.12, stone, -0.12)
   box({ x: 44, y: 60, w: 872, h: 500 }, 0.1, dark, 3.8)
@@ -119,6 +98,7 @@ export const createChapter3Scene = (
       box({ ...r, h: 7 }, 0.42, metal, 0.48)
     }
   }
+  let approvalFixture: ReturnType<typeof addFacilityModel> | null = null
   let survivor: ReturnType<typeof loadOhModel> | null = null
   let survivorProxy: T.Mesh | null = null
   let bDoor: T.Mesh | null = null
@@ -126,9 +106,7 @@ export const createChapter3Scene = (
   const dress: T.Mesh[] = []
   for (const e of layout.entities) {
     const h = e.kind === 'npc' ? 1.75 : 2.4
-    const proxy = box(e, h, new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }))
-    proxy.userData.entityId = e.id
-    interactables.push(proxy)
+    const proxy = registerFacilityTarget(scene, scale, e, h, interactables, blockers)
     const x = e.x + e.w / 2,
       y = e.y + e.h / 2
     if (e.id === 'survivor') {
@@ -165,7 +143,11 @@ export const createChapter3Scene = (
       sign('B2 대합실 ↑\n진입 계단', x, y, 2.4, 1.6, Math.PI / 2)
     } else {
       const door = e.kind === 'door'
-      box(e, door ? 2.35 : e.id === 'platform-record' ? 2.1 : 1.15, dark)
+      const kind = facilityProfiles[e.id]?.kind
+      if (kind) {
+        const model = addFacilityModel(scene, scale, e, kind, { metal, dark, warm })
+        if (e.id === 'approval') approvalFixture = model
+      } else box(e, door ? 2.35 : 1.15, dark)
       const texts: Record<string, string> = {
         'platform-record': `역무 비상 부스\n오늘 운행 ${trains[1].id} / ${trains[1].track}`,
         approval: '비상 운행 승인\n차량 / 선로 대조',
@@ -178,10 +160,10 @@ export const createChapter3Scene = (
       sign(
         texts[e.id] ?? e.label,
         x,
-        e.y + (e.y > 500 ? -1 : e.h + 1),
-        door ? 1.8 : 0.85,
-        Math.max(1, e.w / scale),
-        e.y > 500 ? Math.PI : 0,
+        e.id === 'call-b' ? e.y - 1 : e.y + (e.y > 500 ? -1 : e.h + 1),
+        door ? 2.8 : e.id === 'call-b' ? 1.02 : 1.35,
+        e.id === 'call-b' ? 0.62 : e.id === 'platform-record' ? 1.35 : 1.05,
+        e.id === 'call-b' || e.y > 500 ? Math.PI : 0,
       )
       if (e.id === 'platform-signal') {
         signal = box(
@@ -256,6 +238,7 @@ export const createChapter3Scene = (
           relocation = null
         }
       }
+      approvalFixture?.update({ active: c.approved })
       if (bDoor) {
         bDoor.visible = !c.doorOpen
         bDoor.position.y = c.doorOpen ? 3.5 : 1.125

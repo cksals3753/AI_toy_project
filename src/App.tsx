@@ -1,3 +1,5 @@
+import { createThreat } from './game/threat'
+import { useHallField } from './components/useHallField'
 import { DismissButton, MenuButton } from './components/ui/TouchActionButton'
 import { ComfortSettings } from './components/ComfortSettings'
 import { useComfort } from './components/useComfort'
@@ -35,6 +37,7 @@ import { Overlay } from './components/Overlay'
 import { DodgeGame } from './components/DodgeGame'
 
 type Panel =
+  | 'shutter-info'
   | 'help'
   | 'final-control'
   | 'final-review'
@@ -109,6 +112,12 @@ const App = () => {
     (chapter5.started && !chapter5.displayName) ||
     chapter5.exitPrompt
   const paused = blocking || panel !== null
+  const hallField = useHallField(state, paused, dispatch)
+  const startShutter = hallField.start
+  const [threatSession] = useState(() => ({
+    runtime: { current: createThreat() },
+    identity: { current: '' },
+  }))
   const sound = useFirstRoomAudio(state, welcome, paused)
   const playing = stage !== 'intro' && !welcome
   const immersive =
@@ -435,6 +444,10 @@ const App = () => {
         return
       }
       if (area === 'hall') {
+        if (entity.id === 'hall-shutter') {
+          startShutter()
+          return
+        }
         if (entity.id === 'staff') {
           if (chapter2.staffEvent === 'unseen') setPanel('staff')
           else
@@ -537,6 +550,7 @@ const App = () => {
       }
     },
     [
+      startShutter,
       fourthChapter,
       fifthChapter,
       sixthChapter,
@@ -904,6 +918,9 @@ const App = () => {
             />
           )}
           <ExplorationView
+            threatSession={threatSession}
+            onFieldFrame={hallField.tick}
+            chapter2={chapter2}
             comfort={comfort.settings}
             key={`${worldKey}:${area}:${chapter2.staffEvent}:${state.threat.revision}`}
             area={area}
@@ -928,6 +945,30 @@ const App = () => {
             onGateHeard={() => dispatch({ type: 'threat-gate-consumed' })}
             onRoomBeat={() => dispatch({ type: 'threat-room-beat' })}
           />
+          {area === 'hall' && chapter2.shutter !== 'open' && !welcome && (
+            <aside
+              className="pointer-events-none absolute bottom-44 right-3 z-[4] max-w-[min(280px,45vw)] rounded border border-amber-300/40 bg-slate-950/90 p-3 text-xs"
+              role="status"
+            >
+              <strong>{hallField.status}</strong>
+              <p>
+                IS-02 · {chapter2.shutter === 'locked' ? '빗장 고정' : '빗장 해제 / 올림 대기'} ·
+                조작 중에도 위협은 움직입니다.
+              </p>
+              <progress
+                className="w-full"
+                aria-label="셔터 조작 진행"
+                max={100}
+                value={hallField.progress}
+              />
+              <MenuButton
+                className="pointer-events-auto"
+                onActivate={() => setPanel('shutter-info')}
+              >
+                IS-02 조작 안내
+              </MenuButton>
+            </aside>
+          )}
           {area === 'first' && fieldNote && !paused && (
             <aside className="field-note" role="status" aria-live="polite">
               <strong>⌕ 현장 기록 · 탐색 유지</strong>
@@ -1371,6 +1412,19 @@ const App = () => {
             <summary>수집한 단서 확인</summary>
             {notebook}
           </details>
+        </Overlay>
+      )}
+      {panel === 'shutter-info' && (
+        <Overlay title="IS-02 수동 격리 셔터 · E-01 직원 설비" onClose={closePanel}>
+          <p>왼쪽 위험 직원 통로의 방화문과 다른 장치입니다. 건조한 서측 우회로로 접근하세요.</p>
+          <p>
+            설명을 닫고 현장에서 셔터를 조준해 한 번 입력하면 빗장을 해제합니다. 완료 후 다시 입력해
+            셔터를 올리고 걸쇠를 고정합니다. 유지 입력·연타는 필요하지 않습니다.
+          </p>
+          <p>
+            현장 조작 중 감염자는 움직입니다. 이동·메뉴·붙잡힘은 미완료 동작만 취소하며 마지막 확정
+            단계는 보존합니다. E·클릭·모바일 조사 버튼은 같은 동작입니다.
+          </p>
         </Overlay>
       )}
       {!welcome && showResult && panel !== 'reset' && (

@@ -36,7 +36,7 @@ describe('3D position schema and compatibility', () => {
     const loaded = reload(s)
     expect(loaded.view3d).toBeNull()
     expect(loaded.clues).toEqual(s.clues)
-    expect(loaded.chapter2).toEqual(s.chapter2)
+    expect(loaded.chapter2).toEqual({ ...s.chapter2, visited: true, shutter: 'open' })
   })
   it('rejects walls, closed gates, obstacles, invalid formats and mismatched areas', () => {
     for (const p of [

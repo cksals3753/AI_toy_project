@@ -1,0 +1,342 @@
+[
+  {
+    "area": "first",
+    "id": "map",
+    "position": {
+      "x": 482,
+      "y": 216
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": 0.04,
+        "z": -1.88
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "first",
+    "id": "panel",
+    "position": {
+      "x": 775,
+      "y": 191
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": 5.9,
+        "z": -2.38
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "first",
+    "id": "cabinet",
+    "position": {
+      "x": 185,
+      "y": 178
+    },
+    "view3d": {
+      "version": 1,
+      "area": "first",
+      "position": {
+        "x": -5.9,
+        "z": -2.64
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "platform",
+    "id": "call-b",
+    "position": {
+      "x": 797.5,
+      "y": 360
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": 6.35,
+        "z": 1
+      },
+      "yaw": -3.141592653589793,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "platform",
+    "id": "approval",
+    "position": {
+      "x": 807.5,
+      "y": 380
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": 6.55,
+        "z": 1.4
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "platform",
+    "id": "platform-record",
+    "position": {
+      "x": 720,
+      "y": 245
+    },
+    "view3d": {
+      "version": 1,
+      "area": "platform",
+      "position": {
+        "x": 4.8,
+        "z": -1.3
+      },
+      "yaw": -0.9245579985603474,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "trainB",
+    "id": "train-phone",
+    "position": {
+      "x": 216.5,
+      "y": 350
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainB",
+      "position": {
+        "x": -5.27,
+        "z": 0.8
+      },
+      "yaw": 0,
+      "pitch": -0.9
+    },
+    "target": "⌕ 선택 대상 · 좌석 01 · 좌석 아래 휴대폰E 좌석 01 · 좌석 아래 휴대폰 조사",
+    "enabled": true
+  },
+  {
+    "area": "trainRear",
+    "id": "train-devices",
+    "position": {
+      "x": 610,
+      "y": 175
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainRear",
+      "position": {
+        "x": 2.6,
+        "z": -2.7
+      },
+      "yaw": -0.9475969968608311,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "trainFront",
+    "id": "train-stop",
+    "position": {
+      "x": 350,
+      "y": 175
+    },
+    "view3d": {
+      "version": 1,
+      "area": "trainFront",
+      "position": {
+        "x": -2.6,
+        "z": -2.7
+      },
+      "yaw": 0.9745971854974158,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · 정차 요청 패널E 정차 요청 패널 조사",
+    "enabled": true
+  },
+  {
+    "area": "moonPlatform",
+    "id": "moon-sensor",
+    "position": {
+      "x": 800,
+      "y": 358
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonPlatform",
+      "position": {
+        "x": 6.4,
+        "z": 0.96
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "moonBooth",
+    "id": "moon-terminal",
+    "position": {
+      "x": 740,
+      "y": 470
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonBooth",
+      "position": {
+        "x": 5.2,
+        "z": 3.2
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "moonHolding",
+    "id": "moon-cancel-device",
+    "position": {
+      "x": 780,
+      "y": 385
+    },
+    "view3d": {
+      "version": 1,
+      "area": "moonHolding",
+      "position": {
+        "x": 6,
+        "z": 1.5
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "maintenance",
+    "id": "final-control",
+    "position": {
+      "x": 780,
+      "y": 460
+    },
+    "view3d": {
+      "version": 1,
+      "area": "maintenance",
+      "position": {
+        "x": 6,
+        "z": 3
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "recovery",
+    "id": "recovery-valve",
+    "position": {
+      "x": 740,
+      "y": 195
+    },
+    "view3d": {
+      "version": 1,
+      "area": "recovery",
+      "position": {
+        "x": 5.2,
+        "z": -2.3
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "recovery",
+    "id": "recovery-bolt",
+    "position": {
+      "x": 780,
+      "y": 440
+    },
+    "view3d": {
+      "version": 1,
+      "area": "recovery",
+      "position": {
+        "x": 6,
+        "z": 2.6
+      },
+      "yaw": 0,
+      "pitch": -0.15
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  },
+  {
+    "area": "recovery",
+    "id": "recovery-hatch",
+    "position": {
+      "x": 190,
+      "y": 430
+    },
+    "view3d": {
+      "version": 1,
+      "area": "recovery",
+      "position": {
+        "x": -5.8,
+        "z": 2.4
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "⌕ 선택 대상 · S-02 비상 해치E S-02 비상 해치 문 확인",
+    "enabled": true
+  },
+  {
+    "area": "shelter",
+    "id": "shelter-arrival",
+    "position": {
+      "x": 740,
+      "y": 205
+    },
+    "view3d": {
+      "version": 1,
+      "area": "shelter",
+      "position": {
+        "x": 5.2,
+        "z": -2.1
+      },
+      "yaw": 0,
+      "pitch": 0
+    },
+    "target": "중앙 조준점을 가까운 사물에 맞추세요E 조사",
+    "enabled": false
+  }
+]

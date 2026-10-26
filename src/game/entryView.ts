@@ -23,6 +23,7 @@ export const applyEntryView = (previous: State, next: State): State => {
     next.chapter5,
     next.chapter6,
     next.chapter2,
+    next.chapter7,
   )
   const receivingDoor: Record<string, string> = {
     'electrical:hall': 'electrical',

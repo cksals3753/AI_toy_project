@@ -1,3 +1,4 @@
+import { createShelterDefenseScene } from '../game/chapter7Scene'
 import { DynamicJoystick } from './DynamicJoystick'
 import { cameraFov, defaultComfort, touchLookScale } from '../game/comfort'
 import { useThreat } from './useThreat'
@@ -40,6 +41,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     props.chapter5,
     props.chapter6,
     props.chapter2,
+    props.chapter7,
   )
   const initialPoint = savedView
     ? toWorldPosition(savedView.position, area)
@@ -55,6 +57,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
           props.chapter5,
           props.chapter6,
           props.chapter2,
+          props.chapter7,
         ).spawn
   const canvas = useRef<HTMLCanvasElement>(null)
   const position = useRef(initialPoint)
@@ -130,30 +133,36 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     renderer.toneMapping = T.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.35
     const world =
-      area === 'first'
-        ? createFirstRoomScene(() => setAssetError(true))
-        : area === 'hall' || area === 'electrical' || area === 'stairs'
-          ? createChapter2Scene(area, () => setAssetError(true), latest.current.chapter2)
-          : area === 'platform' || area === 'trainA'
-            ? createChapter3Scene(area, latest.current.chapter3, () => setAssetError(true))
-            : area === 'trainB' || area === 'trainRear' || area === 'trainFront'
-              ? createTrainScene(area, latest.current.chapter3, latest.current.chapter4, () =>
-                  setAssetError(true),
-                )
-              : area === 'moonPlatform' || area === 'moonBooth' || area === 'moonHolding'
-                ? createMoonScene(
-                    area,
-                    latest.current.chapter3.npcBoarded,
-                    latest.current.chapter5,
-                    () => setAssetError(true),
+      area === 'shelterDefense'
+        ? createShelterDefenseScene(
+            latest.current.chapter7!,
+            latest.current.chapter6.result?.npcTogether === true,
+            () => setAssetError(true),
+          )
+        : area === 'first'
+          ? createFirstRoomScene(() => setAssetError(true))
+          : area === 'hall' || area === 'electrical' || area === 'stairs'
+            ? createChapter2Scene(area, () => setAssetError(true), latest.current.chapter2)
+            : area === 'platform' || area === 'trainA'
+              ? createChapter3Scene(area, latest.current.chapter3, () => setAssetError(true))
+              : area === 'trainB' || area === 'trainRear' || area === 'trainFront'
+                ? createTrainScene(area, latest.current.chapter3, latest.current.chapter4, () =>
+                    setAssetError(true),
                   )
-                : createFinalScene(
-                    area,
-                    latest.current.chapter3.npcBoarded,
-                    latest.current.chapter6,
-                    () => setAssetError(true),
-                  )
-    const threatVisual = createThreatVisual(world.scene, area)
+                : area === 'moonPlatform' || area === 'moonBooth' || area === 'moonHolding'
+                  ? createMoonScene(
+                      area,
+                      latest.current.chapter3.npcBoarded,
+                      latest.current.chapter5,
+                      () => setAssetError(true),
+                    )
+                  : createFinalScene(
+                      area,
+                      latest.current.chapter3.npcBoarded,
+                      latest.current.chapter6,
+                      () => setAssetError(true),
+                    )
+    const threatVisual = createThreatVisual(world.scene, area === 'shelterDefense' ? 'none' : area)
     const releaseRendererLookup = trackRendererLookup(world.scene)
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const camera = new T.PerspectiveCamera(64, 1, 0.05, 40)
@@ -354,6 +363,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
             latest.current.chapter5,
             latest.current.chapter6,
             latest.current.chapter2,
+            latest.current.chapter7,
           ),
           (latest.current.comfort ?? defaultComfort).moveSpeed,
         )
@@ -394,6 +404,7 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         latest.current.chapter5,
         latest.current.chapter6,
         latest.current.chapter2,
+        latest.current.chapter7,
       )
       const threatActive =
         ready &&
@@ -441,7 +452,9 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
         setNear(target)
       }
       world.highlight(targetId)
-      if ('updateHall' in world)
+      if ('updateDefense' in world)
+        world.updateDefense(latest.current.chapter7!, dt, threatActive, camera)
+      else if ('updateHall' in world)
         world.updateHall(
           latest.current.power,
           latest.current.staffEvent,
@@ -537,12 +550,13 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
     )
   return (
     <div className={`exploration first-person ${props.paused ? 'is-paused' : ''}`}>
+      {props.chapter7?.phase === 'secured' && <div className="area-settle" aria-hidden="true" />}
       {!loading && settling && <div className="area-settle" aria-hidden="true" />}
       <ThreatStatus area={area} mode={threatMode} paused={props.paused || !active} />
       <canvas
         ref={canvas}
         tabIndex={0}
-        aria-label={`1인칭 ${area === 'first' ? '정비 대기실' : { ...chapter2AreaNames, ...chapter3AreaNames, ...trainAreaNames, ...moonSceneNames, ...finalSceneNames }[area]}. 클릭 후 WASD 이동, 마우스 시점, E 상호작용, Esc 잠금 해제.`}
+        aria-label={`1인칭 ${area === 'first' ? '정비 대기실' : { shelterDefense: '지상 대피소 · 대응 구획', ...chapter2AreaNames, ...chapter3AreaNames, ...trainAreaNames, ...moonSceneNames, ...finalSceneNames }[area]}. 클릭 후 WASD 이동, 마우스 시점, E 상호작용, Esc 잠금 해제.`}
         onPointerDown={(event) => {
           if (props.paused || (event.pointerType === 'mouse' && event.button !== 0)) return
           if (!runtime.current.active) {
@@ -584,10 +598,11 @@ export const FirstPersonExploration = (props: ExplorationProps) => {
       />
       <div className="map-caption">
         <span>
-          ⌾ B2 ·{' '}
+          {area === 'shelterDefense' ? '⌾ 지상 ·' : '⌾ B2 ·'}{' '}
           {area === 'first'
             ? '정비 대기실'
             : {
+                shelterDefense: '지상 대피소 · 대응 구획',
                 ...chapter2AreaNames,
                 ...chapter3AreaNames,
                 ...trainAreaNames,

@@ -6,6 +6,8 @@ import {
 } from './interaction'
 import { initialHallEnvironment, hallPartitions, shutterRect, waterRects } from './hallEnvironment'
 import type { HallEnvironment } from './hallEnvironment'
+import type { Chapter7 } from './chapter7'
+import { rearOpen } from './chapter7'
 import type { Chapter6 } from './chapter6'
 import type { Chapter5 } from './chapter5'
 import type { Chapter4 } from './chapter4'
@@ -19,6 +21,7 @@ export type Entity = Rect & {
   passable?: boolean
 }
 export type Area =
+  | 'shelterDefense'
   | 'first'
   | 'hall'
   | 'electrical'
@@ -503,7 +506,42 @@ export const shelter = finalRoom([
   trainEntity('shelter-sign', '지상 대피소 내부 표식', 180, 100),
   trainEntity('shelter-arrival', '대피소 내부 도착 확인대', 700, 100),
 ])
+const defenseEntity = (
+  id: string,
+  label: string,
+  x: number,
+  y: number,
+  w = 50,
+  h = 24,
+): Entity => ({ id, label, x, y, w, h, kind: 'object', color: '#b9ad7c' })
+export const shelterDefense: World = {
+  ...room,
+  spawn: { x: 270, y: 450 },
+  obstacles: [
+    { x: 610, y: 70, w: 20, h: 215 },
+    { x: 610, y: 360, w: 20, h: 70 },
+    { x: 610, y: 505, w: 20, h: 45 },
+    { x: 740, y: 70, w: 12, h: 215 },
+    { x: 740, y: 360, w: 12, h: 190 },
+    { x: 370, y: 245, w: 120, h: 70 },
+  ],
+  entities: [
+    defenseEntity('s7-rest', '휴식 의자', 160, 420, 60, 28),
+    defenseEntity('s7-window', '외부 관측창 / 대응 시작', 260, 90, 95, 15),
+    defenseEntity('s7-entrance-note', '반입문 상태와 보강 안내', 120, 90),
+    defenseEntity('s7-entrance', '외부 반입문 · 입구 설치점', 55, 220, 16, 70),
+    defenseEntity('s7-kit-note', '물자 사용 안내', 395, 90),
+    defenseEntity('s7-kit', '지지대 선반 / 반납', 470, 90, 65, 28),
+    defenseEntity('s7-rear-note', '후면 비상문 상태', 540, 380),
+    defenseEntity('s7-rear', '후면 지름길 · 설치점', 580, 445, 20, 45),
+    defenseEntity('s7-winch', '후면 수동 윈치', 665, 90, 55, 35),
+    defenseEntity('s7-firedoor', '방화문 · 안전측 손잡이와 빗장', 775, 385, 24, 45),
+    defenseEntity('s7-ready', '후면 이동 준비 확인', 785, 430, 50, 35),
+    defenseEntity('s7-finish', '다음 이동 준비 완료', 795, 100, 65, 25),
+  ],
+}
 export const worlds: Record<Area, World> = {
+  shelterDefense,
   maintenance,
   recovery,
   shelter,
@@ -530,7 +568,35 @@ export const getWorld = (
   chapter5?: Pick<Chapter5, 'routeOpen' | 'registration'>,
   chapter6?: Pick<Chapter6, 'settings' | 'route' | 'drained' | 'boltOpen'>,
   environment: HallEnvironment = initialHallEnvironment,
+  chapter7?: Chapter7,
 ): World => {
+  if (area === 'shelterDefense') {
+    const c = chapter7
+    return {
+      ...shelterDefense,
+      obstacles: [
+        ...shelterDefense.obstacles,
+        ...(!c || !rearOpen(c) ? [{ x: 610, y: 430, w: 20, h: 75 }] : []),
+        ...(c && c.fireDoor !== 'open' ? [{ x: 740, y: 285, w: 12, h: 75 }] : []),
+      ],
+      entities: [
+        ...shelterDefense.entities,
+        ...(npcBoarded
+          ? [
+              defenseEntity(
+                's7-survivor',
+                '다친 생존자',
+                c && ['secured', 'complete'].includes(c.phase) ? 785 : 220,
+                c && ['secured', 'complete'].includes(c.phase) ? 240 : 425,
+                28,
+                28,
+              ),
+            ]
+          : []),
+      ],
+    }
+  }
+
   if (chapter6 && ['maintenance', 'recovery', 'shelter'].includes(area)) {
     const base = worlds[area]
     const entities = base.entities.map((e) => {

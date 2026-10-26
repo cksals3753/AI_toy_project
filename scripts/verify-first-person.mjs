@@ -1,3 +1,4 @@
+import { verifyChapter7 } from './verify-chapter7.mjs'
 import { verifyEpisodeFacilities } from './verify-episode-facilities.mjs'
 import { verifyFacilityReview, verifyFacilityFallback } from './verify-facility-review.mjs'
 import { verifyHallVisual } from './verify-hall-visual.mjs'
@@ -70,6 +71,16 @@ export async function verifyFirstPerson({
       await wait(100)
     if (await evaluate("!!document.querySelector('.exploration-resume')"))
       await trustedClick('.exploration-resume')
+    if (
+      process.env.FIRST_PERSON_CHECK === 'chapter7' &&
+      (await evaluate('navigator.maxTouchPoints>0'))
+    ) {
+      assert.ok(
+        await evaluate("!!document.querySelector('[data-move-zone]')"),
+        'mobile exploration active',
+      )
+      return
+    }
     assert.equal(
       await evaluate(
         "document.pointerLockElement===document.querySelector('.first-person canvas')",
@@ -98,6 +109,42 @@ export async function verifyFirstPerson({
   let mx = 600,
     my = 400
   async function look(yaw, pitch = 0) {
+    if (process.env.FIRST_PERSON_CHECK === 'chapter7')
+      pitch = Math.max(-1.08, Math.min(1.08, pitch))
+    if (
+      process.env.FIRST_PERSON_CHECK === 'chapter7' &&
+      (await evaluate('navigator.maxTouchPoints>0'))
+    ) {
+      for (let i = 0; i < 6; i++) {
+        const a = await evaluate("JSON.parse(localStorage.getItem('last-transfer-save-v1')).view3d")
+        const r = await evaluate(
+          "(()=>{const r=document.querySelector('.first-person canvas').getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}})()",
+        )
+        const sensitivity = (0.003 * 390) / Math.max(240, Math.min(r.w, r.h))
+        const dx = Math.atan2(Math.sin(a.yaw - yaw), Math.cos(a.yaw - yaw)) / sensitivity,
+          dy = (a.pitch - pitch) / sensitivity
+        if (Math.abs(dx) < 2 && Math.abs(dy) < 2) return
+        const x = r.x + r.w * 0.72,
+          y = r.y + r.h * 0.4
+        const steps = Math.max(
+          1,
+          Math.ceil(Math.max(Math.abs(dx) / (r.w * 0.18), Math.abs(dy) / (r.h * 0.18))),
+        )
+        for (let step = 0; step < steps; step++) {
+          await send('Input.dispatchTouchEvent', {
+            type: 'touchStart',
+            touchPoints: [{ id: 8, x, y }],
+          })
+          await send('Input.dispatchTouchEvent', {
+            type: 'touchMove',
+            touchPoints: [{ id: 8, x: x + dx / steps, y: y + dy / steps }],
+          })
+          await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+        }
+        await wait(500)
+      }
+      throw Error('Mobile aim did not converge')
+    }
     // Production has no debug dataset; read the game's own persisted camera instead.
     if (process.env.PRODUCTION_CHECK) await wait(450)
     // Relative movement is produced through Chrome's real input protocol.
@@ -119,6 +166,7 @@ export async function verifyFirstPerson({
       const fast =
         !!process.env.PRODUCTION_CHECK ||
         [
+          'chapter7',
           'facility-progress',
           'facility-review',
           'episode',
@@ -201,13 +249,17 @@ export async function verifyFirstPerson({
     await walkTo(id)
     const p = (await state()).position
     const entity = await evaluate(
-      `(async()=>{const {getWorld}=await import('/src/game/world.ts');const s=JSON.parse(localStorage.getItem('last-transfer-save-v1'));const e=getWorld(s.area,s.chapter3.npc,s.chapter3.npcBoarded,s.chapter2.power,s.chapter3.doorOpen,s.chapter4,s.chapter5,s.chapter6,s.chapter2).entities.find(e=>e.id===${JSON.stringify(id)});const {interactionSurface,interactionAim}=await import('/src/game/interaction.ts');const {facilityProfiles}=await import('/src/game/facilityProfiles.ts');return {...e,...interactionSurface(e),aim:interactionAim(e.id),surfaceFace:!!facilityProfiles[e.id]||['hall-desk','hall-shutter','hall-map','hall-window','hall-gate-note','powerboard','moon-shoes'].includes(e.id)}})()`,
+      `(async()=>{const {getWorld}=await import('/src/game/world.ts');const s=JSON.parse(localStorage.getItem('last-transfer-save-v1'));const e=getWorld(s.area,s.chapter3.npc,s.chapter3.npcBoarded,s.chapter2.power,s.chapter3.doorOpen,s.chapter4,s.chapter5,s.chapter6,s.chapter2,s.chapter7).entities.find(e=>e.id===${JSON.stringify(id)});const {interactionSurface,interactionAim}=await import('/src/game/interaction.ts');const {facilityProfiles}=await import('/src/game/facilityProfiles.ts');return {...e,...interactionSurface(e),aim:interactionAim(e.id),surfaceFace:!!facilityProfiles[e.id]||['hall-desk','hall-shutter','hall-map','hall-window','hall-gate-note','powerboard','moon-shoes'].includes(e.id)}})()`,
     )
-    const tx = entity.surfaceFace
-      ? Math.max(entity.x + 2, Math.min(p.x, entity.x + entity.w - 2))
-      : entity.x + entity.w / 2
-    const ty =
-      entity.id === 'moon-shoes'
+    const verticalFace = ['s7-entrance', 's7-rear', 's7-firedoor'].includes(entity.id)
+    const tx = verticalFace
+      ? entity.x + entity.w / 2
+      : entity.surfaceFace
+        ? Math.max(entity.x + 2, Math.min(p.x, entity.x + entity.w - 2))
+        : entity.x + entity.w / 2
+    const ty = verticalFace
+      ? Math.max(entity.y + 4, Math.min(p.y, entity.y + entity.h - 4))
+      : entity.id === 'moon-shoes'
         ? Math.max(entity.y + 2, Math.min(p.y, entity.y + entity.h - 2))
         : entity.id === 'hall-desk'
           ? entity.y + entity.h
@@ -587,6 +639,23 @@ export async function verifyFirstPerson({
       inputCode,
       trustedClick,
       look,
+    })
+    return
+  }
+  if (process.env.FIRST_PERSON_CHECK === 'chapter7') {
+    await verifyChapter7({
+      send,
+      evaluate,
+      click,
+      close,
+      state,
+      advanceAll,
+      hold,
+      wait,
+      approach,
+      pressE,
+      resume3d,
+      trustedClick,
     })
     return
   }

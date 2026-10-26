@@ -1,0 +1,49 @@
+{
+  "mode": "production-preview",
+  "routes": [
+    {
+      "simultaneousTouch": false,
+      "priority": "entrance",
+      "together": false,
+      "mobile": false,
+      "minimumMoveSpeed": 0.6,
+      "activeSeconds": 58.56469999999893,
+      "remainingSeconds": 241.43530000000106,
+      "complete": true
+    },
+    {
+      "simultaneousTouch": false,
+      "priority": "rear",
+      "together": false,
+      "mobile": false,
+      "minimumMoveSpeed": 0.6,
+      "activeSeconds": 34.5652999999999,
+      "remainingSeconds": 145.4347000000001,
+      "complete": true
+    },
+    {
+      "simultaneousTouch": false,
+      "priority": "entrance",
+      "together": true,
+      "mobile": false,
+      "minimumMoveSpeed": 0.6,
+      "activeSeconds": 49.14799999999909,
+      "remainingSeconds": 250.8520000000009,
+      "complete": true
+    },
+    {
+      "simultaneousTouch": false,
+      "priority": "rear",
+      "together": true,
+      "mobile": false,
+      "minimumMoveSpeed": 0.6,
+      "activeSeconds": 31.38170000000015,
+      "remainingSeconds": 148.61829999999986,
+      "complete": true
+    }
+  ],
+  "frameDrivenExpiration": true,
+  "savedFailure": true,
+  "pressureAssist": true,
+  "notes": "Chrome automation; elapsed includes automated navigation and aiming. Not a novice comfort study or real mobile device."
+}

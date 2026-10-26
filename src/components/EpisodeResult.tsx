@@ -20,9 +20,13 @@ const catalog = [
 export const EpisodeResult = ({
   result: r,
   onClose,
+  onEpisode2,
+  continued,
 }: {
   result: NonNullable<State['chapter6']['result']>
   onClose: () => void
+  onEpisode2?: () => void
+  continued?: boolean
 }) => {
   return (
     <Overlay title="에피소드 1 완료 · 지상 대피소 도착" onClose={onClose} footerClose={false} wide>
@@ -84,6 +88,11 @@ export const EpisodeResult = ({
       <p className="muted">
         이 회차의 탈출 목표는 해결되었습니다. 전체 재난의 진실은 아직 확인되지 않았습니다.
       </p>
+      {onEpisode2 && (
+        <DismissButton full onDismiss={onEpisode2}>
+          {continued ? '에피소드 2 이어하기' : '에피소드 2 시작 · 기존 기록 이어가기'}
+        </DismissButton>
+      )}
       <DismissButton full onDismiss={onClose}>
         결과 저장 · 대피소 보기
       </DismissButton>

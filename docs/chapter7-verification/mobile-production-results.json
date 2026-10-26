@@ -1,0 +1,31 @@
+{
+  "mode": "production-preview",
+  "routes": [
+    {
+      "simultaneousTouch": true,
+      "priority": "entrance",
+      "together": false,
+      "mobile": true,
+      "minimumMoveSpeed": 0.6,
+      "activeSeconds": 73.596899999998,
+      "remainingSeconds": 226.40310000000198,
+      "complete": true,
+      "verifiedInPreviousRun": true
+    },
+    {
+      "simultaneousTouch": true,
+      "priority": "rear",
+      "together": true,
+      "mobile": true,
+      "minimumMoveSpeed": 0.6,
+      "activeSeconds": 52.464399999998996,
+      "remainingSeconds": 127.53560000000101,
+      "complete": true,
+      "verifiedInPreviousRun": true
+    }
+  ],
+  "frameDrivenExpiration": true,
+  "savedFailure": true,
+  "pressureAssist": true,
+  "notes": "Chrome automation; elapsed includes automated navigation and aiming. Not a novice comfort study or real mobile device."
+}

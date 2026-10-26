@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { initialState, type State } from '../game/engine'
-import { chapter56Cues } from './chapter56Audio'
+import { chapter56Cues, episode1AudioEnded } from './chapter56Audio'
 const base = (): State => ({
   ...initialState,
   area: 'moonPlatform',
@@ -9,6 +9,13 @@ const base = (): State => ({
   chapter6: { ...initialState.chapter6, started: true },
 })
 describe('chapter 5–6 audio transitions', () => {
+  it('resumes audio for episode2 without clearing the episode1 completion', () => {
+    const completed = { ...base(), chapter6: { ...base().chapter6, completed: true } }
+    expect(episode1AudioEnded(completed)).toBe(true)
+    expect(
+      episode1AudioEnded({ ...completed, chapter7: { ...initialState.chapter7, started: true } }),
+    ).toBe(false)
+  })
   it('chimes for a new scripted broadcast, never transcript inspection or loading', () => {
     const a = base(),
       b: State = {

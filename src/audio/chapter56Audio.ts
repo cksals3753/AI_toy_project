@@ -31,3 +31,6 @@ export const chapter56Cues = (before: State, after: State): AudioCue[] => {
   if (!c.completed && d.completed) cues.push('complete')
   return cues
 }
+
+export const episode1AudioEnded = (state: State) =>
+  state.chapter6.completed && !state.chapter7.started

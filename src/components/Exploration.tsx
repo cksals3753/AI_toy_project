@@ -1,3 +1,4 @@
+import type { Chapter7 } from '../game/chapter7'
 import { DynamicJoystick } from './DynamicJoystick'
 import { defaultComfort } from '../game/comfort'
 import type { ComfortSettings } from '../game/comfort'
@@ -29,6 +30,7 @@ import { renderWorld } from '../game/renderWorld'
 export type ExplorationControls = { resumeAfterUi: () => void }
 export type ExplorationProps = {
   threatSession?: { runtime: RefObject<ThreatRuntime>; identity: RefObject<string> }
+  chapter7?: Chapter7
   chapter2: Chapter2
   onFieldFrame?: (dt: number, player: Point, enemy: Point, active: boolean) => void
   comfort?: ComfortSettings
@@ -57,6 +59,7 @@ export type ExplorationProps = {
 }
 export const Exploration = ({
   threatSession,
+  chapter7,
   chapter2,
   onFieldFrame,
   comfort,
@@ -107,6 +110,10 @@ export const Exploration = ({
     onGateHeard,
     onRoomBeat,
   })
+  const chapter7Ref = useRef(chapter7)
+  useEffect(() => {
+    chapter7Ref.current = chapter7
+  }, [chapter7])
   const animation = useRef({ clock: 0, facing: 'down' as Facing, moving: false })
   const canvas = useRef<HTMLCanvasElement>(null)
   const position = useRef(initialPosition)
@@ -127,6 +134,7 @@ export const Exploration = ({
       chapter5,
       chapter6,
       chapter2,
+      chapter7Ref.current,
     )
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const element = canvas.current!
@@ -258,6 +266,7 @@ export const Exploration = ({
         chapter4,
         chapter5,
         chapter6,
+        chapter7: chapter7Ref.current,
         chapter2,
         threat: enemyRuntime.current,
         ...animation.current,
@@ -286,6 +295,9 @@ export const Exploration = ({
     chapter4,
     chapter5,
     chapter6,
+    chapter7?.kit,
+    chapter7?.fireDoor,
+    chapter7?.winch,
     chapter2,
     power,
     staffEvent,

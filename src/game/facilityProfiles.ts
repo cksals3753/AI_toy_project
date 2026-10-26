@@ -10,6 +10,18 @@ type Profile = {
 // Authored per facility, in existing world units. Travel doors, people, shoes
 // and unlisted small props keep their current policy. No game progression here.
 export const facilityProfiles: Record<string, Profile> = {
+  's7-rest': { reach: 80, bottom: 0, top: 0.6, aim: 0.4 },
+  's7-window': { reach: 105, bottom: 1, top: 1.9, aim: 1.5 },
+  's7-entrance-note': { reach: 90, bottom: 0.8, top: 1.7, aim: 1.3 },
+  's7-rear-note': { reach: 90, bottom: 0.8, top: 1.7, aim: 1.3 },
+  's7-kit-note': { reach: 80, bottom: 0.8, top: 1.7, aim: 1.3 },
+  's7-kit': { reach: 80, bottom: 0.4, top: 1.6, aim: 1.1 },
+  's7-entrance': { reach: 80, bottom: 0.5, top: 1.7, aim: 1.3 },
+  's7-rear': { reach: 80, bottom: 0.5, top: 1.7, aim: 1.3 },
+  's7-winch': { reach: 80, bottom: 0.6, top: 1.65, aim: 1.2 },
+  's7-firedoor': { reach: 80, bottom: 0.7, top: 1.5, aim: 1.2 },
+  's7-ready': { reach: 80, bottom: 0.8, top: 1.6, aim: 1.3 },
+  's7-finish': { reach: 80, bottom: 0.8, top: 1.6, aim: 1.3 },
   map: { reach: 110, bottom: 0.55, top: 1.75, aim: 1.2 },
   panel: { reach: 90, bottom: 0.5, top: 1.9, aim: 1.2 },
   cabinet: { reach: 70, bottom: 0, top: 1.65, aim: 1.25 },

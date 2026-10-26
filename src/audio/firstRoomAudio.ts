@@ -91,11 +91,19 @@ export const createRoomAudio = () => {
     if (master) gainTo(master.gain, audible() ? settings.volume * 0.5 : 0, 0.025)
     if (ambient) gainTo(ambient.gain, enabled && focused && !ended ? (paused ? 0.22 : 1) : 0)
     if (fanLevel)
-      gainTo(fanLevel.gain, room === 'shelter' ? 0.028 : room === 'maintenance' ? 0.11 : 0.13, 0.45)
+      gainTo(
+        fanLevel.gain,
+        room === 'shelter' || room === 'shelterDefense'
+          ? 0.028
+          : room === 'maintenance'
+            ? 0.11
+            : 0.13,
+        0.45,
+      )
     if (humLevel)
       gainTo(
         humLevel.gain,
-        room === 'shelter'
+        room === 'shelter' || room === 'shelterDefense'
           ? 0.004
           : chapter56Room(room)
             ? 0.01
@@ -116,7 +124,7 @@ export const createRoomAudio = () => {
     if (fanFilter)
       gainTo(
         fanFilter.frequency,
-        room === 'shelter'
+        room === 'shelter' || room === 'shelterDefense'
           ? 140
           : room === 'maintenance' || room === 'recovery'
             ? 240

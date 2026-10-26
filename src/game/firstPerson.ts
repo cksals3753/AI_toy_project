@@ -33,6 +33,7 @@ export const clampPitch = (pitch: number) => {
 }
 
 export const immersiveAreas = [
+  'shelterDefense',
   'first',
   'hall',
   'electrical',

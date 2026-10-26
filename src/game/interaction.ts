@@ -14,6 +14,8 @@ export const interactionReach = (id: string) =>
   facilityProfiles[id]?.reach ??
   60
 export const interactionSurface = (e: Pick<Entity, 'id' | 'x' | 'y' | 'w' | 'h'>): Rect => {
+  if (e.id === 's7-entrance' || e.id === 's7-firedoor') return { ...e, x: e.x + e.w - 2, w: 2 }
+  if (e.id === 's7-rear') return { ...e, w: 2 }
   if (e.id === 'hall-shutter') return { ...e, y: 425, h: 5 }
   if (e.id === 'hall-map') return { ...e, y: 84, h: 2 }
   if (e.id === 'hall-window') return { ...e, y: 157, h: 3 }
@@ -40,6 +42,8 @@ export const interactionAim = (id: string) => facilityProfiles[id]?.aim ?? 1.5
 
 // A cabinet's back is not its operating face, in either renderer.
 export const workingFaceVisible = (p: Point, e: Entity) => {
+  if (e.id === 's7-entrance' || e.id === 's7-firedoor') return p.x >= e.x + e.w
+  if (e.id === 's7-rear') return p.x <= e.x
   const profile = facilityProfiles[e.id]
   if (!profile || e.id === 'train-phone') return true
   return profile.north ? p.y <= e.y : p.y >= e.y + e.h

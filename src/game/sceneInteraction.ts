@@ -98,7 +98,11 @@ export const registerFacilityTarget = (
   if (facilityProfiles[e.id] && e.id !== 'train-phone') {
     const north = facilityProfiles[e.id].north
     const body = make(
-      { ...e, y: e.y + (north ? 0.5 : 0), h: e.h - 0.5 },
+      e.id === 's7-entrance' || e.id === 's7-firedoor'
+        ? { ...e, w: e.w - 0.5 }
+        : e.id === 's7-rear'
+          ? { ...e, x: e.x + 0.5, w: e.w - 0.5 }
+          : { ...e, y: e.y + (north ? 0.5 : 0), h: e.h - 0.5 },
       new T.MeshBasicMaterial({ visible: false, side: T.DoubleSide }),
     )
     body.name = `facility-body-occluder-${e.id}`

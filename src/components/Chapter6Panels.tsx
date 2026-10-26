@@ -13,12 +13,14 @@ export const Chapter6Panels = ({
   onClose,
   dispatch,
   notebook,
+  onEpisode2,
 }: {
   state: State
   panel: string | null
   onClose: () => void
   dispatch: Dispatch<Action>
   notebook: ReactNode
+  onEpisode2?: () => void
 }) => {
   const [door, setDoor] = useState('S-01'),
     [mode, setMode] = useState('local'),
@@ -27,7 +29,14 @@ export const Chapter6Panels = ({
   const [confirm, setConfirm] = useState(false)
   if (!c.started) return null
   if (panel === 'episode-result' && c.result)
-    return <EpisodeResult result={c.result} onClose={onClose} />
+    return (
+      <EpisodeResult
+        result={c.result}
+        onClose={onClose}
+        onEpisode2={onEpisode2}
+        continued={state.chapter7.started}
+      />
+    )
   if (panel === 'final-review')
     return (
       <Overlay title="최종 판단 · 확보한 현장 기록" onClose={onClose} wide>

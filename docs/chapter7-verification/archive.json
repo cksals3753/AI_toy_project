@@ -1,0 +1,7 @@
+{
+  "readOnly": true,
+  "episode2Continued": true,
+  "noExplorationOverlay": true,
+  "viewports": ["1280x1000", "390x844"],
+  "fixture": "completed chapter7 via reducer; UI check only"
+}

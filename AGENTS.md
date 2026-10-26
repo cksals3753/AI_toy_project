@@ -2,9 +2,9 @@
 
 ## 개요와 현재 범위
 
-마지막 환승은 모바일 우선 반응형 아포칼립스 생존 웹게임이다. 가상의 신도림역을 배경으로 직접 이동·현장 조사·초상화 대화·단톡방·퍼즐을 결합한다. React 19, TypeScript, Vite, 챕터 1~6 Three.js(WebGL2), 에피소드 결과 React UI를 사용한다. 선택적 AI 자유 대화는 Java 21 / Spring Boot 4.1.1 / Maven Wrapper의 별도 `backend/`가 담당한다.
+마지막 환승은 모바일 우선 반응형 아포칼립스 생존 웹게임이다. 가상의 신도림역을 배경으로 직접 이동·현장 조사·초상화 대화·단톡방·퍼즐을 결합한다. React 19, TypeScript, Vite, 챕터 1~7 Three.js(WebGL2), 에피소드 결과 React UI를 사용한다. 선택적 AI 자유 대화는 Java 21 / Spring Boot 4.1.1 / Maven Wrapper의 별도 `backend/`가 담당한다.
 
-현재 플레이 범위는 첫 방부터 챕터 6의 지상 대피소 도착·에피소드 1 완료까지이며 상세 내용과 제약은 [README](README.md)를 따른다. 외부 AI 자유 대화는 챕터 2만 지원한다. 다음 챕터, 전투, 로그인, DB, 전체 게임 상태 서버 이전, 외부 배포는 구현 완료로 간주하지 않는다. 스크립트 기본 플레이에는 AI 키나 서버가 필요하지 않다.
+현재 플레이 범위는 챕터 1~6 에피소드 1 완료와 챕터 7 이동 준비 완료까지이며 상세 내용과 제약은 [README](README.md)를 따른다. 외부 AI 자유 대화는 챕터 2만 지원한다. 다음 챕터, 전투, 로그인, DB, 전체 게임 상태 서버 이전, 외부 배포는 구현 완료로 간주하지 않는다. 스크립트 기본 플레이에는 AI 키나 서버가 필요하지 않다.
 
 ## 작업 전 확인
 
@@ -22,7 +22,7 @@
 
 ## 구현과 저장
 
-- 첫 방과 챕터 2~6는 `ExplorationView.tsx`에서 지연 로드한 `FirstPersonExploration.tsx`를 공유한다(`FirstPersonRoom.tsx`는 호환 export). `firstRoomScene.ts`·`chapter2Scene.ts`·`chapter3Scene.ts`·`trainScene.ts`·`moonScene.ts`·`finalScene.ts`는 표현만 담당하며 `world.ts` 좌표·충돌과 기존 reducer 판정을 재사용한다. 새 3D 에셋은 `firstPerson.ts`에 등록하고 `public/art/README.md`에 출처·라이선스·수정 여부를 기록한다. 나머지 챕터를 요청 없이 3D로 변환하지 않는다. `ExplorationHud.tsx`는 공통 작은 HUD를 제공한다. 챕터 1~6의 `is-immersive` 가용 화면 레이아웃과 2D 대체 렌더러·결과 UI 레이아웃을 구분하고 HUD·메뉴·safe area를 크기별로 확인한다. 상세 조작은 첫 안내/도움말에 두며 복귀 안내는 작은 문구로 유지한다. `ohModel.ts`는 기존 오반장·생존자의 모델 로딩·대기 애니메이션·좌석 자세를 담당하며 인물 설정과 판정을 바꾸지 않는다.
+- 첫 방과 챕터 2~7은 `ExplorationView.tsx`에서 지연 로드한 `FirstPersonExploration.tsx`를 공유한다(`FirstPersonRoom.tsx`는 호환 export). `firstRoomScene.ts`·`chapter2Scene.ts`·`chapter3Scene.ts`·`trainScene.ts`·`moonScene.ts`·`finalScene.ts`·`chapter7Scene.ts`는 표현만 담당하며 `world.ts` 좌표·충돌과 기존 reducer 판정을 재사용한다. 새 3D 에셋은 `firstPerson.ts`에 등록하고 `public/art/README.md`에 출처·라이선스·수정 여부를 기록한다. 나머지 챕터를 요청 없이 3D로 변환하지 않는다. `ExplorationHud.tsx`는 공통 작은 HUD를 제공한다. 챕터 1~6의 `is-immersive` 가용 화면 레이아웃과 2D 대체 렌더러·결과 UI 레이아웃을 구분하고 HUD·메뉴·safe area를 크기별로 확인한다. 상세 조작은 첫 안내/도움말에 두며 복귀 안내는 작은 문구로 유지한다. `ohModel.ts`는 기존 오반장·생존자의 모델 로딩·대기 애니메이션·좌석 자세를 담당하며 인물 설정과 판정을 바꾸지 않는다.
 - 탐색 키는 `explorationInput.ts`의 물리 `event.code`를 사용하고 입력창·contenteditable·반복 입력을 구분한다. 키·버튼·터치는 같은 선택 대상과 상호작용 함수를 사용한다. 첫 방의 짧은 조사는 비차단 현장 기록으로 표시한다. 3D 대화·메뉴·퍼즐은 마지막 사용자 입력에서 React 상태를 반영한 뒤 남은 UI가 없을 때만 잠금 복귀를 한 번 요청한다. 거부·Esc 해제 후 자동 재시도하지 않으며 화면의 복귀 클릭은 상호작용이나 이동에 재사용하지 않는다. 모바일은 잠금 없이 UI 종료 후 복구한다. blur·잠금 해제·UI 전환 시 이동과 드래그 입력을 비운다.
 - 메뉴 단축키는 `App.tsx`에서 물리 Tab·KeyI·Escape로 처리한다. 탐색 영역 또는 열린 휴대폰·소지품 메뉴의 포커스에서만 가로채고 입력창·contenteditable·다른 페이지 요소·대화·퍼즐·전환 중에는 메뉴를 열지 않는다. Shift+Tab은 포커스 이동으로 유지한다. 반복 키는 눌림 상태와 repeat로 차단한다. 메뉴 전환은 일시정지 상태를 유지하고 닫을 때만 기존 복귀 함수를 호출한다. 메뉴를 떠날 때 기존 읽음 처리를 보존하며 PC에만 키 안내를 표시한다.
 - 모바일 터치와 PC 키보드·마우스를 함께 고려한다. 대화·메뉴·퍼즐 중에는 기존 paused 입력 제어를 유지한다.
@@ -75,7 +75,7 @@ JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에�
 ## 챕터 1~2 감염자 위협
 
 - `threat.ts`는 시야·충돌·길찾기·행동 판정, `useThreat.ts`는 공통 탐색 정지 연결, `threatVisual.ts`/`renderWorld.ts`는 표현만 담당한다. 전체 동작과 검사 명령은 [위협 구현](docs/chapter1-2-threat.md)을 따른다.
-- 적은 가려진 플레이어의 현재 좌표를 추적하지 않는다. 벤치는 이동 장애물이며 은폐물이 아니다. 전기실은 구역으로 분리된 안전 공간이고 바닥 표식에 무적 효과를 추가하지 않는다. 챕터 3 이후 위협을 활성화하지 않는다.
+- 적은 가려진 플레이어의 현재 좌표를 추적하지 않는다. 벤치는 이동 장애물이며 은폐물이 아니다. 전기실은 구역으로 분리된 안전 공간이고 바닥 표식에 무적 효과를 추가하지 않는다. 챕터 3~6에서는 위협을 활성화하지 않는다. 챕터 7의 외부 국소 위협은 아래 지침을 따른다.
 - 메뉴·대화·퍼즐·포커스 이탈·탐색 복귀 대기에는 위협도 멈춘다. 활성 시간만 사용하며 일시정지 후 누적 이동을 적용하지 않는다. 붙잡힘과 체크포인트 재시도로 자원·단서·전원·일회성 사건을 되돌리거나 중복 적용하지 않는다.
 - 영구 저장에 적 경로·좌표·수색 타이머를 추가하지 않는다. 추격 저장의 안전 복귀와 과거 저장·후반 엔딩 호환성을 유지한다. 초기 배치는 로딩/장면 전환 중에만 결정하고 보이는 적을 순간이동시키지 않는다.
 
@@ -101,3 +101,11 @@ JDK 21이 필요하며 Maven은 wrapper가 준비한다. 브라우저 검증에�
 - 챕터 2 시설은 `chapter2Facilities.ts`에서 자체 형상으로 구분하고 간판은 벽/출입구 위에 배치한다. 긴 내용은 기존 조사 기록에 남긴다. [전후 캡처·거리·검증](docs/facility-review/README.md)을 따른다.
 
 - 챕터 1·3–6의 개별 시설은 `facilityProfiles.ts`/`facilityVisuals.ts`의 용도별 표면·높이·형상을 공유한다. 미기재 대상은 60 거리이며 챕터 2 확인 수치를 일괄 복사하지 않는다. [에피소드 시설 점검](docs/episode-facilities/README.md)을 따른다.
+
+## 챕터 7 · 에피소드 2 진입
+
+- 현재 범위는 챕터 1~6 에피소드 1 완료와 챕터 7 이동 준비 완료이다. [최종 구현 기록](docs/chapter7-implementation.md)을 따른다. 에피소드 1의 `chapter6.result`는 도착 시점 불변 기록이다. 진입에 reset이나 chapter6.completed 해제를 사용하지 않는다. 챕터 7 reducer·HUD·상호작용을 먼저 처리하고 결과 자동 표시는 챕터 7 미시작에만 적용한다.
+- `chapter7`의 단일 kit 위치가 물자 소유권이다. 설치 미리보기와 확정 작업을 구분하고 임시 진행률은 저장하지 않는다. 후면 통로·방화문 충돌은 `getWorld`의 같은 상태를 사용한다.
+- 타이머는 기존 활성 탐색 프레임에만 진행한다. 방화문 빗장 고정 시 완료 확인 전에 먼저 정지한다. 완화 옵션에 불이익을 주지 않는다. 재시도만 이번 시도 작업을 되돌리며 일반 이어하기는 확정 작업·활성 시간을 보존한다.
+- NPC 동행은 에피소드 1 스냅샷을 사용한다. 비동행 인물을 새로 배치하거나 확인되지 않은 구조 결과를 생성하지 않는다. 챕터 8은 미구현이다.
+- 챕터 3~6의 위협 비활성은 유지한다. 챕터 7은 외부 한 명과 국소 문 유지 시간만 사용하며 실내 추적을 추가하지 않는다. 검증: `FIRST_PERSON_CHECK=chapter7 npm run test:browser:first`, 프로덕션은 빌드 후 `PRODUCTION_CHECK=1 FIRST_PERSON_CHECK=chapter7 node scripts/verify-browser.mjs`.

@@ -58,7 +58,7 @@ export const createThreatVisual = (scene: T.Scene, area: string) => {
     parent.add(sprite)
   }
   const limbs: T.Group[] = []
-  if (area === 'hall') {
+  if (area === 'hall' || area === 'shelterDefense') {
     box(actor, 0.43, 0.64, 0.26, cloth, 0, 1.08)
     box(actor, 0.28, 0.31, 0.29, skin, 0, 1.58, 0.07).rotation.x = 0.25
     box(actor, 0.32, 0.04, 0.04, dark, 0, 1.63, 0.23)
@@ -131,7 +131,7 @@ export const createThreatVisual = (scene: T.Scene, area: string) => {
     pulse = 0
   return {
     update: (r: ThreatRuntime, dt: number, active: boolean, progress: number, reduced: boolean) => {
-      if (area === 'hall') {
+      if (area === 'hall' || area === 'shelterDefense') {
         const moved = Math.hypot(r.position.x - last.x, r.position.y - last.y)
         distance += moved
         last = { ...r.position }

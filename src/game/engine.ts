@@ -1,3 +1,7 @@
+import { defaultChapter7, normalizeChapter7, chapter7Objects, chapter7Questions } from './chapter7'
+import type { Chapter7 } from './chapter7'
+import { reduceChapter7 } from './chapter7Engine'
+import type { Chapter7Action } from './chapter7Engine'
 import { initialHallEnvironment, outsideRisingWater, shutterReachable } from './hallEnvironment'
 import type { HallEnvironment } from './hallEnvironment'
 import { defaultThreat, checkpointPoint } from './threat'
@@ -58,6 +62,7 @@ export type Chapter2 = HallEnvironment & {
   completed: boolean
 }
 export type State = {
+  chapter7: Chapter7
   threat: ThreatSave
   view3d: View3d | null
 
@@ -87,6 +92,7 @@ export type State = {
   sceneIndex: number
 }
 export type Action =
+  | Chapter7Action
   | { type: 'hall-leak'; enemy: Point }
   | { type: 'hall-shutter'; expected: HallEnvironment['shutter'] }
   | { type: 'threat-alert'; alert: boolean }
@@ -162,6 +168,7 @@ export const defaultChapter2: Chapter2 = {
 }
 export const initialState: State = {
   threat: { ...defaultThreat },
+  chapter7: { ...defaultChapter7, warnings: [] },
   chapter6: defaultChapter6,
   reading: { clues: [], messages: 0 },
   aiChat: defaultAiChat,
@@ -275,6 +282,7 @@ const reduceState = (state: State, action: Action): State => {
       state.chapter5,
       state.chapter6,
       state.chapter2,
+      state.chapter7,
     )
     if (!view || (state.chapter2.staffEvent === 'active' && state.view3d?.area === state.area))
       return state
@@ -312,6 +320,7 @@ const reduceState = (state: State, action: Action): State => {
           state.chapter5,
           state.chapter6,
           state.chapter2,
+          state.chapter7,
         ),
       ) ||
       (state.position.x === action.position.x && state.position.y === action.position.y)
@@ -373,6 +382,8 @@ const reduceState = (state: State, action: Action): State => {
     return state
   if (state.chapter4.entryPrompt && action.type !== 'train-entry') return state
   if (state.chapter5.exitPrompt && action.type !== 'moon-finish') return state
+  const chapter7Result = reduceChapter7(state, action)
+  if (chapter7Result) return chapter7Result
   const chapter6Result = reduceChapter6(state, action)
   if (chapter6Result) return chapter6Result
   const chapter5Result = reduceChapter5(state, action)
@@ -689,6 +700,7 @@ export const loadGame = (): State => {
           ...platformObjects,
           ...trainObjects,
           ...moonObjects,
+          ...chapter7Objects,
           ...finalObjects,
         ].some((o) => o.id === id),
       ) ||
@@ -699,6 +711,7 @@ export const loadGame = (): State => {
           ...platformQuestions,
           ...trainQuestions,
           ...moonQuestions,
+          ...chapter7Questions,
           ...finalQuestions,
         ].some((q) => q.id === id),
       ) ||
@@ -750,7 +763,10 @@ export const loadGame = (): State => {
     const boarded =
       doorOpen &&
       d.boarded === true &&
-      (isChapter4Area(area) || isChapter5Area(area) || isChapter6Area(area))
+      (isChapter4Area(area) ||
+        isChapter5Area(area) ||
+        isChapter6Area(area) ||
+        area === 'shelterDefense')
     const chapter3: Chapter3 = {
       ...defaultChapter3,
       started: d.started === true || isChapter3Area(area),
@@ -769,12 +785,15 @@ export const loadGame = (): State => {
       Object.assign(chapter4, defaultChapter4, { links: { ...defaultChapter4.links } })
     const chapter5 = chapter4.completed ? normalizeChapter5(value.chapter5) : { ...defaultChapter5 }
     const chapter6 = normalizeChapter6(value.chapter6, chapter5.completed)
+    const chapter7 = normalizeChapter7(value.chapter7, chapter6.completed && !!chapter6.result)
     const restoredArea: Area =
-      isChapter6Area(area) && !chapter6.started
-        ? chapter5.completed
-          ? 'moonPlatform'
-          : 'first'
-        : area
+      area === 'shelterDefense' && !chapter7.started
+        ? 'shelter'
+        : isChapter6Area(area) && !chapter6.started
+          ? chapter5.completed
+            ? 'moonPlatform'
+            : 'first'
+          : area
     const savedScene = restoredArea === area && validMessages(value.scene) ? value.scene : []
     const sceneIndex =
       Number.isInteger(value.sceneIndex) &&
@@ -791,6 +810,7 @@ export const loadGame = (): State => {
       chapter5,
       chapter6,
       chapter2,
+      chapter7,
     )
     const savedThreat = value.threat
     const threat: ThreatSave = {
@@ -832,6 +852,7 @@ export const loadGame = (): State => {
       chapter4,
       chapter5,
       chapter6,
+      chapter7,
       aiChat: normalizeAiChat(value.aiChat),
       notice:
         restoredArea === 'hall' &&
@@ -884,6 +905,7 @@ export const loadGame = (): State => {
                   chapter5,
                   chapter6,
                   chapter2,
+                  chapter7,
                 ),
               )
             ? value.position

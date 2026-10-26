@@ -1,3 +1,4 @@
+import type { Chapter7 } from './chapter7'
 import type { HallEnvironment } from './hallEnvironment'
 import { clampPitch, isImmersiveArea, toWorldPosition, toScenePosition } from './firstPerson'
 import type { View3d } from './firstPerson'
@@ -17,6 +18,7 @@ export const normalizeView3d = (
   chapter5?: Pick<Chapter5, 'routeOpen' | 'registration'>,
   chapter6?: Pick<Chapter6, 'settings' | 'route' | 'drained' | 'boltOpen'>,
   environment?: HallEnvironment,
+  chapter7?: Chapter7,
 ): View3d | null => {
   const v = value as View3d | null
   if (
@@ -41,6 +43,7 @@ export const normalizeView3d = (
         chapter5,
         chapter6,
         environment,
+        chapter7,
       ),
     )
   )

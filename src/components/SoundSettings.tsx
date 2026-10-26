@@ -10,7 +10,7 @@ export const SoundSettings = ({
   status: string
 }) => (
   <fieldset className="sound-settings">
-    <legend>사운드 · 챕터 1–6</legend>
+    <legend>사운드 · 챕터 1–7</legend>
     <label>
       <input
         type="checkbox"

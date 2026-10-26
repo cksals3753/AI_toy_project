@@ -275,6 +275,27 @@ try {
     await writeFile(join(artifacts, name), Buffer.from(r.data, 'base64'))
   }
   async function hold(key, milliseconds) {
+    if (
+      process.env.FIRST_PERSON_CHECK === 'chapter7' &&
+      ['w', 'a', 's', 'd'].includes(key) &&
+      (await evaluate('navigator.maxTouchPoints>0'))
+    ) {
+      const r = await evaluate(
+        "(()=>{const r=document.querySelector('[data-move-zone]').getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}})()",
+      )
+      const x = r.x + r.w * 0.45,
+        y = r.y + r.h * 0.75
+      const d = { w: [0, -40], s: [0, 40], a: [-40, 0], d: [40, 0] }[key]
+      await send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ id: 1, x, y }] })
+      await send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ id: 1, x: x + d[0], y: y + d[1] }],
+      })
+      await wait(milliseconds)
+      await send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+      await wait(120)
+      return
+    }
     const code =
       key === 'Enter'
         ? 'Enter'
@@ -317,12 +338,12 @@ try {
     for (let attempt = 0; attempt < 12; attempt++) {
       if ((await state())?.threat?.caught) throw Error('Threat capture during navigation')
       const route = await evaluate(`(async()=>{
-        const m=await import('/src/game/world.ts'),ip=await import('/src/game/interaction.ts'),s=JSON.parse(localStorage.getItem('last-transfer-save-v1')),w=m.getWorld(s.area,s.chapter3?.npc,s.chapter3?.npcBoarded,s.chapter2?.power,s.chapter3?.doorOpen,s.chapter4,s.chapter5,s.chapter6,s.chapter2),p=s.position;
-        if(m.nearestEntity(p,w)?.id===${JSON.stringify(id)}&&(${JSON.stringify(id)}!=='train-phone'||Math.hypot(p.x-w.entities.find(e=>e.id==='train-phone').x-26.5,p.y-w.entities.find(e=>e.id==='train-phone').y-17)<60))return [];
+        const m=await import('/src/game/world.ts'),ip=await import('/src/game/interaction.ts'),s=JSON.parse(localStorage.getItem('last-transfer-save-v1')),w=m.getWorld(s.area,s.chapter3?.npc,s.chapter3?.npcBoarded,s.chapter2?.power,s.chapter3?.doorOpen,s.chapter4,s.chapter5,s.chapter6,s.chapter2,s.chapter7),p=s.position;
+        if(m.nearestEntity(p,w)?.id===${JSON.stringify(id)}&&(${JSON.stringify(id)}!=='s7-rest'||ip.surfaceDistance(p,w.entities.find(e=>e.id==='s7-rest'))>=45)&&(${JSON.stringify(id)}!=='train-phone'||Math.hypot(p.x-w.entities.find(e=>e.id==='train-phone').x-26.5,p.y-w.entities.find(e=>e.id==='train-phone').y-17)<60))return [];
         const start={x:Math.round(p.x/10)*10,y:Math.round(p.y/10)*10};
         const queue=[start],seen=new Set(),parents=new Map();let goal;
         for(let i=0;i<queue.length;i++){const q=queue[i],k=q.x+','+q.y;if(seen.has(k))continue;seen.add(k);
-          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=ip.surfaceDistance(q,entity);if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&distance<Math.max(28,Math.min(110,ip.interactionReach(entity.id)-18))&&[{x:4,y:0},{x:-4,y:0},{x:0,y:4},{x:0,y:-4}].every(d=>m.nearestEntity({x:q.x+d.x,y:q.y+d.y},w)?.id===entity.id)&&(entity.id!=='train-phone'||Math.hypot(q.x-entity.x-26.5,q.y-entity.y-17)<58)){goal=q;break}
+          const entity=w.entities.find(e=>e.id===${JSON.stringify(id)});const distance=ip.surfaceDistance(q,entity);if(m.nearestEntity(q,w)?.id===${JSON.stringify(id)}&&(${JSON.stringify(id)}!=='s7-rest'||distance>=45)&&distance<Math.max(28,Math.min(110,ip.interactionReach(entity.id)-18))&&[{x:4,y:0},{x:-4,y:0},{x:0,y:4},{x:0,y:-4}].every(d=>m.nearestEntity({x:q.x+d.x,y:q.y+d.y},w)?.id===entity.id)&&(entity.id!=='train-phone'||Math.hypot(q.x-entity.x-26.5,q.y-entity.y-17)<58)){goal=q;break}
           for(const d of [{x:10,y:0},{x:-10,y:0},{x:0,y:10},{x:0,y:-10}]){const v={x:q.x+d.x,y:q.y+d.y},vk=v.x+','+v.y;if(m.walkable(v,w)&&!seen.has(vk)&&!parents.has(vk)){parents.set(vk,q);queue.push(v)}}}
         if(!goal)throw Error('No route to '+${JSON.stringify(id)});
         const path=[goal];while(path.at(-1).x!==start.x||path.at(-1).y!==start.y){path.push(parents.get(path.at(-1).x+','+path.at(-1).y));if(path.length>2000)throw Error('Invalid path')}
@@ -330,12 +351,15 @@ try {
       })()`)
       if (!route.length) return
       for (const target of route) {
-        for (let step = 0; step < 3; step++) {
+        for (let step = 0; step < (process.env.FIRST_PERSON_CHECK === 'chapter7' ? 6 : 3); step++) {
           const p = (await state()).position,
             dx = target.x - p.x,
             dy = target.y - p.y
-          if (Math.hypot(dx, dy) < 2) break
-          const horizontal = Math.abs(dx) >= Math.abs(dy),
+          if (Math.hypot(dx, dy) < (process.env.FIRST_PERSON_CHECK === 'chapter7' ? 5 : 2)) break
+          const horizontal =
+              process.env.FIRST_PERSON_CHECK === 'chapter7' && step % 2
+                ? Math.abs(dx) < Math.abs(dy)
+                : Math.abs(dx) >= Math.abs(dy),
             distance = horizontal ? dx : dy
           await hold(
             horizontal ? (distance > 0 ? 'd' : 'a') : distance > 0 ? 's' : 'w',

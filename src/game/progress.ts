@@ -1,3 +1,4 @@
+import { chapter7Objects } from './chapter7'
 import { finalObjects } from './chapter6'
 import { finalAreaLabels } from './world'
 import type { State } from './engine'
@@ -9,18 +10,21 @@ import { moonObjects, moonClueText } from './chapter5'
 import { moonAreaLabels, trainAreaLabels } from './world'
 
 export const chapterInfo = (s: State) =>
-  s.chapter6.started
-    ? { number: 6, title: '정비 통로' }
-    : s.chapter5.started
-      ? { number: 5, title: '대답 없는 승강장' }
-      : s.chapter4.started
-        ? { number: 4, title: '정차하지 않는 열차' }
-        : s.chapter3.started
-          ? { number: 3, title: '누군가 있는 승강장' }
-          : s.area !== 'first'
-            ? { number: 2, title: '불 꺼진 대합실' }
-            : { number: 1, title: episode.title }
+  s.chapter7.started
+    ? { number: 7, title: '안전하지 않은 대피소' }
+    : s.chapter6.started
+      ? { number: 6, title: '정비 통로' }
+      : s.chapter5.started
+        ? { number: 5, title: '대답 없는 승강장' }
+        : s.chapter4.started
+          ? { number: 4, title: '정차하지 않는 열차' }
+          : s.chapter3.started
+            ? { number: 3, title: '누군가 있는 승강장' }
+            : s.area !== 'first'
+              ? { number: 2, title: '불 꺼진 대합실' }
+              : { number: 1, title: episode.title }
 export const locationName = (s: State) =>
+  (s.area === 'shelterDefense' ? '지상 대피소 · 대응 구획' : undefined) ??
   finalAreaLabels[s.area] ??
   moonAreaLabels[s.area] ??
   trainAreaLabels[s.area] ??
@@ -37,6 +41,7 @@ export const locationName = (s: State) =>
   '탐색 구역'
 export const clueGroups = (s: State) =>
   [
+    { place: '지상 대피소 · 대응 구획', items: chapter7Objects },
     ...(['maintenance', 'recovery', 'shelter'] as const).map((area) => ({
       place: finalAreaLabels[area]!,
       items: finalObjects.filter((o) => o.area === area),

@@ -1,3 +1,4 @@
+import type { Chapter7 } from './chapter7'
 import { exitMarkers } from './threat'
 import type { ThreatRuntime } from './threat'
 import type { Chapter6 } from './chapter6'
@@ -12,6 +13,7 @@ import type { Chapter3 } from './chapter3'
 import type { Chapter2 } from './engine'
 export type Facing = 'down' | 'up' | 'left' | 'right'
 export type RenderOptions = {
+  chapter7?: Chapter7
   chapter2?: Chapter2
   threat?: ThreatRuntime
   area: Area
@@ -93,9 +95,12 @@ export const renderWorld = (
       options.chapter5,
       options.chapter6,
       options.chapter2,
+      options.chapter7,
     ),
     lit =
-      finalAreaLabels[options.area] || isChapter5Area(options.area)
+      options.area === 'shelterDefense' ||
+      finalAreaLabels[options.area] ||
+      isChapter5Area(options.area)
         ? true
         : options.chapter4?.started && isChapter4Area(options.area)
           ? options.chapter4.links.power

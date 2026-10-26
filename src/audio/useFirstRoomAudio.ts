@@ -1,4 +1,4 @@
-import { chapter56Room, chapter56Cues } from './chapter56Audio'
+import { chapter56Room, chapter56Cues, episode1AudioEnded } from './chapter56Audio'
 import { useEffect, useRef, useState } from 'react'
 import { chapter34Room, chapter34Cues, trainMotion } from './chapter34Audio'
 import { audioRoom, chapter2Cues } from './chapter2Audio'
@@ -9,6 +9,7 @@ export const useFirstRoomAudio = (state: State, welcome: boolean, paused: boolea
   const [settings, setSettings] = useState(loadSound)
   const [status, setStatus] = useState(firstRoomAudio.getStatus)
   const previous = useRef(state)
+  const ended = episode1AudioEnded(state)
   const motion = trainMotion(state)
   const powered = state.chapter4.started
     ? state.chapter4.links.power
@@ -16,7 +17,10 @@ export const useFirstRoomAudio = (state: State, welcome: boolean, paused: boolea
   useEffect(() => {
     firstRoomAudio.configure(
       settings,
-      (audioRoom(state.area) || chapter34Room(state.area) || chapter56Room(state.area)) &&
+      (state.area === 'shelterDefense' ||
+        audioRoom(state.area) ||
+        chapter34Room(state.area) ||
+        chapter56Room(state.area)) &&
         state.stage !== 'intro' &&
         !welcome,
       paused,
@@ -24,7 +28,7 @@ export const useFirstRoomAudio = (state: State, welcome: boolean, paused: boolea
       powered,
       motion,
       state.area === 'recovery' && !state.chapter6.drained,
-      state.chapter6.completed,
+      ended,
     )
     try {
       localStorage.setItem(SOUND_KEY, JSON.stringify(settings))
@@ -40,7 +44,7 @@ export const useFirstRoomAudio = (state: State, welcome: boolean, paused: boolea
     welcome,
     paused,
     state.chapter6.drained,
-    state.chapter6.completed,
+    ended,
   ])
   useEffect(() => {
     if (
@@ -56,6 +60,13 @@ export const useFirstRoomAudio = (state: State, welcome: boolean, paused: boolea
       if (cue === 'complete') void firstRoomAudio.complete()
       else firstRoomAudio.cue(cue)
     })
+    if (state.area === 'shelterDefense' && previous.current.chapter7.started) {
+      if (state.chapter7.warnings.length > previous.current.chapter7.warnings.length)
+        firstRoomAudio.cue('warning')
+      if (state.chapter7.kit !== previous.current.chapter7.kit && state.chapter7.priority)
+        firstRoomAudio.cue('door')
+      if (state.chapter7.fireDoor !== previous.current.chapter7.fireDoor) firstRoomAudio.cue('door')
+    }
     previous.current = state
   }, [state])
   useEffect(() => {
